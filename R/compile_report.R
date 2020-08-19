@@ -223,7 +223,7 @@ compile_report <- function(exams,
       i = 1,
       j = 1,
       part = 'body',
-      value = as_paragraph(write_abbrevs(abbrevs[c("CVD", "HDL")])),
+      value = as_paragraph(write_abbrevs(abbrevs[c("CVD", "HDL", "CKD")])),
       ref_symbols = ''
     )
 
@@ -255,7 +255,14 @@ compile_report <- function(exams,
     align(j = 1, align = 'left', part = 'all') %>%
     footnote(i=2, j=1, part='header', value=bp_cat_guide, ref_symbols=fts[1]) %>%
     footnote(i=2, j=3, part='header', value=ftr_diab, ref_symbols=fts[2]) %>%
-    footnote(i=2, j=4, part='header', value=ftr_ckd, ref_symbols=fts[3])
+    footnote(i=2, j=4, part='header', value=ftr_ckd, ref_symbols=fts[3]) %>%
+    footnote(
+      i = 1,
+      j = 1,
+      part = 'body',
+      value = as_paragraph(write_abbrevs(abbrevs[c("CKD")])),
+      ref_symbols = ''
+    )
 
   tbls_main %<>% add_row(
     object = list(.tbl_bpdist),
@@ -317,25 +324,32 @@ compile_report <- function(exams,
       ref_symbols = fts[3]
     ) %>%
     footnote(
-      i = 1,
+      i = 8,
       j = 1,
       part = 'body',
       value = ftr_cvdHx_defn,
       ref_symbols = fts[4]
     ) %>%
     footnote(
-      i = 1,
+      i = 8,
       j = 1,
       part = 'body',
       value = ftr_prisk_defn,
       ref_symbols = fts[5]
     ) %>%
     footnote(
-      i = c(8),
+      i = 1,
       j = 1,
       part = 'body',
       value = ftr_cvdHx,
       ref_symbols = fts[6]
+    ) %>%
+    footnote(
+      i = 1,
+      j = 1,
+      part = 'body',
+      value = as_paragraph(write_abbrevs(abbrevs["CKD"])),
+      ref_symbols = ''
     )
 
   tbls_main %<>% add_row(
@@ -378,7 +392,6 @@ compile_report <- function(exams,
       'Overall'                             = col_labels_s1h$ovrl,
       'Diabetes'                            = col_labels_s1h$diab,
       'Chronic kidney disease'              = col_labels_s1h$ckd,
-      # 'Diabetes and chronic kidney disease' = col_labels_s1h$diab_and_ckd,
       'Age 65+ years'                       = col_labels_s1h$age_gt65,
       'Any preceding condition'             = col_labels_s1h$any
     ) %>%
@@ -402,7 +415,7 @@ compile_report <- function(exams,
       i = 1,
       j = 1,
       part = 'body',
-      value = as_paragraph(write_abbrevs(abbrevs[c("CVD", "HDL")])),
+      value = as_paragraph(write_abbrevs(abbrevs[c("CVD", "HDL", "CKD")])),
       ref_symbols = ''
     )
 
@@ -432,7 +445,7 @@ compile_report <- function(exams,
                      "predicted risk < 10% overall and for those with ",
                      "diabetes, chronic kidney disease, \u2265 65 ",
                      "years of age, or any of the preceding conditions."),
-      legend  = 'Results do not include data from survey participants with prevalent cardiovascular disease or 10-year predicted risk for atherosclerotic cardiovascular disease \u2265 10%.',
+      legend  = 'Results do not include data from survey participants with prevalent cardiovascular disease or 10-year predicted risk for cardiovascular disease \u2265 10%.',
       width   = 6,
       height  = 7.5
     )
@@ -446,7 +459,7 @@ compile_report <- function(exams,
                      "predicted risk < 10% overall and for those with ",
                      "diabetes, chronic kidney disease, \u2265 65 ",
                      "years of age, or any of the preceding conditions."),
-      legend  = 'Results do not include data from survey participants with prevalent cardiovascular disease or 10-year predicted risk for atherosclerotic cardiovascular disease \u2265 10%.',
+      legend  = 'Results do not include data from survey participants with prevalent cardiovascular disease or 10-year predicted risk for cardiovascular disease \u2265 10%.',
       width   = 6,
       height  = 7.5
     )
@@ -459,11 +472,11 @@ compile_report <- function(exams,
       object  = list(fig_risk_ovrl_bnry),
       caption = glue(
         "Estimated Probability of ten-year predicted risk for",
-        "cardiovascular disease \u2265 10% as a function of age for",
+        "cardiovascular disease \u2265 10% by age for",
         "US adults with diabetes, with chronic kidney disease, and without",
         "diabetes or chronic kidney disease.",
         .sep = ' '),
-      legend = '* these values indicate the expected age where probability of having \u226510% predicted risk for atherosclerotic cardiovascular disease is \u2265 50%',
+      legend = '* Age at which 50% of the population is expected to have a  predicted 10-year risk for cardiovascular disease \u2265 10%.',
       width   = 6,
       height  = 6.5
     )
@@ -475,12 +488,12 @@ compile_report <- function(exams,
       object  = list(fig_risk_stg1_bnry),
       caption = glue(
         "Estimated Probability of ten-year predicted risk for",
-        "cardiovascular disease \u2265 10% as a function of age among",
+        "cardiovascular disease \u2265 10% by age among",
         "US adults with stage 1 hypertension and diabetes,",
         "chronic kidney disease, and with without",
         "diabetes or chronic kidney disease.",
         .sep = ' '),
-      legend = '* these values indicate the expected age where probability of having \u226510% predicted risk for atherosclerotic cardiovascular disease is \u2265 50%',
+      legend = '* Age at which 50% of the population is expected to have a  predicted 10-year risk for cardiovascular disease \u2265 10%.',
       width   = 6,
       height  = 6.5
     )

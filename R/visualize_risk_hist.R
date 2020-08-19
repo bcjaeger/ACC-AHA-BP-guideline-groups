@@ -70,7 +70,7 @@ visualize_risk_hist <- function(design, qts) {
                            limits = c(0,1),
                            breaks = c(0, 0.25, 0.50, 0.75, 1),
                            expand = c(0,0)) +
-        labs(x = 'Predicted ASCVD risk, %',
+        labs(x = 'Predicted 10-year CVD risk, %',
              y = 'Estimated % of US adults*') +
         facet_wrap(~panel, ncol = 2, scales = 'free')
     )
