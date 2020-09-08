@@ -14,7 +14,6 @@
 the_plan <- drake_plan(
 
   exams = c(2013, 2015, 2017),
-  decimals = c(1, 1, 1),
 
   # Demographics ----
   demo = clean_demo(exams),
@@ -94,16 +93,14 @@ the_plan <- drake_plan(
   # Tables ----
 
   tbl1_overall = tabulate_characteristics(design_overall,
-                                          tbl1_variables,
-                                          decimals),
+                                          tbl1_variables),
 
   tbl1_s1hyp = tabulate_characteristics(design_s1hyp,
-                                        tbl1_variables,
-                                        decimals),
+                                        tbl1_variables),
 
-  tbl_bpdist = tabulate_bpdist(design_overall, decimals),
+  tbl_bpdist = tabulate_bpdist(design_overall),
 
-  tbl_risk_overall = tabulate_risk_summary(design_overall, decimals),
+  tbl_risk_overall = tabulate_risk_summary(design_overall),
 
   # Figures ----
 
@@ -115,10 +112,9 @@ the_plan <- drake_plan(
                 "No diabetes or chronic kidney disease" = "#8D4B08FF"),
 
   qts = seq(0.001, 0.999, by = 0.0001),
-  fig_hist_ovrl = visualize_risk_hist(design_overall, qts),
-  fig_hist_stg1 = visualize_risk_hist(design_s1hyp, qts),
+  fig_hist = visualize_risk_hist(design_overall, qts),
 
-  age_breaks = seq(40, 79, by = .01),
+  age_breaks = seq(40, 79, by = .001),
 
   risk_models = estimate_risk(design_overall, age_breaks),
 
@@ -130,9 +126,9 @@ the_plan <- drake_plan(
                                            bp_level = 'stg1',
                                            color_key = color_key),
 
-  # Report ----
+  inline = make_inline_results(design_overall, design_s1hyp, risk_models),
 
-  compile_report(
+  report = compile_report(
     exams,
     current_analysis,
     design_overall,
@@ -141,10 +137,21 @@ the_plan <- drake_plan(
     tbl_bpdist,
     tbl_risk_overall,
     current_analysis$tbl,
-    fig_hist_ovrl$ovrl,
-    fig_hist_stg1$stg1,
+    fig_hist$ovrl,
+    fig_hist$stg1,
     fig_risk_ovrl_bnry,
     fig_risk_stg1_bnry
+  ),
+
+  # Report ----
+
+  manuscript = target(
+    command = {
+      rmarkdown::render(knitr_in("doc/ACCAHA_BP_groups.Rmd"))
+      file_out("doc/ACCAHA_BP_groups.docx")
+    }
   )
+
+
 
 )

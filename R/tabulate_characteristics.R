@@ -8,7 +8,7 @@
 tabulate_characteristics <- function(design, variables, decimals) {
 
   tb1_ovrl <- variables %>%
-    map(tb1_fun, design = design, decimals = decimals) %>%
+    map(tb1_fun, design = design) %>%
     bind_rows(.id = 'label')
 
   tb1_diab <- variables %>%
@@ -98,7 +98,7 @@ tb1_fun <- function(.x, by = NULL, design, decimals){
 
     init %>%
       mutate(
-        value = tbl_string("{mn} ({se})", decimals = decimals),
+        value = table_glue("{mn} ({se})"),
         ctns = TRUE
       ) %>%
       select(-mn, -se) %>%
@@ -122,7 +122,7 @@ tb1_fun <- function(.x, by = NULL, design, decimals){
     init %>%
       mutate(
         value = n / sum(n),
-        value = tbl_string("{100 * value}", decimals = decimals),
+        value = table_glue("{100 * value}"),
         ctns = FALSE
       ) %>%
       rename_at(.vars = .x, .funs = ~ 'level') %>%

@@ -1,33 +1,4 @@
 
-
-
-##' .. content for \description{} (no empty lines) ..
-##'
-##' .. content for \details{} ..
-##'
-##' @title
-##' @param x
-##' @param sep
-##' @param last
-##' @param alphabetical_order
-write_abbrevs <- function(
-  x,
-  sep = '; ',
-  last = '; ',
-  alphabetical_order = TRUE
-){
-
-  if(alphabetical_order){
-    x_names_alpha <- sort(names(x))
-    x <- x[x_names_alpha]
-  }
-
-  glue("{names(x)} = {x}") %>%
-    glue_collapse(sep = sep, last = last)
-
-}
-
-
 ##' .. content for \description{} (no empty lines) ..
 ##'
 ##' .. content for \details{} ..
@@ -49,7 +20,8 @@ compile_report <- function(exams,
                            fig_hist_ovrl,
                            fig_hist_stg1,
                            fig_risk_ovrl_bnry,
-                           fig_risk_stg1_bnry) {
+                           fig_risk_stg1_bnry,
+                           inline) {
 
   # setup ----
 
@@ -58,7 +30,8 @@ compile_report <- function(exams,
     BP = 'blood pressure',
     CKD = 'chronic kidney disease',
     CVD = 'cardiovascular disease',
-    HDL = 'High density lipoprotein'
+    HDL = 'high density lipoprotein',
+    ASCVD = 'atherosclerotic cardiovascular disease'
   )
 
   fts <- c(
@@ -76,15 +49,15 @@ compile_report <- function(exams,
 
   tbls_main <- tbls_supp <- tibble(
     object = list(),
-    caption = NA_character_
+    caption = NA_character_,
+    reference = NA_character_
   )
 
   figs_main <- figs_supp <- tibble(
     object = list(),
     caption = character(),
     legend = character(),
-    width = numeric(),
-    height = numeric()
+    reference = NA_character_
   )
 
   nhanes_years <-  exams %>%
@@ -114,7 +87,6 @@ compile_report <- function(exams,
 
   ftr_prisk_defn <- as_paragraph('Predicted risk for cardiovascular disease was computed using the Pooled Cohort Risk equations, based on the guideline by American College of Cardiology / American Heart Association, 2013')
 
-
   # sample sizes for table column headers -----------------------------------
 
   analysis <- current_analysis$data
@@ -126,7 +98,7 @@ compile_report <- function(exams,
     age_gt65     = sum(analysis$age_gt65 == "yes"),
     any          = sum(analysis$any_ckd_diab_age65 == "yes")
   ) %>%
-    map_chr(tbl_val)
+    map_chr(table_value)
 
   .s1h <- filter(analysis, bp_cat == 'Stage 1 hypertension')
 
@@ -137,7 +109,7 @@ compile_report <- function(exams,
     age_gt65     = sum(.s1h$age_gt65 == "yes"),
     any          = sum(.s1h$any_ckd_diab_age65 == "yes")
   ) %>%
-    map_chr(tbl_val)
+    map_chr(table_value)
 
   .age40to79 <- subset(analysis, age_40to79 == "yes")
 
@@ -148,7 +120,7 @@ compile_report <- function(exams,
     age_gt65     = sum(.age40to79$age_gt65 == "yes"),
     any          = sum(.age40to79$any_ckd_diab_age65 == "yes")
   ) %>%
-    map_chr(tbl_val)
+    map_chr(table_value)
 
   get_wtd_N <- function(svyobj, label){
     as.matrix(svyobj)[label, , drop = TRUE] %>%
@@ -171,7 +143,7 @@ compile_report <- function(exams,
       label = 'any_ckd_diab_age65yes'
     )
   ) %>%
-    map_chr(tbl_val)
+    map_chr(table_value)
 
 
   col_labels <- function(N_vals){
@@ -229,7 +201,8 @@ compile_report <- function(exams,
 
   tbls_main %<>% add_row(
     object = list(.tbl1_overall),
-    caption = "Characteristics of US adults overall and with diabetes, chronic kidney disease, and \u2265 65 years of age."
+    caption = "Characteristics of US adults overall and with diabetes, chronic kidney disease, and \u2265 65 years of age.",
+    reference = 'tab_characteristics'
   )
 
 
@@ -266,7 +239,8 @@ compile_report <- function(exams,
 
   tbls_main %<>% add_row(
     object = list(.tbl_bpdist),
-    caption = "Estimated distribution of blood pressure categories among US adults, overall and for subgroups with diabetes, chronic kidney disease, and \u2265 65 years of age."
+    caption = "Estimated distribution of blood pressure categories among US adults, overall and for subgroups with diabetes, chronic kidney disease, and \u2265 65 years of age.",
+    reference = 'tab_bpdist'
   )
 
 
@@ -279,7 +253,7 @@ compile_report <- function(exams,
     mutate(
       group = recode(
         group,
-        high_risk = 'Proportion (95% confidence interval) with predicted risk \u2265 10% or prevalent cardiovascular disease',
+        high_risk = 'Proportion (95% confidence interval) with 10-year predicted risk for ASCVD \u226510% or prevalent cardiovascular disease',
         mean_risk = 'Mean (95% confidence interval) predicted risk',
         median_risk = 'Median (25th - 75th percentile) predicted risk')
     ) %>%
@@ -348,20 +322,21 @@ compile_report <- function(exams,
       i = 1,
       j = 1,
       part = 'body',
-      value = as_paragraph(write_abbrevs(abbrevs["CKD"])),
+      value = as_paragraph(write_abbrevs(abbrevs[c("CKD", "ASCVD")])),
       ref_symbols = ''
     )
 
   tbls_main %<>% add_row(
     object = list(.tbl_risk_overall),
-    caption = "Median predicted risk for cardiovascular disease and proportion of US adults with predicted risk \u2265 10% overall and among those with diabetes, chronic kidney disease, and \u2265 65 years of age, stratified by categorization of blood pressure according to the 2017 American College of Cardiology / American Heart Association blood pressure guidelines."
+    caption = "Median predicted risk for cardiovascular disease and proportion of US adults with predicted risk \u2265 10% overall and among those with diabetes, chronic kidney disease, and \u2265 65 years of age, stratified by categorization of blood pressure according to the 2017 American College of Cardiology / American Heart Association blood pressure guidelines.",
+    reference = 'tab_risk_overall'
   )
 
   # table: exclusions for current analysis (deprecated) ----
 
   ### Dropped this in favor of a figure
   # .tbl_exclusions <- tbl_exclusions %>%
-  #   mutate(across(where(is.numeric), ~tbl_val(as.integer(.x)))) %>%
+  #   mutate(across(where(is.numeric), ~table_value(as.integer(.x)))) %>%
   #   flextable(theme_fun = theme_box) %>%
   #   set_header_labels(
   #     'label' = "Criteria",
@@ -379,7 +354,7 @@ compile_report <- function(exams,
   #   caption = "Participants included in the current analysis"
   # )
 
-  # table s2: characteristics for SPs with stage 1 hypertension ----
+  # table s1: characteristics for SPs with stage 1 hypertension ----
 
   .tbl1_s1hyp <- tbl1_s1hyp %>%
     as_grouped_data(groups = 'label') %>%
@@ -421,7 +396,8 @@ compile_report <- function(exams,
 
   tbls_supp %<>% add_row(
     object = list(.tbl1_s1hyp),
-    caption = "Characteristics of US adults with stage 1 hypertension, overall and with diabetes, chronic kidney disease, \u2265 65 years of age, or any of the three preceding conditions"
+    caption = "Characteristics of US adults with stage 1 hypertension, overall and with diabetes, chronic kidney disease, \u2265 65 years of age, or any of the three preceding conditions",
+    reference = 'tab_risk_stg1'
   )
 
   # figure: inclusion / exclusion ----
@@ -429,11 +405,8 @@ compile_report <- function(exams,
   figs_supp %<>% add_row(
     object  = list('fig/include_exclude.png'),
     caption = "Flowchart showing the number of NHANES participants included in the current analyses.",
-    legend = 'BP: blood pressure; NHANES: National Health and Nutrition Examination Survey.\n* The Completed NHANES interview and exam cells include number with the response rate in parentheses.
-',
-    width   = 6,
-    height  = 6 * 1673/2288
-  )
+    legend = 'BP: blood pressure; NHANES: National Health and Nutrition Examination Survey. The Completed NHANES interview and exam cells include number with the response rate in parentheses.',
+    reference = 'fig_include_exclude')
 
   # figure: cdfs of pcr_risk for all bp categories (A) ----
 
@@ -441,13 +414,13 @@ compile_report <- function(exams,
     add_row(
       object  = list(fig_hist_ovrl),
       caption = glue("Estimated distribution of 10-year predicted ",
-                     "cardiovascular risk among US adults with ",
+                     "atherosclerotic cardiovascular disease risk ",
+                     "among US adults with ",
                      "predicted risk < 10% overall and for those with ",
                      "diabetes, chronic kidney disease, \u2265 65 ",
                      "years of age, or any of the preceding conditions."),
-      legend  = 'Results do not include data from survey participants with prevalent cardiovascular disease or 10-year predicted risk for cardiovascular disease \u2265 10%.',
-      width   = 6,
-      height  = 7.5
+      legend  = 'Results do not include data from survey participants with prevalent cardiovascular disease or 10-year predicted risk for atherosclerotic cardiovascular disease \u2265 10%.',
+      reference = 'fig_hist_ovrl'
     )
 
   figs_supp %<>%
@@ -460,8 +433,7 @@ compile_report <- function(exams,
                      "diabetes, chronic kidney disease, \u2265 65 ",
                      "years of age, or any of the preceding conditions."),
       legend  = 'Results do not include data from survey participants with prevalent cardiovascular disease or 10-year predicted risk for cardiovascular disease \u2265 10%.',
-      width   = 6,
-      height  = 7.5
+      reference = 'fig_hist_stg1'
     )
 
 
@@ -472,13 +444,12 @@ compile_report <- function(exams,
       object  = list(fig_risk_ovrl_bnry),
       caption = glue(
         "Estimated Probability of ten-year predicted risk for",
-        "cardiovascular disease \u2265 10% by age for",
+        "atherosclerotic cardiovascular disease \u2265 10% by age for",
         "US adults with diabetes, with chronic kidney disease, and without",
         "diabetes or chronic kidney disease.",
         .sep = ' '),
-      legend = '* Age at which 50% of the population is expected to have a  predicted 10-year risk for cardiovascular disease \u2265 10%.',
-      width   = 6,
-      height  = 6.5
+      legend = 'Age at which 50% of the population is expected to have a  predicted 10-year risk for atherosclerotic cardiovascular disease \u2265 10%.',
+      reference = 'fig_risk_ovrl'
     )
 
   # figure: age adjusted predicted risk (binary) in S1 hypertensives ----
@@ -488,14 +459,13 @@ compile_report <- function(exams,
       object  = list(fig_risk_stg1_bnry),
       caption = glue(
         "Estimated Probability of ten-year predicted risk for",
-        "cardiovascular disease \u2265 10% by age among",
+        "atherosclerotic cardiovascular disease \u2265 10% by age among",
         "US adults with stage 1 hypertension and diabetes,",
         "chronic kidney disease, and with without",
         "diabetes or chronic kidney disease.",
         .sep = ' '),
-      legend = '* Age at which 50% of the population is expected to have a  predicted 10-year risk for cardiovascular disease \u2265 10%.',
-      width   = 6,
-      height  = 6.5
+      legend = 'Age at which 50% of the population is expected to have a predicted 10-year risk for atherosclerotic cardiovascular disease \u2265 10%.',
+      reference = 'fig_risk_stg1'
     )
 
 
@@ -505,31 +475,26 @@ compile_report <- function(exams,
     mutate(
       pre_cap = glue("Table {1:nrow(tbls_main)}"),
       caption = glue("{pre_cap}: {caption}")
-    ) %>%
-    select(-pre_cap)
+    )
 
   if(nrow(tbls_supp) > 0) tbls_supp %<>%
     mutate(
       pre_cap = glue("Table S{1:nrow(tbls_supp)}"),
       caption = glue("{pre_cap}: {caption}")
-    ) %>%
-    select(-pre_cap)
+    )
 
 
   if(nrow(figs_main) > 0) figs_main %<>%
     mutate(
       pre_cap = glue("Figure {1:nrow(.)}"),
       caption = glue("{pre_cap}: {caption}")
-    ) %>%
-    select(-pre_cap)
+    )
 
   if(nrow(figs_supp) > 0) figs_supp %<>%
     mutate(
       pre_cap = glue("Figure S{1:n()}"),
       caption = glue("{pre_cap}: {caption}")
-    ) %>%
-    select(-pre_cap)
-
+    )
 
   font_size = 11
   font_name = "Calibri"
@@ -547,89 +512,6 @@ compile_report <- function(exams,
       )
     )
 
-  # Begin document in MS word ----
-
-  my_doc <- read_docx('doc/template.docx') %>%
-    cursor_end() %>%
-    body_add_break()
-
-  # fill in results placeholders:
-  # my_doc <- my_doc %>%
-  #   body_replace_all_text(old_value = "attributable",
-  #                         new_value = "XXXXXXXX")
-
-  ntbl_main <- nrow(tbls_main)
-  nfig_main <- nrow(figs_main)
-
-  # add main tables to word doc ----
-
-  if(ntbl_main > 0){
-    for(i in seq(ntbl_main)){
-      my_doc %<>%
-        body_add_par(tbls_main$caption[[i]]) %>%
-        body_add_flextable(tbls_main$object[[i]]) %>%
-        body_add_break()
-    }
-  }
-
-  #my_doc %<>% body_end_section_landscape()
-
-  # add main figures to word doc ----
-
-  if(nfig_main > 0){
-
-    for(i in seq(nfig_main)){
-
-      if( inherits(figs_main$object[[i]], 'gg') ) {
-
-        filename <- tempfile(fileext = ".emf")
-
-        emf(
-          file = filename,
-          width = figs_main$width[i],
-          height = figs_main$height[i]
-        )
-
-        print(figs_main$object[[i]])
-
-        dev.off()
-
-      } else {
-
-        # This assumes the above has been taken care of already
-        filename <- figs_main$object[[i]]
-
-      }
-
-      my_doc %<>%
-        body_add_par(figs_main$caption[i]) %>%
-        body_add_img(
-          filename,
-          width = figs_main$width[i],
-          height = figs_main$height[i]
-        )
-
-      if( length(figs_main$legend[i])>0 ){
-
-        my_doc %<>% body_add_par(figs_main$legend[i])
-
-      }
-
-      if(i < nfig_main) my_doc %<>% body_add_break()
-
-    }
-  }
-
-  # my_doc %<>% body_end_section_portrait()
-
-  # add supplemental tables to word doc ----
-
-  my_doc %<>%
-    body_add_break() %>%
-    body_add_par(value = 'SUPPLEMENT',
-                 style = 'header') %>%
-    body_add_break()
-
   tbls_supp %<>%
     mutate(
       object = map(
@@ -640,77 +522,13 @@ compile_report <- function(exams,
       )
     )
 
-  ntbl_supp <- nrow(tbls_supp)
-  nfig_supp <- nrow(figs_supp)
-
-  if(ntbl_supp > 0){
-    for(i in seq(ntbl_supp)){
-      my_doc %<>%
-        body_add_par(tbls_supp$caption[[i]]) %>%
-        body_add_flextable(tbls_supp$object[[i]]) %>%
-        body_add_break()
-    }
-  }
-
-  # my_doc %<>% body_end_section_landscape()
-
-  # add supplemental figures to word doc ----
-
-  if(nfig_supp > 0){
-
-    for(i in seq(nfig_supp)){
-
-      if( inherits(figs_supp$object[[i]], 'gg') ) {
-
-        filename <- tempfile(fileext = ".emf")
-
-        emf(
-          file = filename,
-          width = figs_supp$width[i],
-          height = figs_supp$height[i]
-        )
-
-        print(figs_supp$object[[i]])
-
-        dev.off()
-
-      } else {
-
-        # This assumes the above has been taken care of already
-        filename <- figs_supp$object[[i]]
-
-      }
-
-      my_doc %<>%
-        body_add_par(figs_supp$caption[i]) %>%
-        body_add_img(
-          filename,
-          width = figs_supp$width[i],
-          height = figs_supp$height[i]
-        )
-
-      if( length(figs_supp$legend[i])>0 ){
-
-        my_doc %<>% body_add_par(figs_supp$legend[i])
-
-      }
-
-      if(i < nfig_supp) my_doc %<>% body_add_break()
-
-
-    }
-  }
-
-  # my_doc %<>% body_end_section_portrait()
-
-  # Output ----
-
-  my_doc %>%
-    print(
-      file.path(
-        'doc',
-        glue("{Sys.Date()}-ACCAHA_BP_groups_results.docx")
-      )
-    )
+  bind_rows(
+    table_main = tbls_main,
+    figure_main = figs_main,
+    table_supplement = tbls_supp,
+    figure_supplement = figs_supp,
+    .id = 'split_me'
+  ) %>%
+    separate(split_me, into = c('object_type', 'location'))
 
 }

@@ -33,7 +33,7 @@ visualize_risk_hist <- function(design, qts) {
         transmute(
           x = mids,
           perc_val = counts / sum(counts),
-          perc_lab = tbl_string("{100 * perc_val}%", decimals = c(1,1,1))
+          perc_lab = table_glue("{100 * perc_val}%")
         )
     },
     .id = 'panel'

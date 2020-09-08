@@ -5,7 +5,7 @@
 ##' @title
 ##' @param design
 ##' @param decimals
-tabulate_risk_summary <- function(design, decimals) {
+tabulate_risk_summary <- function(design) {
 
   add_confint <- function(x){
     cbind(x, confint(x))
@@ -95,8 +95,7 @@ tabulate_risk_summary <- function(design, decimals) {
       variable,
       bp_cat = fct_inorder(bp_cat),
       bp_cat = fct_relevel(bp_cat, 'Overall'),
-      tbv = tbl_string('{100*pcr_highrisk}\n({100*lwr}, {100*upr})',
-                       decimals = decimals)
+      tbv = table_glue('{100*pcr_highrisk}\n({100*lwr}, {100*upr})')
     ) %>%
     arrange(bp_cat) %>%
     pivot_wider(values_from = tbv, names_from = variable)
@@ -173,8 +172,7 @@ tabulate_risk_summary <- function(design, decimals) {
       variable,
       bp_cat = fct_inorder(bp_cat),
       bp_cat = fct_relevel(bp_cat, 'Overall'),
-      tbv = tbl_string('{100*est}\n({100*lwr}, {100*upr})',
-                       decimals = decimals)
+      tbv = table_glue('{100*est}\n({100*lwr}, {100*upr})')
     ) %>%
     arrange(bp_cat) %>%
     pivot_wider(values_from = tbv, names_from = variable))
