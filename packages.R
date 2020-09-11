@@ -1,31 +1,38 @@
-## library() calls go here
-library(conflicted)
-library(dotenv)
-library(drake)
-# data management
-library(haven)
-library(janitor)
-library(magrittr)
-library(labelled)
-# data analysis
-library(tidyverse)
-library(tidyselect)
-library(survey)
-library(splines)
-library(scales)
-# reporting
-library(table.glue)
-library(officer)
-library(glue)
-library(flextable)
-library(devEMF)
-library(magick)
-library(paletteer)
-library(patchwork)
-library(rmarkdown)
-library(english)
-library(officer)
-library(officedown)
+
+
+if (!require("pacman")) install.packages("pacman")
+
+pacman::p_load(
+  # drake support
+  conflicted,
+  dotenv,
+  drake,
+  # data management
+  haven,
+  janitor,
+  magrittr,
+  labelled,
+  # data analysis
+  tidyverse,
+  tidyselect,
+  survey,
+  splines,
+  scales,
+  # reporting
+  officer,
+  glue,
+  flextable,
+  devEMF,
+  magick,
+  paletteer,
+  patchwork,
+  rmarkdown,
+  english,
+  officer,
+  officedown
+)
+
+pacman::p_load_gh('bcjaeger/table.glue', update = FALSE)
 
 conflicted::conflict_prefer("roc",       "pROC")
 conflicted::conflict_prefer("filter",    "dplyr")

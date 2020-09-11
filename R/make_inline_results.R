@@ -13,11 +13,6 @@ make_inline_results <- function(design_overall,
                                 risk_models) {
 
 
-  # rspec <- round_spec() %>%
-  #   round_using_magnitude(digits = c(2,1,1),
-  #                         breaks = c(1,10,Inf)) %>%
-  #   default_rounder_set()
-
   # accompanying table 1 ----
 
   prevDiabetesOverall <- svyciprop(~ diabetes, design_overall) %>%
@@ -35,8 +30,12 @@ make_inline_results <- function(design_overall,
     transmute(string = table_glue("{est}% ({lwr}, {upr})")) %>%
     pull(string)
 
-  # not currently used in manuscript, but kept around just in case
   meanAgeOverall <- svymean(~ age, design_overall) %>%
+    tidy_svy(mult_by = 1) %>%
+    transmute(string = table_glue("{est} ({lwr}, {upr})")) %>%
+    pull(string)
+
+  meanAgeS1h <- svymean(~ age, design_s1hyp) %>%
     tidy_svy(mult_by = 1) %>%
     transmute(string = table_glue("{est} ({lwr}, {upr})")) %>%
     pull(string)
@@ -263,7 +262,7 @@ make_inline_results <- function(design_overall,
   ) %>%
     tidy_svy(mult_by = 100) %>%
     transmute(
-      string = table_glue("{est}% (95% CI {lwr}, {upr})")
+      string = table_glue("{est}% (95% CI: {lwr}, {upr})")
     ) %>%
     pull(string)
 
@@ -273,7 +272,7 @@ make_inline_results <- function(design_overall,
   ) %>%
     tidy_svy(mult_by = 100) %>%
     transmute(
-      string = table_glue("{est}% (95% CI {lwr}, {upr})")
+      string = table_glue("{est}% (95% CI: {lwr}, {upr})")
     ) %>%
     pull(string)
 
@@ -283,7 +282,7 @@ make_inline_results <- function(design_overall,
   ) %>%
     tidy_svy(mult_by = 100) %>%
     transmute(
-      string = table_glue("{est}% (95% CI {lwr}, {upr})")
+      string = table_glue("{est}% (95% CI: {lwr}, {upr})")
     ) %>%
     pull(string)
 
@@ -294,7 +293,7 @@ make_inline_results <- function(design_overall,
   ) %>%
     tidy_svy(mult_by = 100) %>%
     transmute(
-      string = table_glue("{est}% (95% CI {lwr}, {upr})")
+      string = table_glue("{est}% (95% CI: {lwr}, {upr})")
     ) %>%
     pull(string)
 
@@ -305,7 +304,7 @@ make_inline_results <- function(design_overall,
   ) %>%
     tidy_svy(mult_by = 100) %>%
     transmute(
-      string = table_glue("{est}% (95% CI {lwr}, {upr})")
+      string = table_glue("{est}% (95% CI: {lwr}, {upr})")
     ) %>%
     pull(string)
 
@@ -316,15 +315,11 @@ make_inline_results <- function(design_overall,
   ) %>%
     tidy_svy(mult_by = 100) %>%
     transmute(
-      string = table_glue("{est}% (95% CI {lwr}, {upr})")
+      string = table_glue("{est}% (95% CI: {lwr}, {upr})")
     ) %>%
     pull(string)
 
   # accompanying figure 2 ----
-
-  rspec <- round_spec() %>%
-    round_using_magnitude(digits = c(2, 1, 1, 0),
-                          breaks = c(1, 10, 100, Inf))
 
   risk_50 <- risk_models %>%
     select(bp_cat, bnry) %>%
@@ -399,6 +394,7 @@ make_inline_results <- function(design_overall,
     prevS1hCkd           = prevS1hCkd,
     prevS1hAge65         = prevS1hAge65,
     meanAgeOverall       = meanAgeOverall,
+    meanAgeS1h           = meanAgeS1h,
     medianPcrAge65       = medianPcrAge65,
     medianPcrCkd         = medianPcrCkd,
     medianPcrDiabetes    = medianPcrDiabetes,

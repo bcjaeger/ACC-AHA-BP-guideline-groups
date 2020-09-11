@@ -58,11 +58,25 @@ the_plan <- drake_plan(
     by = c('exam', 'seqn')
   ),
 
+  fasted_hrs_lower = 8,
+  fasted_hrs_upper = 24,
+  gluc_cutpoint_fasted = 126,
+  gluc_cutpoint_fed = 200,
+  hba1c_cutpoint = 6.5,
+  egfr_cutpoint = 60,
+  acr_cutpoint = 30,
+
   data_derived = data_pooled %>%
-    derive_diabetes() %>%
-    derive_egfrCKDepi() %>%
-    derive_ascvd_risk_pcr(set_miss_to_no = 'diabetes') %>%
-    derive_others(exams = exams),
+    derive_diabetes(
+      fasted_hrs_lower = fasted_hrs_lower,
+      fasted_hrs_upper = fasted_hrs_upper,
+      gluc_cutpoint_fasted = gluc_cutpoint_fasted,
+      gluc_cutpoint_fed = gluc_cutpoint_fed,
+      hba1c_cutpoint = hba1c_cutpoint
+    ) %>%
+    derive_egfrCKDepi(egfr_cutpoint = egfr_cutpoint) %>%
+    derive_ascvd_risk_pcr() %>%
+    derive_others(exams = exams, acr_cutpoint = acr_cutpoint),
 
   current_analysis = include_exclude(data_derived),
 
@@ -130,6 +144,13 @@ the_plan <- drake_plan(
 
   report = compile_report(
     exams,
+    fasted_hrs_lower,
+    fasted_hrs_upper,
+    gluc_cutpoint_fasted,
+    gluc_cutpoint_fed,
+    hba1c_cutpoint,
+    egfr_cutpoint,
+    acr_cutpoint,
     current_analysis,
     design_overall,
     tbl1_overall,

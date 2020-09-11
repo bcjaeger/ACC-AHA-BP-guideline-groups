@@ -4,14 +4,15 @@
 ##'
 ##' @title
 ##' @param data
-derive_others <- function(data, exams) {
+derive_others <- function(data, exams,
+                          acr_cutpoint=30) {
 
   data %>%
     mutate(
       # pooling weights for pooled analysis
       wts_mec_2yr = wts_mec_2yr / length(exams),
       # chronic kidney disease variables
-      albuminuria = if_else(acr_mgg >= 30, "yes", "no"),
+      albuminuria = if_else(acr_mgg >= acr_cutpoint, "yes", "no"),
       ckd = if_else(albuminuria == "yes" | egfr_low == "yes", "yes", "no"),
       # update categories to align with acc/aha guidelines
       age_group = case_when(
@@ -82,7 +83,6 @@ derive_others <- function(data, exams) {
         "Other Race/ethnicity - Including Multi-Racial" = "Other Race - Including Multi-Racial"
       )
     ) %>%
-    # dropping variables I don't need
     select(
       exam,
       seqn,

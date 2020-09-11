@@ -4,12 +4,28 @@
 ##' .. content for \details{} ..
 ##'
 ##' @title
+##'
+##' @param exams
+##' @param current_analysis
 ##' @param tbl1_overall
 ##' @param tbl1_s1hyp
 ##' @param tbl_bpdist
+##' @param design
+##' @param tbl_exclusions
+##' @param fig_hist_ovrl
+##' @param fig_hist_stg1
+##' @param fig_risk_ovrl_bnry
+##' @param fig_risk_stg1_bnry
 ##' @param tbl_risk_overall
-##' @param tbl_risk_40to79
+##'
 compile_report <- function(exams,
+                           fasted_hrs_lower,
+                           fasted_hrs_upper,
+                           gluc_cutpoint_fasted,
+                           gluc_cutpoint_fed,
+                           hba1c_cutpoint,
+                           egfr_cutpoint,
+                           acr_cutpoint,
                            current_analysis,
                            design,
                            tbl1_overall,
@@ -20,8 +36,7 @@ compile_report <- function(exams,
                            fig_hist_ovrl,
                            fig_hist_stg1,
                            fig_risk_ovrl_bnry,
-                           fig_risk_stg1_bnry,
-                           inline) {
+                           fig_risk_stg1_bnry) {
 
   # setup ----
 
@@ -68,10 +83,9 @@ compile_report <- function(exams,
 
   value_note <- as_paragraph("Table values are mean (standard error) or proportion.")
 
-  ftr_ckd <- as_paragraph('Chronic kidney disease is defined by an albumin-to-creatinine ratio \u2265 30 mg/dl or an estimated glomerular filtration rate <60 ml/min/1.73m\u00b2')
+  ftr_ckd <- as_paragraph(glue('Chronic kidney disease is defined by an albumin-to-creatinine ratio \u2265{acr_cutpoint} mg/dl or an estimated glomerular filtration rate <{egfr_cutpoint} ml/min/1.73m\u00b2'))
 
-  ftr_diab <- as_paragraph('Diabetes was defined by fasting serum glucose \u2265 126 mg/dL, non-fasting glucose \u2265 200 mg/dL, HbA1c \u2265 6.5%, or self-reported use of insulin or oral glucose lowering medication.')
-
+  ftr_diab <- as_paragraph('Diabetes was defined by fasting serum glucose \u2265{gluc_cutpoint_fasted} mg/dL, non-fasting glucose \u2265{gluc_cutpoint_fed} mg/dL, HbA1c \u2265{hba1c_cutpoint}%, or self-reported use of insulin or oral glucose lowering medication.')
 
   bp_cat_guide <- as_paragraph(paste(
     "Normal blood pressure: systolic/diastolic blood pressure < 120/80 mm Hg;",
@@ -201,7 +215,7 @@ compile_report <- function(exams,
 
   tbls_main %<>% add_row(
     object = list(.tbl1_overall),
-    caption = "Characteristics of US adults overall and with diabetes, chronic kidney disease, and \u2265 65 years of age.",
+    caption = "Characteristics of US adults overall and with diabetes, chronic kidney disease, and \u226565 years of age.",
     reference = 'tab_characteristics'
   )
 
@@ -239,7 +253,7 @@ compile_report <- function(exams,
 
   tbls_main %<>% add_row(
     object = list(.tbl_bpdist),
-    caption = "Estimated distribution of blood pressure categories among US adults, overall and for subgroups with diabetes, chronic kidney disease, and \u2265 65 years of age.",
+    caption = "Estimated distribution of blood pressure categories among US adults, overall and for subgroups with diabetes, chronic kidney disease, and \u226565 years of age.",
     reference = 'tab_bpdist'
   )
 
@@ -328,31 +342,9 @@ compile_report <- function(exams,
 
   tbls_main %<>% add_row(
     object = list(.tbl_risk_overall),
-    caption = "Median predicted risk for cardiovascular disease and proportion of US adults with predicted risk \u2265 10% overall and among those with diabetes, chronic kidney disease, and \u2265 65 years of age, stratified by categorization of blood pressure according to the 2017 American College of Cardiology / American Heart Association blood pressure guidelines.",
+    caption = "Median 10-year predicted risk for atherosclerotic cardiovascular disease and proportion of US adults with predicted risk \u226510% overall and among those with diabetes, chronic kidney disease, and \u226565 years of age, stratified by categorization of blood pressure according to the 2017 American College of Cardiology / American Heart Association blood pressure guidelines.",
     reference = 'tab_risk_overall'
   )
-
-  # table: exclusions for current analysis (deprecated) ----
-
-  ### Dropped this in favor of a figure
-  # .tbl_exclusions <- tbl_exclusions %>%
-  #   mutate(across(where(is.numeric), ~table_value(as.integer(.x)))) %>%
-  #   flextable(theme_fun = theme_box) %>%
-  #   set_header_labels(
-  #     'label' = "Criteria",
-  #     'sample_size' = "N included",
-  #     'n_removed' = "N excluded"
-  #   ) %>%
-  #   height(height = 1.5, part = 'header') %>%
-  #   width(width = 1.15) %>%
-  #   width(j = ~label, width = 4.5) %>%
-  #   align(align = 'center', part = 'all') %>%
-  #   align(j = 1, align = 'left', part = 'all')
-  #
-  # tbls_supp %<>% add_row(
-  #   object = list(.tbl_exclusions),
-  #   caption = "Participants included in the current analysis"
-  # )
 
   # table s1: characteristics for SPs with stage 1 hypertension ----
 
@@ -363,12 +355,12 @@ compile_report <- function(exams,
     add_header_row(values = c("", "Sub-groups"), colwidths = c(2, 4)) %>%
     theme_box() %>%
     set_header_labels(
-      'level'                               = 'Characteristic',
-      'Overall'                             = col_labels_s1h$ovrl,
-      'Diabetes'                            = col_labels_s1h$diab,
-      'Chronic kidney disease'              = col_labels_s1h$ckd,
-      'Age 65+ years'                       = col_labels_s1h$age_gt65,
-      'Any preceding condition'             = col_labels_s1h$any
+      'level'                   = 'Characteristic',
+      'Overall'                 = col_labels_s1h$ovrl,
+      'Diabetes'                = col_labels_s1h$diab,
+      'CKD'                     = col_labels_s1h$ckd,
+      'Age 65+ years'           = col_labels_s1h$age_gt65,
+      'Diabetes, CKD, or age 65+ years' = col_labels_s1h$any
     ) %>%
     padding(i = 4:8, j = 1, padding.left = 10, part = 'body') %>%
     height(height = 1.5, part = 'header') %>%
@@ -396,7 +388,7 @@ compile_report <- function(exams,
 
   tbls_supp %<>% add_row(
     object = list(.tbl1_s1hyp),
-    caption = "Characteristics of US adults with stage 1 hypertension, overall and with diabetes, chronic kidney disease, \u2265 65 years of age, or any of the three preceding conditions",
+    caption = "Characteristics of US adults with stage 1 hypertension, overall and with diabetes, chronic kidney disease, \u226565 years of age, or any of the three preceding conditions",
     reference = 'tab_risk_stg1'
   )
 
@@ -416,8 +408,8 @@ compile_report <- function(exams,
       caption = glue("Estimated distribution of 10-year predicted ",
                      "atherosclerotic cardiovascular disease risk ",
                      "among US adults with ",
-                     "predicted risk < 10% overall and for those with ",
-                     "diabetes, chronic kidney disease, \u2265 65 ",
+                     "predicted risk <10% overall and for those with ",
+                     "diabetes, chronic kidney disease, \u226565 ",
                      "years of age, or any of the preceding conditions."),
       legend  = 'Results do not include data from survey participants with prevalent cardiovascular disease or 10-year predicted risk for atherosclerotic cardiovascular disease \u2265 10%.',
       reference = 'fig_hist_ovrl'
@@ -427,12 +419,13 @@ compile_report <- function(exams,
     add_row(
       object  = list(fig_hist_stg1),
       caption = glue("Estimated distribution of 10-year predicted ",
-                     "cardiovascular risk among US adults with ",
+                     "atherosclerotic cardiovascular disease risk ",
+                     "among US adults with ",
                      "stage 1 hypertension and ",
                      "predicted risk < 10% overall and for those with ",
-                     "diabetes, chronic kidney disease, \u2265 65 ",
+                     "diabetes, chronic kidney disease, \u226565 ",
                      "years of age, or any of the preceding conditions."),
-      legend  = 'Results do not include data from survey participants with prevalent cardiovascular disease or 10-year predicted risk for cardiovascular disease \u2265 10%.',
+      legend  = 'Results do not include data from survey participants with prevalent cardiovascular disease or 10-year predicted risk for atherosclerotic cardiovascular disease \u2265 10%.',
       reference = 'fig_hist_stg1'
     )
 
@@ -444,11 +437,11 @@ compile_report <- function(exams,
       object  = list(fig_risk_ovrl_bnry),
       caption = glue(
         "Estimated Probability of ten-year predicted risk for",
-        "atherosclerotic cardiovascular disease \u2265 10% by age for",
+        "atherosclerotic cardiovascular disease \u226510% by age for",
         "US adults with diabetes, with chronic kidney disease, and without",
         "diabetes or chronic kidney disease.",
         .sep = ' '),
-      legend = 'Age at which 50% of the population is expected to have a  predicted 10-year risk for atherosclerotic cardiovascular disease \u2265 10%.',
+      legend = 'Age at which 50% of the population is expected to have a  predicted 10-year risk for atherosclerotic cardiovascular disease \u226510%.',
       reference = 'fig_risk_ovrl'
     )
 
@@ -459,9 +452,9 @@ compile_report <- function(exams,
       object  = list(fig_risk_stg1_bnry),
       caption = glue(
         "Estimated Probability of ten-year predicted risk for",
-        "atherosclerotic cardiovascular disease \u2265 10% by age among",
+        "atherosclerotic cardiovascular disease \u226510% by age among",
         "US adults with stage 1 hypertension and diabetes,",
-        "chronic kidney disease, and with without",
+        "chronic kidney disease, and without",
         "diabetes or chronic kidney disease.",
         .sep = ' '),
       legend = 'Age at which 50% of the population is expected to have a predicted 10-year risk for atherosclerotic cardiovascular disease \u2265 10%.',
@@ -469,66 +462,36 @@ compile_report <- function(exams,
     )
 
 
-  # Add pre-caption ---------------------------------------------------------
+  # format and bind ---------------------------------------------------------
 
-  tbls_main %<>%
+  tbls <- bind_rows(table_main = tbls_main,
+                    table_supplement = tbls_supp,
+                    .id = 'split_me') %>%
+    group_by(split_me) %>%
     mutate(
-      pre_cap = glue("Table {1:nrow(tbls_main)}"),
-      caption = glue("{pre_cap}: {caption}")
+      pre_cap = glue("Table {1:n()}"),
+      pre_cap = if_else(split_me == 'table_supplement',
+                        true = str_replace(pre_cap, 'Table ', 'Table S'),
+                        false = as.character(pre_cap)),
+      object = map(object,
+                   table_polisher,
+                   font_size = 11,
+                   font_name = "Calibri")
     )
 
-  if(nrow(tbls_supp) > 0) tbls_supp %<>%
+  figs <- bind_rows(figure_main = figs_main,
+                    figure_supplement = figs_supp,
+                    .id = 'split_me') %>%
+    group_by(split_me) %>%
     mutate(
-      pre_cap = glue("Table S{1:nrow(tbls_supp)}"),
-      caption = glue("{pre_cap}: {caption}")
+      pre_cap = glue("Figure {1:n()}"),
+      pre_cap = if_else(split_me == 'figure_supplement',
+                        true = str_replace(pre_cap, 'Figure ', 'Figure S'),
+                        false = as.character(pre_cap))
     )
 
-
-  if(nrow(figs_main) > 0) figs_main %<>%
-    mutate(
-      pre_cap = glue("Figure {1:nrow(.)}"),
-      caption = glue("{pre_cap}: {caption}")
-    )
-
-  if(nrow(figs_supp) > 0) figs_supp %<>%
-    mutate(
-      pre_cap = glue("Figure S{1:n()}"),
-      caption = glue("{pre_cap}: {caption}")
-    )
-
-  font_size = 11
-  font_name = "Calibri"
-
-  # uniform font and font size for tables ----
-
-  tbls_main %<>%
-    mutate(
-      object = map(
-        .x = object,
-        .f = ~ .x %>%
-          font(fontname = font_name, part = 'all') %>%
-          fontsize(size = font_size, part = 'all') %>%
-          height(height = 2, part = 'footer')
-      )
-    )
-
-  tbls_supp %<>%
-    mutate(
-      object = map(
-        .x = object,
-        .f = ~ .x %>%
-          font(fontname = font_name, part = 'all') %>%
-          fontsize(size = font_size, part = 'all')
-      )
-    )
-
-  bind_rows(
-    table_main = tbls_main,
-    figure_main = figs_main,
-    table_supplement = tbls_supp,
-    figure_supplement = figs_supp,
-    .id = 'split_me'
-  ) %>%
-    separate(split_me, into = c('object_type', 'location'))
+  bind_rows(tbls, figs) %>%
+    separate(split_me, into = c('object_type', 'location')) %>%
+    mutate(caption = glue("{pre_cap}: {caption}"), .after = object)
 
 }
