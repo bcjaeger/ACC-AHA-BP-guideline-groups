@@ -18,7 +18,6 @@ include_exclude <- function(data) {
   n3 <- nrow(e3)
   # 40 - 79 years old
 
-
   e4 <- e3 %>% filter(n_msr_sbp >= 3 & n_msr_dbp >= 3)
   n4 <- nrow(e4)
   # 3+ BP measurements
