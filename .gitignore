@@ -2,6 +2,9 @@
 .Rhistory
 .Rapp.history
 
+# validation data for swati
+for_swati
+
 # Session Data files
 .RData
 
