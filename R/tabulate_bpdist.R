@@ -29,6 +29,6 @@ tabulate_bpdist <- function(design, decimals) {
     filter(level == 'yes' | is.na(level)) %>%
     select(-level) %>%
     group_by(variable) %>%
-    mutate(n = table_value(100 * n / sum(n)))
+    mutate(n = table_glue("{100 * n / sum(n)}%"))
 
 }
