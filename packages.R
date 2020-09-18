@@ -12,6 +12,7 @@ pacman::p_load(
   janitor,
   magrittr,
   labelled,
+  nephro, # for ckd-epi equations
   # data analysis
   tidyverse,
   tidyselect,

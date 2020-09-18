@@ -78,6 +78,11 @@ the_plan <- drake_plan(
     derive_ascvd_risk_pcr() %>%
     derive_others(exams = exams, acr_cutpoint = acr_cutpoint),
 
+  inclusion_by_exam = split(data_derived, data_derived$exam) %>%
+    map_dfr(~include_exclude(.x)$tbl, .id = 'exam') %>%
+    select(-n_removed) %>%
+    pivot_wider(names_from = exam, values_from = sample_size),
+
   current_analysis = include_exclude(data_derived),
 
   include_tbls = tabulate_inclusion(data_derived),

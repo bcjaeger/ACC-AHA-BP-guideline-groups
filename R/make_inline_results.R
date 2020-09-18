@@ -17,17 +17,17 @@ make_inline_results <- function(design_overall,
 
   prevDiabetesOverall <- svyciprop(~ diabetes, design_overall) %>%
     tidy_svy(mult_by = 100) %>%
-    transmute(string = table_glue("{est}% ({lwr}, {upr})")) %>%
+    transmute(string = table_glue("{est}% ({lwr}%, {upr}%)")) %>%
     pull(string)
 
   prevCkdOverall <- svyciprop(~ ckd, design_overall) %>%
     tidy_svy(mult_by = 100) %>%
-    transmute(string = table_glue("{est}% ({lwr}, {upr})")) %>%
+    transmute(string = table_glue("{est}% ({lwr}%, {upr}%)")) %>%
     pull(string)
 
   prevAge65Overall <- svyciprop(~ age_gt65, design_overall) %>%
     tidy_svy(mult_by = 100) %>%
-    transmute(string = table_glue("{est}% ({lwr}, {upr})")) %>%
+    transmute(string = table_glue("{est}% ({lwr}%, {upr}%)")) %>%
     pull(string)
 
   meanAgeOverall <- svymean(~ age, design_overall) %>%
@@ -48,7 +48,7 @@ make_inline_results <- function(design_overall,
   ) %>%
     tidy_svy(mult_by = 100) %>%
     transmute(
-      string = table_glue("{est}% (95% CI: {lwr}, {upr})")
+      string = table_glue("{est}% (95% CI: {lwr}%, {upr}%)")
     ) %>%
     pull(string)
 
@@ -58,7 +58,7 @@ make_inline_results <- function(design_overall,
   ) %>%
     tidy_svy(mult_by = 100) %>%
     transmute(
-      string = table_glue("{est}% ({lwr}, {upr})")
+      string = table_glue("{est}% ({lwr}%, {upr}%)")
     ) %>%
     pull(string)
 
@@ -69,7 +69,7 @@ make_inline_results <- function(design_overall,
   ) %>%
     tidy_svy(mult_by = 100) %>%
     transmute(
-      string = table_glue("{est}% ({lwr}, {upr})")
+      string = table_glue("{est}% ({lwr}%, {upr}%)")
     ) %>%
     pull(string)
 
@@ -79,7 +79,7 @@ make_inline_results <- function(design_overall,
   ) %>%
     tidy_svy(mult_by = 100) %>%
     transmute(
-      string = table_glue("{est}% ({lwr}, {upr})")
+      string = table_glue("{est}% ({lwr}%, {upr}%)")
     ) %>%
     pull(string)
 
@@ -93,7 +93,7 @@ make_inline_results <- function(design_overall,
     as_tibble() %>%
     set_names(c('lwr', 'est', 'upr')) %>%
     mutate_all(~.x * 100) %>%
-    transmute(string = table_glue("{est}% ({lwr}, {upr})")) %>%
+    transmute(string = table_glue("{est}% ({lwr}%, {upr}%)")) %>%
     pull(string)
 
   medianPcrS1hOverall <- svyquantile(
@@ -105,7 +105,7 @@ make_inline_results <- function(design_overall,
     as_tibble() %>%
     set_names(c('lwr', 'est', 'upr')) %>%
     mutate_all(~.x * 100) %>%
-    transmute(string = table_glue("{est}% ({lwr}, {upr})")) %>%
+    transmute(string = table_glue("{est}% ({lwr}%, {upr}%)")) %>%
     pull(string)
 
   medianPcrDiabetes <- svyquantile(
@@ -117,7 +117,7 @@ make_inline_results <- function(design_overall,
     as_tibble() %>%
     set_names(c('lwr', 'est', 'upr')) %>%
     mutate_all(~.x * 100) %>%
-    transmute(string = table_glue("{est}% ({lwr}, {upr})")) %>%
+    transmute(string = table_glue("{est}% ({lwr}%, {upr}%)")) %>%
     pull(string)
 
   medianPcrS1hDiabetes <- svyquantile(
@@ -129,7 +129,7 @@ make_inline_results <- function(design_overall,
     as_tibble() %>%
     set_names(c('lwr', 'est', 'upr')) %>%
     mutate_all(~.x * 100) %>%
-    transmute(string = table_glue("{est}% ({lwr}, {upr})")) %>%
+    transmute(string = table_glue("{est}% ({lwr}%, {upr}%)")) %>%
     pull(string)
 
   medianPcrCkd <- svyquantile(
@@ -141,7 +141,7 @@ make_inline_results <- function(design_overall,
     as_tibble() %>%
     set_names(c('lwr', 'est', 'upr')) %>%
     mutate_all(~.x * 100) %>%
-    transmute(string = table_glue("{est}% ({lwr}, {upr})")) %>%
+    transmute(string = table_glue("{est}% ({lwr}%, {upr}%)")) %>%
     pull(string)
 
   medianPcrS1hCkd <- svyquantile(
@@ -153,7 +153,7 @@ make_inline_results <- function(design_overall,
     as_tibble() %>%
     set_names(c('lwr', 'est', 'upr')) %>%
     mutate_all(~.x * 100) %>%
-    transmute(string = table_glue("{est}% ({lwr}, {upr})")) %>%
+    transmute(string = table_glue("{est}% ({lwr}%, {upr}%)")) %>%
     pull(string)
 
   medianPcrAge65 <- svyquantile(
@@ -165,7 +165,7 @@ make_inline_results <- function(design_overall,
     as_tibble() %>%
     set_names(c('lwr', 'est', 'upr')) %>%
     mutate_all(~.x * 100) %>%
-    transmute(string = table_glue("{est}% ({lwr}, {upr})")) %>%
+    transmute(string = table_glue("{est}% ({lwr}%, {upr}%)")) %>%
     pull(string)
 
   medianPcrS1hAge65 <- svyquantile(
@@ -177,7 +177,7 @@ make_inline_results <- function(design_overall,
     as_tibble() %>%
     set_names(c('lwr', 'est', 'upr')) %>%
     mutate_all(~.x * 100) %>%
-    transmute(string = table_glue("{est}% ({lwr}, {upr})")) %>%
+    transmute(string = table_glue("{est}% ({lwr}%, {upr}%)")) %>%
     pull(string)
 
 
@@ -188,7 +188,7 @@ make_inline_results <- function(design_overall,
   ) %>%
     tidy_svy(mult_by = 100) %>%
     transmute(
-      string = table_glue("{est}% (95% CI: {lwr}, {upr})")
+      string = table_glue("{est}% (95% CI: {lwr}%, {upr}%)")
     ) %>%
     pull(string)
 
@@ -198,7 +198,7 @@ make_inline_results <- function(design_overall,
   ) %>%
     tidy_svy(mult_by = 100) %>%
     transmute(
-      string = table_glue("{est}% (95% CI: {lwr}, {upr})")
+      string = table_glue("{est}% (95% CI: {lwr}%, {upr}%)")
     ) %>%
     pull(string)
 
@@ -208,7 +208,7 @@ make_inline_results <- function(design_overall,
   ) %>%
     tidy_svy(mult_by = 100) %>%
     transmute(
-      string = table_glue("{est}% (95% CI: {lwr}, {upr})")
+      string = table_glue("{est}% (95% CI: {lwr}%, {upr}%)")
     ) %>%
     pull(string)
 
@@ -218,7 +218,7 @@ make_inline_results <- function(design_overall,
   ) %>%
     tidy_svy(mult_by = 100) %>%
     transmute(
-      string = table_glue("{est}% (95% CI: {lwr}, {upr})")
+      string = table_glue("{est}% (95% CI: {lwr}%, {upr}%)")
     ) %>%
     pull(string)
 
@@ -228,7 +228,7 @@ make_inline_results <- function(design_overall,
   ) %>%
     tidy_svy(mult_by = 100) %>%
     transmute(
-      string = table_glue("{est}% (95% CI: {lwr}, {upr})")
+      string = table_glue("{est}% (95% CI: {lwr}%, {upr}%)")
     ) %>%
     pull(string)
 
@@ -238,7 +238,7 @@ make_inline_results <- function(design_overall,
   ) %>%
     tidy_svy(mult_by = 100) %>%
     transmute(
-      string = table_glue("{est}% (95% CI: {lwr}, {upr})")
+      string = table_glue("{est}% (95% CI: {lwr}%, {upr}%)")
     ) %>%
     pull(string)
 
@@ -252,7 +252,7 @@ make_inline_results <- function(design_overall,
   ) %>%
     tidy_svy(mult_by = 100) %>%
     transmute(
-      string = table_glue("{est}% (95% CI: {lwr}, {upr})")
+      string = table_glue("{est}% (95% CI: {lwr}%, {upr}%)")
     ) %>%
     pull(string)
 
@@ -262,7 +262,7 @@ make_inline_results <- function(design_overall,
   ) %>%
     tidy_svy(mult_by = 100) %>%
     transmute(
-      string = table_glue("{est}% (95% CI: {lwr}, {upr})")
+      string = table_glue("{est}% (95% CI: {lwr}%, {upr}%)")
     ) %>%
     pull(string)
 
@@ -272,7 +272,7 @@ make_inline_results <- function(design_overall,
   ) %>%
     tidy_svy(mult_by = 100) %>%
     transmute(
-      string = table_glue("{est}% (95% CI: {lwr}, {upr})")
+      string = table_glue("{est}% (95% CI: {lwr}%, {upr}%)")
     ) %>%
     pull(string)
 
@@ -282,7 +282,7 @@ make_inline_results <- function(design_overall,
   ) %>%
     tidy_svy(mult_by = 100) %>%
     transmute(
-      string = table_glue("{est}% (95% CI: {lwr}, {upr})")
+      string = table_glue("{est}% (95% CI: {lwr}%, {upr}%)")
     ) %>%
     pull(string)
 
@@ -293,7 +293,7 @@ make_inline_results <- function(design_overall,
   ) %>%
     tidy_svy(mult_by = 100) %>%
     transmute(
-      string = table_glue("{est}% (95% CI: {lwr}, {upr})")
+      string = table_glue("{est}% (95% CI: {lwr}%, {upr}%)")
     ) %>%
     pull(string)
 
@@ -304,7 +304,7 @@ make_inline_results <- function(design_overall,
   ) %>%
     tidy_svy(mult_by = 100) %>%
     transmute(
-      string = table_glue("{est}% (95% CI: {lwr}, {upr})")
+      string = table_glue("{est}% (95% CI: {lwr}%, {upr}%)")
     ) %>%
     pull(string)
 
@@ -315,7 +315,7 @@ make_inline_results <- function(design_overall,
   ) %>%
     tidy_svy(mult_by = 100) %>%
     transmute(
-      string = table_glue("{est}% (95% CI: {lwr}, {upr})")
+      string = table_glue("{est}% (95% CI: {lwr}%, {upr}%)")
     ) %>%
     pull(string)
 
@@ -330,10 +330,13 @@ make_inline_results <- function(design_overall,
     slice(1) %>%
     mutate(ci_est = table_glue("95% CI: {100*lwr}, {100*upr}"))
 
+  rspec_ages <- round_spec() %>%
+    round_using_decimal(digits = 0)
+
   ageHighRiskOvrlNoComorb <- risk_50 %>%
     filter(bp_cat == 'ovrl', variable == 'no_diabetes_or_ckd') %>%
     pull(age) %>%
-    table_value()
+    table_value(rspec = rspec_ages)
 
   intervalHighRiskOvrlNoComorb <- risk_50 %>%
     filter(bp_cat == 'ovrl', variable == 'no_diabetes_or_ckd') %>%
@@ -342,7 +345,7 @@ make_inline_results <- function(design_overall,
   ageHighRiskOvrlDiabetes <- risk_50 %>%
     filter(bp_cat == 'ovrl', variable == 'diabetes') %>%
     pull(age) %>%
-    table_value()
+    table_value(rspec = rspec_ages)
 
   intervalHighRiskOvrlDiabetes <- risk_50 %>%
     filter(bp_cat == 'ovrl', variable == 'diabetes') %>%
@@ -351,7 +354,7 @@ make_inline_results <- function(design_overall,
   ageHighRiskOvrlCkd <- risk_50 %>%
     filter(bp_cat == 'ovrl', variable == 'ckd') %>%
     pull(age) %>%
-    table_value()
+    table_value(rspec = rspec_ages)
 
   intervalHighRiskOvrlCkd <- risk_50 %>%
     filter(bp_cat == 'ovrl', variable == 'ckd') %>%
@@ -360,7 +363,7 @@ make_inline_results <- function(design_overall,
   ageHighRiskS1hNoComorb <- risk_50 %>%
     filter(bp_cat == 'stg1', variable == 'no_diabetes_or_ckd') %>%
     pull(age) %>%
-    table_value()
+    table_value(rspec = rspec_ages)
 
   intervalHighRiskS1hNoComorb <- risk_50 %>%
     filter(bp_cat == 'stg1', variable == 'no_diabetes_or_ckd') %>%
@@ -369,7 +372,7 @@ make_inline_results <- function(design_overall,
   ageHighRiskS1hDiabetes <- risk_50 %>%
     filter(bp_cat == 'stg1', variable == 'diabetes') %>%
     pull(age) %>%
-    table_value()
+    table_value(rspec = rspec_ages)
 
   intervalHighRiskS1hDiabetes <- risk_50 %>%
     filter(bp_cat == 'stg1', variable == 'diabetes') %>%
@@ -378,7 +381,7 @@ make_inline_results <- function(design_overall,
   ageHighRiskS1hCkd <- risk_50 %>%
     filter(bp_cat == 'stg1', variable == 'ckd') %>%
     pull(age) %>%
-    table_value()
+    table_value(rspec = rspec_ages)
 
   intervalHighRiskS1hCkd <- risk_50 %>%
     filter(bp_cat == 'stg1', variable == 'ckd') %>%

@@ -402,7 +402,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
-     inkscape:cx="462.95164"
+     inkscape:cx="539.08416"
      inkscape:cy="738.16292"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -420,7 +420,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -470,7 +470,7 @@
            height="129.8046"
            x="316.17773"
            y="243.1819" /></flowRegion><flowPara
-         id="flowPara1085"></flowPara></flowRoot>    <text
+         id="flowPara1085" /></flowRoot>    <text
        id="text842-1-3-1"
        y="99.111458"
        x="28.019402"
@@ -509,23 +509,23 @@
            dx="0.18863679"> </tspan></tspan></text>
     <text
        id="text1169"
-       y="136.89003"
+       y="134.50226"
        x="27.906391"
        style="font-style:normal;font-variant:normal;font-weight:400;font-size:4.58611107px;line-height:125%;font-family:Calibri;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
        xml:space="preserve"><tspan
          id="tspan1167"
-         y="136.89003"
+         y="134.50226"
          x="28.425911"
          sodipodi:role="line"
          style="font-style:normal;font-variant:normal;font-weight:400;font-size:4.58611107px;font-family:Calibri;text-align:center;text-anchor:middle;fill:#111111;stroke-width:0.26458332">With complete data for </tspan><tspan
-         y="142.62267"
+         y="140.23489"
          x="28.425911"
          sodipodi:role="line"
          style="font-size:4.58611107px;text-align:center;text-anchor:middle;stroke-width:0.26458332"
          id="tspan1189"><tspan
            style="font-style:normal;font-variant:normal;font-weight:400;font-size:4.58611107px;font-family:Calibri;text-align:center;text-anchor:middle;fill:#111111;stroke-width:0.26458332"
-           id="tspan1185">variables in the pooled </tspan></tspan><tspan
-         y="148.3553"
+           id="tspan1185">variables in the Pooled </tspan></tspan><tspan
+         y="145.96753"
          x="28.425911"
          sodipodi:role="line"
          style="font-size:4.58611107px;text-align:center;text-anchor:middle;stroke-width:0.26458332"
@@ -533,11 +533,16 @@
            style="font-style:normal;font-variant:normal;font-weight:400;font-size:4.58611107px;font-family:Calibri;text-align:center;text-anchor:middle;fill:#111111;stroke-width:0.26458332"
            dx="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.18243894"
            dy="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"
-           id="tspan1201">cohort risk equations</tspan><tspan
+           id="tspan1201">Cohort risk equations</tspan><tspan
            id="tspan1165"
            style="font-style:normal;font-variant:normal;font-weight:400;font-size:4.58611107px;font-family:Calibri;text-align:center;text-anchor:middle;fill:#000000;stroke-width:0.26458332"
            dy="0"
-           dx="0"> </tspan></tspan></text>
+           dx="0"> </tspan></tspan><tspan
+         y="151.70018"
+         x="27.906391"
+         sodipodi:role="line"
+         style="font-size:4.58611107px;text-align:center;text-anchor:middle;stroke-width:0.26458332"
+         id="tspan4999">and CKD status</tspan></text>
     <g
        id="g1289"
        transform="translate(1.0583333,-0.37201691)">
@@ -1035,7 +1040,7 @@
            height="106.42857"
            x="197.14285"
            y="247.51968" /></flowRegion><flowPara
-         id="flowPara5487"></flowPara></flowRoot>    <rect
+         id="flowPara5487" /></flowRoot>    <rect
        style="opacity:1;fill:#b9b9b9;fill-opacity:0.52941165;stroke:#000000;stroke-width:0.11472138;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.29292932"
        id="rect815-94-1-3-6-2"
        width="33.478245"
@@ -1052,7 +1057,7 @@
          id="tspan1204-9-2-4-5-4"
          x="66.66613"
          y="143.2623"
-         style="font-size:4.58611107px;stroke-width:0.26458332">8,797</tspan></text>
+         style="font-size:4.58611107px;stroke-width:0.26458332">8,803</tspan></text>
     <rect
        style="opacity:1;fill:#b9b9b9;fill-opacity:0.52941165;stroke:#000000;stroke-width:0.11472138;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.29292932"
        id="rect815-9-6-2-3-7-4"
@@ -1070,7 +1075,7 @@
          id="tspan1204-0-1-6-9-76-8"
          x="103.26824"
          y="143.2623"
-         style="font-size:4.58611107px;stroke-width:0.26458332">2,990</tspan></text>
+         style="font-size:4.58611107px;stroke-width:0.26458332">2,991</tspan></text>
     <rect
        style="opacity:1;fill:#b9b9b9;fill-opacity:0.52941165;stroke:#000000;stroke-width:0.11472138;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.29292932"
        id="rect815-9-3-1-1-1-70-8"
@@ -1088,7 +1093,7 @@
          id="tspan1204-0-5-2-7-0-0-1"
          x="140.00024"
          y="143.22198"
-         style="font-size:4.58611107px;stroke-width:0.26458332">2,961</tspan></text>
+         style="font-size:4.58611107px;stroke-width:0.26458332">2,964</tspan></text>
     <rect
        style="opacity:1;fill:#b9b9b9;fill-opacity:0.52941165;stroke:#000000;stroke-width:0.11472138;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.29292932"
        id="rect815-9-3-2-8-4-3-2-2"
@@ -1106,7 +1111,7 @@
          id="tspan1204-0-5-1-4-8-8-0-8"
          x="176.5195"
          y="143.22198"
-         style="font-size:4.58611107px;stroke-width:0.26458332">2,846</tspan></text>
+         style="font-size:4.58611107px;stroke-width:0.26458332">2,848</tspan></text>
     <path
        style="fill:none;stroke:#000000;stroke-width:0.16007936;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Lend-9-2-2-9)"
        d="m 73.326382,127.96841 v 5.0924"

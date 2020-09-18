@@ -85,13 +85,13 @@ compile_report <- function(exams,
 
   ftr_ckd <- as_paragraph(glue('Chronic kidney disease is defined by an albumin-to-creatinine ratio \u2265{acr_cutpoint} mg/dl or an estimated glomerular filtration rate <{egfr_cutpoint} ml/min/1.73m\u00b2'))
 
-  ftr_diab <- as_paragraph('Diabetes was defined by fasting serum glucose \u2265{gluc_cutpoint_fasted} mg/dL, non-fasting glucose \u2265{gluc_cutpoint_fed} mg/dL, HbA1c \u2265{hba1c_cutpoint}%, or self-reported use of insulin or oral glucose lowering medication.')
+  ftr_diab <- as_paragraph(glue('Diabetes was defined by fasting serum glucose \u2265{gluc_cutpoint_fasted} mg/dL, non-fasting glucose \u2265{gluc_cutpoint_fed} mg/dL, HbA1c \u2265{hba1c_cutpoint}%, or self-reported use of insulin or oral glucose lowering medication.'))
 
   bp_cat_guide <- as_paragraph(paste(
-    "Normal blood pressure: systolic/diastolic blood pressure < 120/80 mm Hg;",
-    "Elevated blood pressure: systolic/diastolic blood pressure 120-129/<80 mm Hg;",
-    "Stage 1 hypertension: systolic/diastolic blood pressure 130-139/80-89 mm Hg;",
-    "Stage 2 hypertension: systolic/diastolic blood pressure \u2265 140/90 mm Hg.",
+    "Normal blood pressure: systolic blood pressure < 120 mm Hg and diastolic blood pressure < 80 mm Hg;",
+    "Elevated blood pressure: systolic blood pressure from 120 to 129 mm Hg and diastolic blood pressure < 80 mm Hg;",
+    "Stage 1 hypertension: systolic blood pressure between 130 and 139 mm Hg and/or diastolic blood pressure between 80 and 89 mm Hg with systolic blood pressure <140 mm Hg and diastolic blood pressure <90 mm Hg;",
+    "Stage 2 hypertension: systolic blood pressure \u2265140 mm Hg or diastolic blood pressure \u226590 mm Hg.",
     sep = '\n'
   ))
 
@@ -269,7 +269,7 @@ compile_report <- function(exams,
         group,
         high_risk = 'Proportion (95% confidence interval) with 10-year predicted risk for ASCVD \u226510% or prevalent cardiovascular disease',
         mean_risk = 'Mean (95% confidence interval) predicted risk',
-        median_risk = 'Median (25th - 75th percentile) predicted risk')
+        median_risk = 'Median (25th - 75th percentile) 10-years predicted risk for ASCVD')
     ) %>%
     as_grouped_data(groups = 'group') %>%
     as_flextable(hide_grouplabel = TRUE) %>%
