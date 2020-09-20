@@ -30,6 +30,11 @@ make_inline_results <- function(design_overall,
     transmute(string = table_glue("{est}% ({lwr}%, {upr}%)")) %>%
     pull(string)
 
+  prevAnyOverall <- svyciprop(~ any_ckd_diab_age65, design_overall) %>%
+    tidy_svy(mult_by = 100) %>%
+    transmute(string = table_glue("{est}% ({lwr}%, {upr}%)")) %>%
+    pull(string)
+
   meanAgeOverall <- svymean(~ age, design_overall) %>%
     tidy_svy(mult_by = 1) %>%
     transmute(string = table_glue("{est} ({lwr}, {upr})")) %>%
@@ -76,6 +81,16 @@ make_inline_results <- function(design_overall,
   prevS1hAge65 <- svyciprop(
     formula = ~ I(bp_cat == 'Stage 1 hypertension'),
     design = subset(design_overall, age_gt65 == 'yes')
+  ) %>%
+    tidy_svy(mult_by = 100) %>%
+    transmute(
+      string = table_glue("{est}% ({lwr}%, {upr}%)")
+    ) %>%
+    pull(string)
+
+  prevS1hAny <- svyciprop(
+    formula = ~ I(bp_cat == 'Stage 1 hypertension'),
+    design = subset(design_overall, any_ckd_diab_age65 == 'yes')
   ) %>%
     tidy_svy(mult_by = 100) %>%
     transmute(
@@ -180,67 +195,98 @@ make_inline_results <- function(design_overall,
     transmute(string = table_glue("{est}% ({lwr}%, {upr}%)")) %>%
     pull(string)
 
-
-
-  prevHighRiskDiabetes <- svyciprop(
-    formula = ~ pcr_highrisk,
-    design = subset(design_overall, diabetes == 'yes')
+  medianPcrAny <- svyquantile(
+    x = ~ ascvd_risk_pcr,
+    design = subset(design_overall,
+                    any_ckd_diab_age65 == 'yes' & ever_had_ascvd == 'no'),
+    quantiles = c(0.25, 0.50, 0.75)
   ) %>%
-    tidy_svy(mult_by = 100) %>%
-    transmute(
-      string = table_glue("{est}% (95% CI: {lwr}%, {upr}%)")
-    ) %>%
+    as_tibble() %>%
+    set_names(c('lwr', 'est', 'upr')) %>%
+    mutate_all(~.x * 100) %>%
+    transmute(string = table_glue("{est}% ({lwr}%, {upr}%)")) %>%
     pull(string)
 
-  prevHighRiskCkd <- svyciprop(
-    formula = ~ pcr_highrisk,
-    design = subset(design_overall, ckd == 'yes')
+  medianPcrS1hAny <- svyquantile(
+    x = ~ ascvd_risk_pcr,
+    design = subset(design_s1hyp,
+                    any_ckd_diab_age65 == 'yes' & ever_had_ascvd == 'no'),
+    quantiles = c(0.25, 0.50, 0.75)
   ) %>%
-    tidy_svy(mult_by = 100) %>%
-    transmute(
-      string = table_glue("{est}% (95% CI: {lwr}%, {upr}%)")
-    ) %>%
+    as_tibble() %>%
+    set_names(c('lwr', 'est', 'upr')) %>%
+    mutate_all(~.x * 100) %>%
+    transmute(string = table_glue("{est}% ({lwr}%, {upr}%)")) %>%
     pull(string)
 
-  prevHighRiskAge65 <- svyciprop(
-    formula = ~ pcr_highrisk,
-    design = subset(design_overall, age_gt65 == 'yes')
+  prevHighRisk <- list(
+    diabetes.overall = ~ diabetes,
+    diabetes.bp_cat = ~ diabetes + bp_cat,
+    ckd.overall = ~ ckd,
+    ckd.bp_cat = ~ ckd + bp_cat,
+    age_gt65.overall = ~ age_gt65,
+    age_gt65.bp_cat = ~ age_gt65 + bp_cat,
+    any.overall = ~ any_ckd_diab_age65,
+    any.bp_cat = ~ any_ckd_diab_age65 + bp_cat
   ) %>%
-    tidy_svy(mult_by = 100) %>%
-    transmute(
-      string = table_glue("{est}% (95% CI: {lwr}%, {upr}%)")
+    map(
+      ~svyby(
+        formula = ~pcr_highrisk,
+        design = design_overall,
+        by = .x,
+        FUN = svyciprop
+      )
     ) %>%
-    pull(string)
+    map(add_confint) %>%
+    map(as_tibble) %>%
+    map(mutate_if, is.factor, as.character) %>%
+    map(standardize_names) %>%
+    bind_rows(.id = 'variable') %>%
+    filter(level == "yes" | is.na(level)) %>%
+    transmute(
+      variable,
+      bp_cat = replace(bp_cat, is.na(bp_cat), "overall"),
+      bp_cat = fct_inorder(bp_cat),
+      inline = table_glue('{100*pcr_highrisk} (95% CI: {100*lwr}, {100*upr})')
+    ) %>%
+    arrange(bp_cat)
 
-  prevHighRiskS1hDiabetes <- svyciprop(
-    formula = ~ pcr_highrisk,
-    design = subset(design_s1hyp, diabetes == 'yes')
-  ) %>%
-    tidy_svy(mult_by = 100) %>%
-    transmute(
-      string = table_glue("{est}% (95% CI: {lwr}%, {upr}%)")
-    ) %>%
-    pull(string)
+  prevHighRiskDiabetes <- prevHighRisk %>%
+    filter(variable == 'diabetes.overall') %>%
+    pull(inline)
 
-  prevHighRiskS1hCkd <- svyciprop(
-    formula = ~ pcr_highrisk,
-    design = subset(design_s1hyp, ckd == 'yes')
-  ) %>%
-    tidy_svy(mult_by = 100) %>%
-    transmute(
-      string = table_glue("{est}% (95% CI: {lwr}%, {upr}%)")
-    ) %>%
-    pull(string)
+  prevHighRiskCkd <- prevHighRisk %>%
+    filter(variable == 'ckd.overall') %>%
+    pull(inline)
 
-  prevHighRiskS1hAge65 <- svyciprop(
-    formula = ~ pcr_highrisk,
-    design = subset(design_s1hyp, age_gt65 == 'yes')
-  ) %>%
-    tidy_svy(mult_by = 100) %>%
-    transmute(
-      string = table_glue("{est}% (95% CI: {lwr}%, {upr}%)")
-    ) %>%
-    pull(string)
+  prevHighRiskAge65 <- prevHighRisk %>%
+    filter(variable == 'age_gt65.overall') %>%
+    pull(inline)
+
+  prevHighRiskAny <- prevHighRisk %>%
+    filter(variable == 'any.overall') %>%
+    pull(inline)
+
+  prevHighRiskS1hDiabetes <- prevHighRisk %>%
+    filter(variable == 'diabetes.bp_cat',
+           bp_cat == 'Stage 1 hypertension') %>%
+    pull(inline)
+
+  prevHighRiskS1hCkd <- prevHighRisk %>%
+    filter(variable == 'ckd.bp_cat',
+           bp_cat == 'Stage 1 hypertension') %>%
+    pull(inline)
+
+  prevHighRiskS1hAge65 <- prevHighRisk %>%
+    filter(variable == 'age_gt65.bp_cat',
+           bp_cat == 'Stage 1 hypertension') %>%
+    pull(inline)
+
+  prevHighRiskS1hAny <- prevHighRisk %>%
+    filter(variable == 'any.bp_cat',
+           bp_cat == 'Stage 1 hypertension') %>%
+    pull(inline)
+
 
   # accompanying figure 1 ----
 
@@ -392,26 +438,32 @@ make_inline_results <- function(design_overall,
     prevDiabetesOverall  = prevDiabetesOverall,
     prevCkdOverall       = prevCkdOverall,
     prevAge65Overall     = prevAge65Overall,
+    prevAnyOverall       = prevAnyOverall,
     prevS1hOverall       = prevS1hOverall,
     prevS1hDiabetes      = prevS1hDiabetes,
     prevS1hCkd           = prevS1hCkd,
     prevS1hAge65         = prevS1hAge65,
+    prevS1hAny           = prevS1hAny,
     meanAgeOverall       = meanAgeOverall,
     meanAgeS1h           = meanAgeS1h,
     medianPcrAge65       = medianPcrAge65,
     medianPcrCkd         = medianPcrCkd,
     medianPcrDiabetes    = medianPcrDiabetes,
     medianPcrOverall     = medianPcrOverall,
+    medianPcrAny         = medianPcrAny,
     medianPcrS1hAge65    = medianPcrS1hAge65,
     medianPcrS1hCkd      = medianPcrS1hCkd,
     medianPcrS1hDiabetes = medianPcrS1hDiabetes,
     medianPcrS1hOverall  = medianPcrS1hOverall,
+    medianPcrS1hAny      = medianPcrS1hAny,
     prevHighRiskCkd      = prevHighRiskCkd,
     prevHighRiskDiabetes = prevHighRiskDiabetes,
     prevHighRiskAge65    = prevHighRiskAge65,
+    prevHighRiskAny      = prevHighRiskAny,
     prevHighRiskS1hCkd      = prevHighRiskS1hCkd,
     prevHighRiskS1hDiabetes = prevHighRiskS1hDiabetes,
     prevHighRiskS1hAge65    = prevHighRiskS1hAge65,
+    prevHighRiskS1hAny      = prevHighRiskS1hAny,
     propLowRiskOverall      = propLowRiskOverall,
     propLowRiskAge65        = propLowRiskAge65,
     propLowRiskCkd          = propLowRiskCkd,

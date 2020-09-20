@@ -5,7 +5,7 @@
 ##' @title
 ##' @param design_overall
 ##' @param qts
-visualize_risk_hist <- function(design, qts) {
+visualize_risk_hist <- function(design, qts, risk_10yr) {
 
   # do not include participants with CVD history
   design <- subset(design, ever_had_ascvd == 'no' & ascvd_risk_pcr <= 0.10)
@@ -48,7 +48,7 @@ visualize_risk_hist <- function(design, qts) {
         "Diabetes" = "diabetes",
         "Chronic kidney disease" = "ckd",
         "Aged 65+ years" = "age",
-        "Any preceding condition" = "any"
+        "Diabetes, chronic kidney disease,\nor aged 65+ years" = "any"
       )
     )
 
@@ -64,13 +64,15 @@ visualize_risk_hist <- function(design, qts) {
         geom_text(vjust = -1) +
         theme_bw() +
         theme(panel.grid = element_blank(),
-              text = element_text(size = 12)) +
+              text = element_text(size = 10, colour = 'black'),
+              axis.text = element_text(size = 10, color = 'black'),
+              strip.text = element_text(size = 10)) +
         scale_x_continuous(labels = percent) +
         scale_y_continuous(labels = percent,
                            limits = c(0,1),
                            breaks = c(0, 0.25, 0.50, 0.75, 1),
                            expand = c(0,0)) +
-        labs(x = 'Predicted 10-year CVD risk, %',
+        labs(x = 'Predicted 10-year risk for atherosclerotic cardiovascular disease, %',
              y = 'Estimated % of US adults*') +
         facet_wrap(~panel, ncol = 2, scales = 'free')
     )

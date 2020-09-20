@@ -15,6 +15,10 @@ the_plan <- drake_plan(
 
   exams = c(2013, 2015, 2017),
 
+  # phrases to be used consistently throughout project
+  risk_10yr = '10-year predicted risk for ASCVD',
+  risk_high = 'high ASCVD risk',
+
   # Demographics ----
   demo = clean_demo(exams),
 
@@ -166,7 +170,9 @@ the_plan <- drake_plan(
     fig_hist$ovrl,
     fig_hist$stg1,
     fig_risk_ovrl_bnry,
-    fig_risk_stg1_bnry
+    fig_risk_stg1_bnry,
+    risk_10yr = risk_10yr,
+    risk_high = risk_high
   ),
 
   # Report ----

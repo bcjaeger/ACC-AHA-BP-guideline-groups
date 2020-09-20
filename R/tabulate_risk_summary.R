@@ -7,29 +7,6 @@
 ##' @param decimals
 tabulate_risk_summary <- function(design) {
 
-  add_confint <- function(x){
-    cbind(x, confint(x))
-  }
-
-  standardize_names <- function(df){
-
-    p <- '^diabetes$|^ckd$|^age_gt65$|^any_ckd_diab_age65$|^diabetes_and_ckd$'
-
-    names(df) <- str_replace(names(df), pattern = p, replacement = 'level')
-
-    se_col <- str_detect(names(df), pattern = '^se\\.')
-    lwr_col <- str_detect(names(df), pattern = '^2\\.5')
-    upr_col <- str_detect(names(df), pattern = '^97\\.5')
-
-    if(any(se_col)) names(df)[se_col] <- 'se'
-    if(any(lwr_col)) names(df)[lwr_col] <- 'lwr'
-    if(any(upr_col)) names(df)[upr_col] <- 'upr'
-
-
-    df
-
-  }
-
   design_no_cvdhx <- subset(design, ever_had_ascvd == 'no')
 
   # Proportion at high risk -------------------------------------------------
@@ -182,5 +159,28 @@ tabulate_risk_summary <- function(design) {
     median_risk = md_risk_tbl,
     .id = 'group'
   )
+
+}
+
+add_confint <- function(x){
+  cbind(x, confint(x))
+}
+
+standardize_names <- function(df){
+
+  p <- '^diabetes$|^ckd$|^age_gt65$|^any_ckd_diab_age65$|^diabetes_and_ckd$'
+
+  names(df) <- str_replace(names(df), pattern = p, replacement = 'level')
+
+  se_col <- str_detect(names(df), pattern = '^se\\.')
+  lwr_col <- str_detect(names(df), pattern = '^2\\.5')
+  upr_col <- str_detect(names(df), pattern = '^97\\.5')
+
+  if(any(se_col)) names(df)[se_col] <- 'se'
+  if(any(lwr_col)) names(df)[lwr_col] <- 'lwr'
+  if(any(upr_col)) names(df)[upr_col] <- 'upr'
+
+
+  df
 
 }
