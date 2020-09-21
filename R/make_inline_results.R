@@ -220,6 +220,7 @@ make_inline_results <- function(design_overall,
     pull(string)
 
   prevHighRisk <- list(
+    overall.bp_cat = ~ bp_cat,
     diabetes.overall = ~ diabetes,
     diabetes.bp_cat = ~ diabetes + bp_cat,
     ckd.overall = ~ ckd,
@@ -250,6 +251,20 @@ make_inline_results <- function(design_overall,
       inline = table_glue('{100*pcr_highrisk} (95% CI: {100*lwr}, {100*upr})')
     ) %>%
     arrange(bp_cat)
+
+  prevHighRiskOverall <- svyciprop(~ pcr_highrisk, design_overall) %>%
+    cbind(confint(.)) %>%
+    as_tibble() %>%
+    set_names(c('est', 'lwr', 'upr')) %>%
+    mutate(across(everything(), ~.x * 100)) %>%
+    mutate(inline = table_glue('{est} (95% CI: {lwr}, {upr})')) %>%
+    pull(inline)
+
+  prevHighRiskS1hOverall <- prevHighRisk %>%
+    filter(variable == 'overall.bp_cat',
+           bp_cat == 'Stage 1 hypertension') %>%
+    pull(inline)
+
 
   prevHighRiskDiabetes <- prevHighRisk %>%
     filter(variable == 'diabetes.overall') %>%
@@ -325,6 +340,16 @@ make_inline_results <- function(design_overall,
   propLowRiskAge65 <- svyciprop(
     formula = ~ ascvd_risk_pcr < 0.05,
     design = subset(design_low_risk, age_gt65 == 'yes')
+  ) %>%
+    tidy_svy(mult_by = 100) %>%
+    transmute(
+      string = table_glue("{est}% (95% CI: {lwr}%, {upr}%)")
+    ) %>%
+    pull(string)
+
+  propLowRiskS1hOverall <- svyciprop(
+    formula = ~ ascvd_risk_pcr < 0.05,
+    design = subset(design_low_risk, bp_cat == 'Stage 1 hypertension')
   ) %>%
     tidy_svy(mult_by = 100) %>%
     transmute(
@@ -456,10 +481,12 @@ make_inline_results <- function(design_overall,
     medianPcrS1hDiabetes = medianPcrS1hDiabetes,
     medianPcrS1hOverall  = medianPcrS1hOverall,
     medianPcrS1hAny      = medianPcrS1hAny,
+    prevHighRiskOverall  = prevHighRiskOverall,
     prevHighRiskCkd      = prevHighRiskCkd,
     prevHighRiskDiabetes = prevHighRiskDiabetes,
     prevHighRiskAge65    = prevHighRiskAge65,
     prevHighRiskAny      = prevHighRiskAny,
+    prevHighRiskS1hOverall  = prevHighRiskS1hOverall,
     prevHighRiskS1hCkd      = prevHighRiskS1hCkd,
     prevHighRiskS1hDiabetes = prevHighRiskS1hDiabetes,
     prevHighRiskS1hAge65    = prevHighRiskS1hAge65,
@@ -468,7 +495,7 @@ make_inline_results <- function(design_overall,
     propLowRiskAge65        = propLowRiskAge65,
     propLowRiskCkd          = propLowRiskCkd,
     propLowRiskDiabetes     = propLowRiskDiabetes,
-    propLowRiskOverall      = propLowRiskOverall,
+    propLowRiskS1hOverall   = propLowRiskS1hOverall,
     propLowRiskS1hAge65     = propLowRiskS1hAge65,
     propLowRiskS1hCkd       = propLowRiskS1hCkd,
     propLowRiskS1hDiabetes  = propLowRiskS1hDiabetes,
