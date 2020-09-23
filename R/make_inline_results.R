@@ -248,7 +248,8 @@ make_inline_results <- function(design_overall,
       variable,
       bp_cat = replace(bp_cat, is.na(bp_cat), "overall"),
       bp_cat = fct_inorder(bp_cat),
-      inline = table_glue('{100*pcr_highrisk} (95% CI: {100*lwr}, {100*upr})')
+      across(c(pcr_highrisk, lwr, upr), ~.x * 100),
+      inline = table_glue('{pcr_highrisk}% ({lwr}%, {upr}%)')
     ) %>%
     arrange(bp_cat)
 
@@ -257,7 +258,7 @@ make_inline_results <- function(design_overall,
     as_tibble() %>%
     set_names(c('est', 'lwr', 'upr')) %>%
     mutate(across(everything(), ~.x * 100)) %>%
-    mutate(inline = table_glue('{est} (95% CI: {lwr}, {upr})')) %>%
+    mutate(inline = table_glue('{est}% ({lwr}%, {upr}%)')) %>%
     pull(inline)
 
   prevHighRiskS1hOverall <- prevHighRisk %>%
@@ -347,6 +348,16 @@ make_inline_results <- function(design_overall,
     ) %>%
     pull(string)
 
+  propLowRiskAny <- svyciprop(
+    formula = ~ ascvd_risk_pcr < 0.05,
+    design = subset(design_low_risk, any_ckd_diab_age65 == 'yes')
+  ) %>%
+    tidy_svy(mult_by = 100) %>%
+    transmute(
+      string = table_glue("{est}% (95% CI: {lwr}%, {upr}%)")
+    ) %>%
+    pull(string)
+
   propLowRiskS1hOverall <- svyciprop(
     formula = ~ ascvd_risk_pcr < 0.05,
     design = subset(design_low_risk, bp_cat == 'Stage 1 hypertension')
@@ -382,6 +393,17 @@ make_inline_results <- function(design_overall,
   propLowRiskS1hAge65 <- svyciprop(
     formula = ~ ascvd_risk_pcr < 0.05,
     design = subset(design_low_risk, age_gt65 == 'yes' &
+                      bp_cat == 'Stage 1 hypertension')
+  ) %>%
+    tidy_svy(mult_by = 100) %>%
+    transmute(
+      string = table_glue("{est}% (95% CI: {lwr}%, {upr}%)")
+    ) %>%
+    pull(string)
+
+  propLowRiskS1hAny <- svyciprop(
+    formula = ~ ascvd_risk_pcr < 0.05,
+    design = subset(design_low_risk, any_ckd_diab_age65 == 'yes' &
                       bp_cat == 'Stage 1 hypertension')
   ) %>%
     tidy_svy(mult_by = 100) %>%
@@ -495,10 +517,12 @@ make_inline_results <- function(design_overall,
     propLowRiskAge65        = propLowRiskAge65,
     propLowRiskCkd          = propLowRiskCkd,
     propLowRiskDiabetes     = propLowRiskDiabetes,
+    propLowRiskAny          = propLowRiskAny,
     propLowRiskS1hOverall   = propLowRiskS1hOverall,
     propLowRiskS1hAge65     = propLowRiskS1hAge65,
     propLowRiskS1hCkd       = propLowRiskS1hCkd,
     propLowRiskS1hDiabetes  = propLowRiskS1hDiabetes,
+    propLowRiskS1hAny       = propLowRiskS1hAny,
     ageHighRiskOvrlNoComorb      = ageHighRiskOvrlNoComorb,
     ageHighRiskOvrlDiabetes      = ageHighRiskOvrlDiabetes,
     ageHighRiskOvrlCkd           = ageHighRiskOvrlCkd,
