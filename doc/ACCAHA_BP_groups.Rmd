@@ -132,6 +132,22 @@ Byron C. Jaeger^1^, Swati Sakhuja^2^, Shakia T. Hardy^2^, Philip Akinyelure^2^, 
 
 \newpage
 
+# ABSTRACT
+
+_Note: Maximum word count is 250_
+
+__Background:__ The 2017 American College of Cardiology / American Heart Association blood pressure (BP) guideline recommends predicting 10-year atherosclerotic cardiovascular disease (ASCVD) risk for adults with hypertension to establish a BP treatment threshold. It has been suggested that most adults with diabetes, chronic kidney disease (CKD), and age≥65 years have 10-year predicted ASCVD risk≥10%.
+
+__Objectives:__ In subgroups of US adults defined by diabetes, CKD, and age≥65 years, determine whether the majority have high ASCVD risk (i.e., 10-year predicted ASCVD risk≥10% or prevalent CVD), and estimate age-adjusted probability of high ASCVD risk.
+
+__Methods:__ Adults aged 40-79 years from the 2013-2018 National Health and Nutrition Examination Survey were included. Age-adjusted probability of high ASCVD risk was estimated using logistic regression. Analyses were conducted overall and among those with stage 1 hypertension.
+
+__Results:__ Among US adults overall (with stage 1 hypertension), an estimated 72.5% (55.0%), 64.5% (36.7%), 83.9% (72.6%), and 69.1% (54.4%) had high ASCVD risk in subgroups with diabetes, CKD, age≥65 years, and any of these conditions, respectively. Probability of high ASCVD risk exceeded 50% in subgroups with diabetes, CKD, and neither diabetes nor CKD at age 54, 59, and 65 years, respectively.
+
+__Conclusions:__ While the majority of US adults with diabetes, CKD, or age≥65 years had high ASCVD risk, a substantial proportion with stage 1 hypertension did not. Predicted 10-year ASCVD risk is heterogeneous among adults with stage 1 hypertension and diabetes or CKD, and should be computed for all adults with hypertension to establish appropriate BP treatment thresholds. 
+
+\newpage
+# 
 In November 2017, the `r ACC_AHA()` published a guideline for the prevention, detection, evaluation, and management of high `r BP()` in adults.[@whelton20182017] This guideline recommends using both predicted risk for `r CVD()` and `r BP()` levels to guide the initiation of antihypertensive medication.  All adults with `r SBP()` ≥ 140 mm Hg or `r DBP()` ≥ 90 mm Hg, stage 2 hypertension in the guideline, are recommended to initiate antihypertensive medication. Additionally, adults with `r SBP()` between 130 and 139 mm Hg and/or `r DBP()` between 80 and 89 mm Hg, stage 1 hypertension in the guideline, who have prevalent diabetes mellitus, prevalent `r CKD()`, age ≥ 65 years, or high `r ASCVD()` risk are recommended to initiate antihypertensive medication. High `r ASCVD()` risk is defined as prevalent `r CVD()` or a 10-year predicted risk for `r ASCVD()` ≥ 10% 
 
 <br>
