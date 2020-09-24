@@ -53,7 +53,7 @@ make_inline_results <- function(design_overall,
   ) %>%
     tidy_svy(mult_by = 100) %>%
     transmute(
-      string = table_glue("{est}% (95% CI: {lwr}%, {upr}%)")
+      string = table_glue("{est}% ({lwr}%, {upr}%)")
     ) %>%
     pull(string)
 
