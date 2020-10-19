@@ -5,7 +5,7 @@
 ##' @title
 ##' @param design_overall
 ##' @param qts
-visualize_risk_hist <- function(design, qts, risk_10yr) {
+visualize_risk_hist <- function(design, qts, fig_text) {
 
   # do not include participants with CVD history
   design <- subset(design, ever_had_ascvd == 'no' & ascvd_risk_pcr <= 0.10)
@@ -61,12 +61,12 @@ visualize_risk_hist <- function(design, qts, risk_10yr) {
         aes(x = x, y = perc_val, label = perc_lab) +
         geom_bar(stat = 'identity', fill = 'grey80',
                  color = 'grey80', alpha = 0.50) +
-        geom_text(vjust = -1) +
+        geom_text(vjust = -1, family = 'Times') +
         theme_bw() +
         theme(panel.grid = element_blank(),
-              text = element_text(size = 10, colour = 'black'),
-              axis.text = element_text(size = 10, color = 'black'),
-              strip.text = element_text(size = 10)) +
+              text = fig_text,
+              axis.text = fig_text,
+              legend.text = fig_text) +
         scale_x_continuous(labels = percent) +
         scale_y_continuous(labels = percent,
                            limits = c(0,1),

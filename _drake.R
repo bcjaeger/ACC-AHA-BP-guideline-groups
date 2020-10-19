@@ -13,8 +13,15 @@ drake_config(
   lock_envir = FALSE,
   seed = 329730,
   prework = {
-    round_spec() %>%
-      round_using_decimal(digits = 1) %>%
-      default_rounder_set()
+
+    windowsFonts(Times = 'Times New Roman')
+
+    rspec <- round_spec() %>%
+      round_using_decimal(digits = 1)
+
+    names(rspec) <- paste('table.glue', names(rspec), sep = '.')
+
+    options(rspec)
+
   }
 )

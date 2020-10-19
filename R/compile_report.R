@@ -87,19 +87,19 @@ compile_report <- function(exams,
 
   ftr_ckd <- as_paragraph(glue('Chronic kidney disease is defined by an albumin-to-creatinine ratio \u2265 {acr_cutpoint} mg/dl or an estimated glomerular filtration rate < {egfr_cutpoint} ml/min/1.73m\u00b2'))
 
-  ftr_diab <- as_paragraph(glue('Diabetes was defined by fasting serum glucose \u2265 {gluc_cutpoint_fasted} mg/dL, non-fasting glucose \u2265 {gluc_cutpoint_fed} mg/dL, HbA1c \u2265 {hba1c_cutpoint}%, or self-reported use of insulin or oral glucose lowering medication.'))
+  ftr_diab <- as_paragraph(glue('Diabetes was defined by fasting serum glucose \u2265 {gluc_cutpoint_fasted} mg/dL, non-fasting glucose \u2265 {gluc_cutpoint_fed} mg/dL, glycated hemoglobin (HbA1c) \u2265 {hba1c_cutpoint}%, or self-reported use of insulin or oral glucose lowering medication.'))
 
   bp_cat_guide <- as_paragraph(paste(
     "Normal blood pressure: systolic blood pressure < 120 mm Hg and diastolic blood pressure < 80 mm Hg;",
     "Elevated blood pressure: systolic blood pressure from 120 to 129 mm Hg and diastolic blood pressure < 80 mm Hg;",
-    "Stage 1 hypertension: systolic blood pressure between 130 and 139 mm Hg and/or diastolic blood pressure between 80 and 89 mm Hg with systolic blood pressure < 140 mm Hg and diastolic blood pressure < 90 mm Hg;",
+    "Stage 1 hypertension: systolic blood pressure between 130 and 139 mm Hg or diastolic blood pressure between 80 and 89 mm Hg;",
     "Stage 2 hypertension: systolic blood pressure \u2265 140 mm Hg or diastolic blood pressure \u2265 90 mm Hg.",
     sep = '\n'
   ))
 
-  ftr_cvdHx <- as_paragraph('High atherosclerotic cardiovascular disease risk was defined by a 10-year predicted risk for atherosclerotic cardiovascular disease \u2265 10% or prevalent cardiovascular disease')
+  ftr_cvdHx <- as_paragraph('High atherosclerotic cardiovascular disease risk was defined by a 10-year predicted risk for atherosclerotic cardiovascular disease \u2265 10% or clinical cardiovascular disease')
 
-  ftr_cvdHx_defn <- as_paragraph('Prevalent cardiovascular disease was defined by self-report of previous heart failure, coronary heart disease, stroke, or myocardial infarction')
+  ftr_cvdHx_defn <- as_paragraph('Clinical cardiovascular disease was defined by self-report of previous heart failure, coronary heart disease, stroke, or myocardial infarction')
 
   ftr_prisk_defn <- as_paragraph('Predicted risk for atherosclerotic cardiovascular disease was computed using the Pooled Cohort risk equations, based on the guideline by American College of Cardiology / American Heart Association, 2013')
 
@@ -201,7 +201,7 @@ compile_report <- function(exams,
     footnote(i=2, j=3, part='header', value=ftr_diab, ref_symbols=fts[2]) %>%
     footnote(i=2, j=4, part='header', value=ftr_ckd, ref_symbols=fts[3]) %>%
     footnote(
-      i = ~ level == 'Prevalent CVD',
+      i = ~ level == 'Clinical CVD',
       j = 1,
       part = 'body',
       value = ftr_cvdHx_defn,
@@ -217,7 +217,7 @@ compile_report <- function(exams,
 
   tbls_main %<>% add_row(
     object = list(.tbl1_overall),
-    caption = "Characteristics of US adults overall and in subgroups defined by diabetes, chronic kidney disease, and \u2265 65 years of age",
+    caption = "Characteristics of US adults 40-79 years of age overall and in subgroups defined by diabetes, chronic kidney disease, and \u2265 65 years of age",
     reference = 'tab_characteristics'
   )
 
@@ -255,7 +255,7 @@ compile_report <- function(exams,
 
   tbls_main %<>% add_row(
     object = list(.tbl_bpdist),
-    caption = "Estimated distribution of blood pressure categories among US adults, overall and for subgroups defined by diabetes, chronic kidney disease, and \u2265 65 years of age.",
+    caption = "Distribution of blood pressure categories among US adults, overall and for subgroups defined by diabetes, chronic kidney disease, and aged \u2265 65 years.",
     reference = 'tab_bpdist'
   )
 
@@ -274,7 +274,7 @@ compile_report <- function(exams,
         mean_risk = 'Mean (95% confidence interval) predicted risk',
         median_risk = paste('Median (25th - 75th percentile)',
                             risk_10yr,
-                            'among those without prevalent CVD')
+                            'among those without clinical CVD')
       )
     ) %>%
     as_grouped_data(groups = 'group') %>%
@@ -378,7 +378,7 @@ compile_report <- function(exams,
     footnote(i=2, j=3, part='header', value=ftr_diab, ref_symbols=fts[2]) %>%
     footnote(i=2, j=4, part='header', value=ftr_ckd, ref_symbols=fts[3]) %>%
     footnote(
-      i = ~ level == 'Prevalent CVD',
+      i = ~ level == 'Clinical CVD',
       j = 1,
       part = 'body',
       value = ftr_cvdHx_defn,
@@ -394,7 +394,7 @@ compile_report <- function(exams,
 
   tbls_supp %<>% add_row(
     object = list(.tbl1_s1hyp),
-    caption = "Characteristics of US adults with stage 1 hypertension, overall and for subgroups defined by diabetes, chronic kidney disease, and \u2265 65 years of age",
+    caption = "Characteristics of US adults with stage 1 hypertension, overall and for subgroups defined by diabetes, chronic kidney disease, and \u2265 65 years of age.",
     reference = 'tab_risk_stg1'
   )
 
@@ -402,8 +402,8 @@ compile_report <- function(exams,
 
   figs_supp %<>% add_row(
     object  = list('fig/include_exclude.png'),
-    caption = "Flowchart showing the number of NHANES participants included in the current analyses.",
-    legend = '\\* The Completed NHANES interview and exam cells include number with the response rate in parentheses.',
+    caption = "Flowchart showing the application of the inclusion criteria to National Health and Nutrition Examination Survey 2013-2018 participants",
+    legend = '\\* The completed National Health and Nutrition Examination Survey interview and exam cells include number with the response rate in parentheses.',
     reference = 'fig_include_exclude')
 
   # figure: cdfs of pcr_risk for all bp categories (A) ----
@@ -411,16 +411,16 @@ compile_report <- function(exams,
   figs_main %<>%
     add_row(
       object  = list(fig_hist_ovrl),
-      caption = "Estimated distribution of 10-year predicted risk for atherosclerotic cardiovascular disease among US adults with predicted risk < 10%, overall and for subgroups defined by diabetes, chronic kidney disease, and \u2265 65 years of age.",
-      legend  = '\\* Results do not include data from survey participants with prevalent cardiovascular disease or 10-year predicted risk for atherosclerotic cardiovascular disease \u2265 10%.',
+      caption = "Distribution of 10-year predicted risk for atherosclerotic cardiovascular disease among US adults with predicted risk < 10%, overall and for subgroups defined by diabetes, chronic kidney disease, and \u2265 65 years of age.",
+      legend  = '\\* The distributions are restricted to US adults without clinical cardiovascular disease and 10-year predicted atherosclerotic cardiovascular disease risk < 10%.',
       reference = 'fig_hist_ovrl'
     )
 
   figs_supp %<>%
     add_row(
       object  = list(fig_hist_stg1),
-      caption = "Estimated distribution of 10-year predicted risk for atherosclerotic cardiovascular disease among US adults with stage 1 hypertension and predicted risk < 10%, overall and for subgroups defined by diabetes, chronic kidney disease, and \u2265 65 years of age.",
-      legend  = '\\* Results do not include data from survey participants with prevalent cardiovascular disease or 10-year predicted risk for atherosclerotic cardiovascular disease \u2265 10%.',
+      caption = "Distribution of 10-year predicted risk for atherosclerotic cardiovascular disease among US adults with stage 1 hypertension and predicted risk < 10%, overall and for subgroups defined by diabetes, chronic kidney disease, and \u2265 65 years of age.",
+      legend  = '\\* The distributions are restricted to US adults without clinical cardiovascular disease and 10-year predicted atherosclerotic cardiovascular disease risk < 10%.',
       reference = 'fig_hist_stg1'
     )
 
@@ -431,12 +431,11 @@ compile_report <- function(exams,
     add_row(
       object  = list(fig_risk_ovrl_bnry),
       caption = glue(
-        "Estimated Probability of ten-year predicted risk for",
-        "atherosclerotic cardiovascular disease \u2265 10% by age for",
-        "US adults with diabetes, with chronic kidney disease, and without",
-        "diabetes or chronic kidney disease.",
+        "Estimated probability of high atherosclerotic cardiovascular",
+        "disease risk for US adults with diabetes, with chronic kidney",
+        "disease, and without diabetes or chronic kidney disease.",
         .sep = ' '),
-      legend = '\\* Age at which 50% of the population is expected to have a  predicted 10-year risk for atherosclerotic cardiovascular disease \u2265 10%.',
+      legend = '\\* Age at which 50% of the subgroup is estimated to have high atherosclerotic cardiovascular disease risk, defined as a predicted 10-year atherosclerotic cardiovascular disease risk \u2265 10% or clinical cardiovascular disease.',
       reference = 'fig_risk_ovrl'
     )
 
@@ -446,13 +445,12 @@ compile_report <- function(exams,
     add_row(
       object  = list(fig_risk_stg1_bnry),
       caption = glue(
-        "Estimated Probability of ten-year predicted risk for",
-        "atherosclerotic cardiovascular disease \u2265 10% by age among",
-        "US adults with stage 1 hypertension and diabetes,",
-        "chronic kidney disease, and without",
+        "Estimated Probability of high atherosclerotic cardiovascular",
+        "disease risk for US adults with stage 1 hypertension and",
+        "with diabetes, with chronic kidney disease, and without ",
         "diabetes or chronic kidney disease.",
         .sep = ' '),
-      legend = '\\* Age at which 50% of the population is expected to have a predicted 10-year risk for atherosclerotic cardiovascular disease \u2265 10%.',
+      legend = '\\* Age at which 50% of the subgroup is estimated to have high atherosclerotic cardiovascular disease risk, defined as a predicted 10-year atherosclerotic cardiovascular disease risk \u2265 10% or clinical cardiovascular disease.',
       reference = 'fig_risk_stg1'
     )
 
@@ -470,8 +468,8 @@ compile_report <- function(exams,
                         false = as.character(pre_cap)),
       object = map(object,
                    table_polisher,
-                   font_size = 11,
-                   font_name = "Calibri")
+                   font_size = 12,
+                   font_name = "Times New Roman")
     )
 
   figs <- bind_rows(figure_main = figs_main,

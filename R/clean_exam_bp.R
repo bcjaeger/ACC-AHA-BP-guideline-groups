@@ -57,7 +57,6 @@ clean_exam_bp <- function(
   # Some participants have zero BP values. taking their mean results in
   # NaN (not a number). I set these NaN values to missing.
 
-
   data_cleaned_bp <- select(
     data_all,
     exam,

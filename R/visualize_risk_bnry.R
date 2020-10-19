@@ -11,7 +11,8 @@
 ##'
 visualize_risk_bnry <- function(risk_models,
                                 bp_level,
-                                color_key) {
+                                color_key,
+                                fig_text) {
 
   .design <- risk_models %>%
     filter(bp_cat == bp_level) %>%
@@ -45,7 +46,7 @@ visualize_risk_bnry <- function(risk_models,
         .f = .variable,
         'Diabetes' = 'diabetes',
         'Chronic kidney disease' = 'ckd',
-        'No Diabetes or chronic kidney disease' = 'no_diabetes_or_ckd'
+        'No Diabetes or\nchronic kidney disease' = 'no_diabetes_or_ckd'
       )
     )
 
@@ -62,9 +63,17 @@ visualize_risk_bnry <- function(risk_models,
         .f = .variable,
         'Diabetes' = 'diabetes',
         'Chronic kidney disease' = 'ckd',
-        'No diabetes or chronic kidney disease' = 'no_diabetes_or_ckd'
+        'No diabetes or\nchronic kidney disease' = 'no_diabetes_or_ckd'
       )
     )
+
+  name_to_update <- which(
+    names(color_key) == 'No diabetes or chronic kidney disease'
+  )
+
+  names(color_key)[name_to_update] <-
+    'No diabetes or\nchronic kidney disease'
+
 
   age_quants %<>%
     rename(age2 = age) %>%
@@ -97,8 +106,8 @@ visualize_risk_bnry <- function(risk_models,
   )
 
   ggplot(ggdat) +
-    aes(x = age, y = est, col = .variable) +
-    geom_line() +
+    aes(x = age, y = est, col = .variable, linetype = .variable) +
+    geom_line(size = 1) +
     geom_hline(yintercept = 0.50, col = 'grey', linetype = 2) +
     geom_point(
       data = vertical_lines,
@@ -110,16 +119,17 @@ visualize_risk_bnry <- function(risk_models,
       nudge_x = nudge_x,
       nudge_y = nudge_y,
       show.legend = FALSE,
+      family = 'Times',
       mapping = aes(x = cpoint,
                     y = est,
                     label = paste0(round(cpoint, 0),'*'))
     ) +
-    geom_line(size = 0.9) +
     scale_color_manual(values = color_key[levels(ggdat$.variable)]) +
+    scale_linetype_manual("", values = c(1,2,3)) +
     theme_bw() +
     labs(
       x = 'Age, years',
-      y = 'Estimated probability that 10-year\npredicted risk for ASCVD is \u226510%',
+      y = 'Estimated probability of high ASCVD risk',
       color = ''
     ) +
     scale_x_continuous(
@@ -130,8 +140,12 @@ visualize_risk_bnry <- function(risk_models,
                        expand = c(0,0)) +
     theme(
       panel.grid = element_blank(),
-      legend.position = c(0.25, 0.85),
-      legend.background = element_rect(fill=alpha('white', 0.0))
+      legend.position = c(0.25, 0.95),
+      legend.background = element_rect(fill=alpha('white', 0.0)),
+      legend.key.width = unit(1.2,"cm"),
+      text = fig_text,
+      axis.text = fig_text,
+      legend.text = fig_text
     )
 
 }

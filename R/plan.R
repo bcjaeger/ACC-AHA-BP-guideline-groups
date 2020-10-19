@@ -101,16 +101,17 @@ the_plan <- drake_plan(
     "Age, years" = "age",
     "Gender" = "sex",
     "Race / ethnicity" = "race_ethnicity",
+    "Current smoker" = "smk_current",
     "Total cholesterol, mg/dl" = "chol_total_mgdl",
     "HDL-cholesterol, mg/dl" = "chol_hdl_mgdl",
     "Systolic blood pressure, mm Hg" = "bp_sys_mmhg",
     "Diastolic blood pressure, mm Hg" = "bp_dia_mmhg",
     "Antihypertensive medication use" = "meds_bp",
     "Diabetes" = "diabetes",
-    "Chronic kidney disease" = "ckd",
+    "CKD" = "ckd",
     "Aged 65+ years" = "age_gt65",
-    "Current smoker" = "smk_current",
-    "Prevalent CVD" = "ever_had_ascvd"
+    "Diabetes, chronic kidney disease, or age 65+ years" = 'any_ckd_diab_age65',
+    "Clinical CVD" = "ever_had_ascvd"
   ),
 
   # Tables ----
@@ -135,7 +136,12 @@ the_plan <- drake_plan(
                 "No diabetes or chronic kidney disease" = "#8D4B08FF"),
 
   qts = seq(0.001, 0.999, by = 0.0001),
-  fig_hist = visualize_risk_hist(design_overall, qts),
+
+  fig_text = element_text(family = 'Times',
+                          size = 12,
+                          color = 'black'),
+
+  fig_hist = visualize_risk_hist(design_overall, qts, fig_text),
 
   age_breaks = seq(40, 79, by = .001),
 
@@ -143,13 +149,19 @@ the_plan <- drake_plan(
 
   fig_risk_ovrl_bnry = visualize_risk_bnry(risk_models,
                                            bp_level = 'ovrl',
-                                           color_key = color_key),
+                                           color_key = color_key,
+                                           fig_text = fig_text),
 
   fig_risk_stg1_bnry = visualize_risk_bnry(risk_models,
                                            bp_level = 'stg1',
-                                           color_key = color_key),
+                                           color_key = color_key,
+                                           fig_text = fig_text),
+
 
   inline = make_inline_results(design_overall, design_s1hyp, risk_models),
+
+  fig_central_illustration = visualize_central_illustration(tbl_bpdist,
+                                                            inline),
 
   report = compile_report(
     exams,

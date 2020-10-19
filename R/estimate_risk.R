@@ -72,12 +72,12 @@ pcr_model_bnry <- function(.variable, .design, age_breaks){
 
   if(.variable == 'Overall'){
 
-    mdl_f <- pcr_gteq_10 ~ age
+    mdl_f <- pcr_highrisk ~ age
 
   } else {
 
     mdl_f <- as.formula(
-      glue("pcr_gteq_10 ~ age * {.variable}")
+      glue("pcr_highrisk ~ age * {.variable}")
     )
 
     data_grid[[.variable]] <- 'yes'

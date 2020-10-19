@@ -309,7 +309,7 @@ make_inline_results <- function(design_overall,
   design_low_risk <- subset(design_overall, pcr_highrisk == 'no')
 
   propLowRiskOverall <- svyciprop(
-    formula = ~ ascvd_risk_pcr < 0.05,
+    formula = ~ ascvd_risk_pcr < 0.025,
     design = design_low_risk
   ) %>%
     tidy_svy(mult_by = 100) %>%
@@ -319,7 +319,7 @@ make_inline_results <- function(design_overall,
     pull(string)
 
   propLowRiskDiabetes <- svyciprop(
-    formula = ~ ascvd_risk_pcr < 0.05,
+    formula = ~ ascvd_risk_pcr < 0.025,
     design = subset(design_low_risk, diabetes == 'yes')
   ) %>%
     tidy_svy(mult_by = 100) %>%
@@ -329,7 +329,7 @@ make_inline_results <- function(design_overall,
     pull(string)
 
   propLowRiskCkd <- svyciprop(
-    formula = ~ ascvd_risk_pcr < 0.05,
+    formula = ~ ascvd_risk_pcr < 0.025,
     design = subset(design_low_risk, ckd == 'yes')
   ) %>%
     tidy_svy(mult_by = 100) %>%
@@ -339,7 +339,7 @@ make_inline_results <- function(design_overall,
     pull(string)
 
   propLowRiskAge65 <- svyciprop(
-    formula = ~ ascvd_risk_pcr < 0.05,
+    formula = ~ ascvd_risk_pcr < 0.025,
     design = subset(design_low_risk, age_gt65 == 'yes')
   ) %>%
     tidy_svy(mult_by = 100) %>%
@@ -349,7 +349,7 @@ make_inline_results <- function(design_overall,
     pull(string)
 
   propLowRiskAny <- svyciprop(
-    formula = ~ ascvd_risk_pcr < 0.05,
+    formula = ~ ascvd_risk_pcr < 0.025,
     design = subset(design_low_risk, any_ckd_diab_age65 == 'yes')
   ) %>%
     tidy_svy(mult_by = 100) %>%
@@ -359,7 +359,7 @@ make_inline_results <- function(design_overall,
     pull(string)
 
   propLowRiskS1hOverall <- svyciprop(
-    formula = ~ ascvd_risk_pcr < 0.05,
+    formula = ~ ascvd_risk_pcr < 0.025,
     design = subset(design_low_risk, bp_cat == 'Stage 1 hypertension')
   ) %>%
     tidy_svy(mult_by = 100) %>%
@@ -369,7 +369,7 @@ make_inline_results <- function(design_overall,
     pull(string)
 
   propLowRiskS1hDiabetes <- svyciprop(
-    formula = ~ ascvd_risk_pcr < 0.05,
+    formula = ~ ascvd_risk_pcr < 0.025,
     design = subset(design_low_risk, diabetes == 'yes' &
                       bp_cat == 'Stage 1 hypertension')
   ) %>%
@@ -380,7 +380,7 @@ make_inline_results <- function(design_overall,
     pull(string)
 
   propLowRiskS1hCkd <- svyciprop(
-    formula = ~ ascvd_risk_pcr < 0.05,
+    formula = ~ ascvd_risk_pcr < 0.025,
     design = subset(design_low_risk, ckd == 'yes' &
                       bp_cat == 'Stage 1 hypertension')
   ) %>%
@@ -391,7 +391,7 @@ make_inline_results <- function(design_overall,
     pull(string)
 
   propLowRiskS1hAge65 <- svyciprop(
-    formula = ~ ascvd_risk_pcr < 0.05,
+    formula = ~ ascvd_risk_pcr < 0.025,
     design = subset(design_low_risk, age_gt65 == 'yes' &
                       bp_cat == 'Stage 1 hypertension')
   ) %>%
@@ -402,7 +402,7 @@ make_inline_results <- function(design_overall,
     pull(string)
 
   propLowRiskS1hAny <- svyciprop(
-    formula = ~ ascvd_risk_pcr < 0.05,
+    formula = ~ ascvd_risk_pcr < 0.025,
     design = subset(design_low_risk, any_ckd_diab_age65 == 'yes' &
                       bp_cat == 'Stage 1 hypertension')
   ) %>%

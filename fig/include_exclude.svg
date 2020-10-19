@@ -403,7 +403,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
      inkscape:cx="423.01273"
-     inkscape:cy="738.16292"
+     inkscape:cy="881.02006"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -512,7 +512,9 @@
        y="134.50226"
        x="9.6939917"
        style="font-style:normal;font-variant:normal;font-weight:400;font-size:4.58611107px;line-height:125%;font-family:Calibri;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
-       xml:space="preserve"><tspan
+       xml:space="preserve"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"><tspan
          id="tspan1167"
          y="134.50226"
          x="31.776966"

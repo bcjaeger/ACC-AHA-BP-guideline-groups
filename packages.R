@@ -22,6 +22,7 @@ pacman::p_load(
   # reporting
   officer,
   glue,
+  broman,
   flextable,
   devEMF,
   magick,
@@ -43,3 +44,4 @@ conflicted::conflict_prefer('summarise', 'dplyr')
 conflicted::conflict_prefer('summarize', 'dplyr')
 conflicted::conflict_prefer("gather",    "tidyr")
 conflicted::conflict_prefer("set_names", "purrr")
+conflicted::conflict_prefer("make",      "drake")
