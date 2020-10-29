@@ -49,11 +49,17 @@ derive_others <- function(data, exams,
       ),
       # categorize pooled cohort risk
       pcr_gteq_10 = if_else(ascvd_risk_pcr >= 0.10, "yes", "no"),
+      pcr_gteq_10_yadlowsky = if_else(ascvd_risk_pcr_yadlowsky >= 0.10,
+                                      true = "yes", false = "no"),
       # set missing values to "no" for history of ASCVD
       ever_had_ascvd = replace(ever_had_ascvd, is.na(ever_had_ascvd), 'no'),
       # set high risk for participants with history of ASCVD
       pcr_highrisk = if_else(
         condition = pcr_gteq_10 == "yes" | ever_had_ascvd == "yes",
+        true = "yes", false = "no"
+      ),
+      pcr_highrisk_yadlowsky = if_else(
+        condition = pcr_gteq_10_yadlowsky == "yes" | ever_had_ascvd == "yes",
         true = "yes", false = "no"
       ),
       race_ethnicity = fct_collapse(
@@ -117,7 +123,9 @@ derive_others <- function(data, exams,
       ever_had_ascvd,
       ascvd_risk_pcr,
       pcr_gteq_10,
+      pcr_gteq_10_yadlowsky,
       pcr_highrisk,
+      pcr_highrisk_yadlowsky
     ) %>%
     mutate_if(is.character, as.factor)
 

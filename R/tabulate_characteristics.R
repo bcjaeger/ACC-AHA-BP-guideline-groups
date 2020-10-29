@@ -5,7 +5,7 @@
 ##' @title
 ##' @param design
 ##' @param variables
-tabulate_characteristics <- function(design, variables, decimals) {
+tabulate_characteristics <- function(design, variables) {
 
   tb1_ovrl <- variables %>%
     map(tb1_fun, design = design) %>%
@@ -13,35 +13,39 @@ tabulate_characteristics <- function(design, variables, decimals) {
 
   tb1_diab <- variables %>%
     map(.f = tb1_fun,
-        design = subset(design, diabetes == 'yes'),
-        decimals = decimals) %>%
+        design = subset(design, diabetes == 'yes')) %>%
     bind_rows(.id = 'label')
 
   tb1_ckd <- variables %>%
     map(tb1_fun,
-        design = subset(design, ckd == 'yes'),
-        decimals = decimals) %>%
+        design = subset(design, ckd == 'yes')) %>%
     bind_rows(.id = 'label')
-
-  # tb1_diab_and_ckd <- variables %>%
-  #   map(tb1_fun,
-  #       design = subset(design, diabetes_and_ckd == 'yes'),
-  #       decimals = decimals) %>%
-  #   bind_rows(.id = 'label')
 
   tb1_age <- variables %>%
     map(tb1_fun,
-        design = subset(design, age >= 65),
-        decimals = decimals) %>%
+        design = subset(design, age >= 65)) %>%
     bind_rows(.id = 'label')
 
   tb1_any <- variables %>%
     map(tb1_fun,
-        design = subset(design, any_ckd_diab_age65 == "yes"),
-        decimals = decimals) %>%
+        design = subset(design, any_ckd_diab_age65 == "yes")) %>%
     bind_rows(.id = 'label')
 
-  tb1 <- bind_rows(
+  tb1_inline <- bind_rows(
+    overall = tb1_ovrl,
+    diabetes = tb1_diab,
+    ckd = tb1_ckd,
+    age_gt65 = tb1_age,
+    any = tb1_any,
+    .id = 'name'
+  ) %>%
+    mutate(variable = recode(label, !!!variables)) %>%
+    select(name, variable, level, value) %>%
+    as_inline(tbl_variables = c('name', 'variable', 'level'),
+              tbl_value = 'value')
+
+
+  tb1_data <- bind_rows(
     Overall = tb1_ovrl,
     Diabetes = tb1_diab,
     'CKD' = tb1_ckd,
@@ -62,10 +66,13 @@ tabulate_characteristics <- function(design, variables, decimals) {
     ) %>%
     select(-ctns, -n)
 
+  list(table = tb1_data,
+       inline = tb1_inline)
+
 }
 
 
-tb1_fun <- function(.x, by = NULL, design, decimals){
+tb1_fun <- function(.x, by = NULL, design){
 
   do_by <- !is.null(by)
 

@@ -35,6 +35,7 @@ pacman::p_load(
   Hmisc
 )
 
+pacman::p_load_gh('bcjaeger/PooledCohort', update = FALSE)
 pacman::p_load_gh('bcjaeger/table.glue', update = FALSE)
 
 conflicted::conflict_prefer("roc",       "pROC")

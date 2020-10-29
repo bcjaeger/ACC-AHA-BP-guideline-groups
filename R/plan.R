@@ -95,6 +95,16 @@ the_plan <- drake_plan(
                              weights = ~wts_mec_2yr, nest = TRUE,
                              data = current_analysis$data),
 
+  design_overall_supp = svydesign(
+    ids = ~ psu,
+    strata = ~strata,
+    weights = ~wts_mec_2yr,
+    nest = TRUE,
+    data = mutate(current_analysis$data,
+                  pcr_gteq_10 = pcr_gteq_10_yadlowsky,
+                  pcr_highrisk = pcr_highrisk_yadlowsky)
+  ),
+
   design_s1hyp = subset(design_overall, bp_cat == 'Stage 1 hypertension'),
 
   tbl1_variables = c(
@@ -125,6 +135,7 @@ the_plan <- drake_plan(
   tbl_bpdist = tabulate_bpdist(design_overall),
 
   tbl_risk_overall = tabulate_risk_summary(design_overall),
+  tbl_risk_overall_supp = tabulate_risk_summary(design_overall_supp),
 
   # Figures ----
 
@@ -160,7 +171,7 @@ the_plan <- drake_plan(
 
   inline = make_inline_results(design_overall, design_s1hyp, risk_models),
 
-  fig_central_illustration = visualize_central_illustration(tbl_bpdist,
+  fig_central_illustration = visualize_central_illustration(tbl_bpdist$table,
                                                             inline),
 
   report = compile_report(
@@ -174,10 +185,11 @@ the_plan <- drake_plan(
     acr_cutpoint,
     current_analysis,
     design_overall,
-    tbl1_overall,
-    tbl1_s1hyp,
-    tbl_bpdist,
+    tbl1_overall$table,
+    tbl1_s1hyp$table,
+    tbl_bpdist$table,
     tbl_risk_overall,
+    tbl_risk_overall_supp,
     current_analysis$tbl,
     fig_hist$ovrl,
     fig_hist$stg1,
@@ -193,6 +205,13 @@ the_plan <- drake_plan(
     command = {
       rmarkdown::render(knitr_in("doc/ACCAHA_BP_groups.Rmd"))
       file_out("doc/ACCAHA_BP_groups.docx")
+    }
+  ),
+
+  readme = target(
+    command = {
+      rmarkdown::render(knitr_in("README.Rmd"))
+      file_out("README.md")
     }
   )
 

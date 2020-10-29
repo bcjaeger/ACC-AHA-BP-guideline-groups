@@ -4,7 +4,7 @@
 ##'
 ##' @title
 ##' @param design
-tabulate_bpdist <- function(design, decimals) {
+tabulate_bpdist <- function(design) {
 
   fix_names <- function(.x, first_name = 'bp_cat'){
     if(ncol(.x) == 3){
@@ -14,7 +14,7 @@ tabulate_bpdist <- function(design, decimals) {
     }
   }
 
-  list(
+  tbl_data <- list(
     overall = ~ bp_cat,
     diabetes = ~ bp_cat + diabetes,
     ckd = ~ bp_cat + ckd,
@@ -30,5 +30,12 @@ tabulate_bpdist <- function(design, decimals) {
     select(-level) %>%
     group_by(variable) %>%
     mutate(n = table_glue("{100 * n / sum(n)}%"))
+
+  tbl_inline <- tbl_data %>%
+    as_inline(tbl_variables = c('variable', 'bp_cat'),
+              tbl_value = 'n')
+
+  list(table = tbl_data,
+       inline = tbl_inline)
 
 }

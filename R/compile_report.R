@@ -32,6 +32,7 @@ compile_report <- function(exams,
                            tbl1_s1hyp,
                            tbl_bpdist,
                            tbl_risk_overall,
+                           tbl_risk_overall_supp,
                            tbl_exclusions,
                            fig_hist_ovrl,
                            fig_hist_stg1,
@@ -85,7 +86,7 @@ compile_report <- function(exams,
 
   value_note <- as_paragraph("Table values are mean (standard error) or proportion.")
 
-  ftr_ckd <- as_paragraph(glue('Chronic kidney disease is defined by an albumin-to-creatinine ratio \u2265 {acr_cutpoint} mg/dl or an estimated glomerular filtration rate < {egfr_cutpoint} ml/min/1.73m\u00b2'))
+  ftr_ckd <- as_paragraph(glue('Chronic kidney disease is defined by an albumin-to-creatinine ratio \u2265 {acr_cutpoint} mg/g or an estimated glomerular filtration rate < {egfr_cutpoint} ml/min/1.73m\u00b2'))
 
   ftr_diab <- as_paragraph(glue('Diabetes was defined by fasting serum glucose \u2265 {gluc_cutpoint_fasted} mg/dL, non-fasting glucose \u2265 {gluc_cutpoint_fed} mg/dL, glycated hemoglobin (HbA1c) \u2265 {hba1c_cutpoint}%, or self-reported use of insulin or oral glucose lowering medication.'))
 
@@ -102,6 +103,7 @@ compile_report <- function(exams,
   ftr_cvdHx_defn <- as_paragraph('Clinical cardiovascular disease was defined by self-report of previous heart failure, coronary heart disease, stroke, or myocardial infarction')
 
   ftr_prisk_defn <- as_paragraph('Predicted risk for atherosclerotic cardiovascular disease was computed using the Pooled Cohort risk equations, based on the guideline by American College of Cardiology / American Heart Association, 2013')
+  ftr_prisk_defn_supp <- as_paragraph('Predicted risk for atherosclerotic cardiovascular disease was computed using an updated version of the Pooled Cohort risk equations from Yadlowsky et al., 2018')
 
   # sample sizes for table column headers -----------------------------------
 
@@ -262,94 +264,109 @@ compile_report <- function(exams,
 
   # table 3: % with high risk and median ------------------------------
 
-  .tbl_risk_overall <- tbl_risk_overall %>%
-    mutate(group = factor(group, levels = c('median_risk', 'high_risk'))) %>%
-    arrange(group) %>%
-    relocate(Overall, .before = diabetes) %>%
-    mutate(
-      group = recode(
-        group,
-        high_risk = paste('Proportion (95% confidence interval) with',
-                          risk_high),
-        mean_risk = 'Mean (95% confidence interval) predicted risk',
-        median_risk = paste('Median (25th - 75th percentile)',
-                            risk_10yr,
-                            'among those without clinical CVD')
-      )
-    ) %>%
-    as_grouped_data(groups = 'group') %>%
-    as_flextable(hide_grouplabel = TRUE) %>%
-    set_header_labels(
-      bp_cat = 'Blood pressure category',
-      Overall      = col_labels_ovrl$ovrl,
-      diabetes     = col_labels_ovrl$diab,
-      ckd          = col_labels_ovrl$ckd,
-      age_group    = col_labels_ovrl$age_gt65,
-      any          = col_labels_ovrl$any
-    ) %>%
-    add_header_row(values = c("", "Sub-groups"), colwidths = c(2, 4)) %>%
-    theme_box() %>%
-    bg(i = ~ !is.na(group), bg = 'grey80') %>%
-    italic(i = ~ !is.na(group), italic = TRUE) %>%
-    height(height = 1.5, part = 'header') %>%
-    width(width = 1.15) %>%
-    width(j = ~ bp_cat, width = 2) %>%
-    align(align = 'center', part = 'all') %>%
-    align(j = 1, align = 'left', part = 'all') %>%
-    footnote(
-      i = 2,
-      j = 1,
-      part = 'header',
-      value = bp_cat_guide,
-      ref_symbols = fts[1]
-    ) %>%
-    footnote(
-      i = 2,
-      j = 3,
-      part = 'header',
-      value = ftr_diab,
-      ref_symbols = fts[2]
-    ) %>%
-    footnote(
-      i = 2,
-      j = 4,
-      part = 'header',
-      value = ftr_ckd,
-      ref_symbols = fts[3]
-    ) %>%
-    footnote(
-      i = 1,
-      j = 1,
-      part = 'body',
-      value = ftr_prisk_defn,
-      ref_symbols = fts[5]
-    ) %>%
-    footnote(
-      i = 1,
-      j = 1,
-      part = 'body',
-      value = ftr_cvdHx_defn,
-      ref_symbols = fts[4]
-    ) %>%
-    footnote(
-      i = 8,
-      j = 1,
-      part = 'body',
-      value = ftr_cvdHx,
-      ref_symbols = fts[6]
-    ) %>%
-    footnote(
-      i = 1,
-      j = 1,
-      part = 'body',
-      value = as_paragraph(write_abbrevs(abbrevs[c("CKD", "CVD", "ASCVD")])),
-      ref_symbols = ''
+  .tbls_risk <- list(
+    overall = tbl_risk_overall,
+    supplement = tbl_risk_overall_supp
+  ) %>%
+    map2(
+      .y = list(ftr_prisk_defn, ftr_prisk_defn_supp),
+      .f = ~ .x %>%
+        mutate(
+          group = factor(group, levels = c('median_risk', 'high_risk'))
+        ) %>%
+        arrange(group) %>%
+        relocate(Overall, .before = diabetes) %>%
+        mutate(
+          group = recode(
+            group,
+            high_risk = paste('Proportion (95% confidence interval) with',
+                              risk_high),
+            mean_risk = 'Mean (95% confidence interval) predicted risk',
+            median_risk = paste('Median (25th - 75th percentile)',
+                                risk_10yr,
+                                'among those without clinical CVD')
+          )
+        ) %>%
+        as_grouped_data(groups = 'group') %>%
+        as_flextable(hide_grouplabel = TRUE) %>%
+        set_header_labels(
+          bp_cat = 'Blood pressure category',
+          Overall      = col_labels_ovrl$ovrl,
+          diabetes     = col_labels_ovrl$diab,
+          ckd          = col_labels_ovrl$ckd,
+          age_group    = col_labels_ovrl$age_gt65,
+          any          = col_labels_ovrl$any
+        ) %>%
+        add_header_row(values = c("", "Sub-groups"), colwidths = c(2, 4)) %>%
+        theme_box() %>%
+        bg(i = ~ !is.na(group), bg = 'grey80') %>%
+        italic(i = ~ !is.na(group), italic = TRUE) %>%
+        height(height = 1.5, part = 'header') %>%
+        width(width = 1.15) %>%
+        width(j = ~ bp_cat, width = 2) %>%
+        align(align = 'center', part = 'all') %>%
+        align(j = 1, align = 'left', part = 'all') %>%
+        footnote(
+          i = 2,
+          j = 1,
+          part = 'header',
+          value = bp_cat_guide,
+          ref_symbols = fts[1]
+        ) %>%
+        footnote(
+          i = 2,
+          j = 3,
+          part = 'header',
+          value = ftr_diab,
+          ref_symbols = fts[2]
+        ) %>%
+        footnote(
+          i = 2,
+          j = 4,
+          part = 'header',
+          value = ftr_ckd,
+          ref_symbols = fts[3]
+        ) %>%
+        footnote(
+          i = 1,
+          j = 1,
+          part = 'body',
+          value = .y,
+          ref_symbols = fts[5]
+        ) %>%
+        footnote(
+          i = 1,
+          j = 1,
+          part = 'body',
+          value = ftr_cvdHx_defn,
+          ref_symbols = fts[4]
+        ) %>%
+        footnote(
+          i = 8,
+          j = 1,
+          part = 'body',
+          value = ftr_cvdHx,
+          ref_symbols = fts[6]
+        ) %>%
+        footnote(
+          i = 1,
+          j = 1,
+          part = 'body',
+          value = as_paragraph(write_abbrevs(abbrevs[c("CKD", "CVD", "ASCVD")])),
+          ref_symbols = ''
+        )
     )
 
   tbls_main %<>% add_row(
-    object = list(.tbl_risk_overall),
-    caption = "Median 10-year predicted risk for atherosclerotic cardiovascular disease and proportion of US adults with high atherosclerotic cardiovascular disease risk overall and for subgroups defined by diabetes, chronic kidney disease, and \u2265 65 years of age, stratified by blood pressure categories based on the 2017 American College of Cardiology / American Heart Association blood pressure guidelines.",
+    object = list(.tbls_risk$overall),
+    caption = "Median 10-year predicted risk for atherosclerotic cardiovascular disease and proportion of US adults with high atherosclerotic cardiovascular disease risk overall and for subgroups defined by diabetes, chronic kidney disease, and \u2265 65 years of age, stratified by blood pressure categories based on the 2017 American College of Cardiology / American Heart Association blood pressure guideline.",
     reference = 'tab_risk_overall'
+  )
+
+  tbls_supp %<>% add_row(
+    object = list(.tbls_risk$supplement),
+    caption = "Median 10-year predicted risk for atherosclerotic cardiovascular disease using an updated Pooled Cohort risk prediction equation and proportion of US adults with high atherosclerotic cardiovascular disease risk overall and for subgroups defined by diabetes, chronic kidney disease, and \u2265 65 years of age, stratified by blood pressure categories based on the 2017 American College of Cardiology / American Heart Association blood pressure guideline.",
+    reference = 'tab_risk_supplement'
   )
 
   # table s1: characteristics for SPs with stage 1 hypertension ----
