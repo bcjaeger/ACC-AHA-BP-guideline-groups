@@ -50,4 +50,4 @@ renv/
 .Rproj.user
 
 # older versions of manuscript
-doc/deprecated/
+doc/deprecated/*
