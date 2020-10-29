@@ -216,8 +216,6 @@ The 2017 American College of Cardiology/American Heart Association blood pressur
 
 # Central Illustration
 
-_Note:_ This illustration is not the same as the central illustration in the paper. A different version is used in order to adhere to a publication agreement: "Excluding abstracts, none of the paper's contents have been previously published."
-
 Distribution of US adults by blood pressure and antihypertensive medication use categories. In pie charts, the proportion of adults with stage 1 hypertension at high atherosclerotic cardiovascular disease risk in subgroups defined by diabetes, chronic kidney disease and age ≥ 65 years.
 `r fp_par(line_spacing = 1)`
 
@@ -232,7 +230,7 @@ knitr::include_graphics("../fig/central_illustration.png")
 High atherosclerotic cardiovascular disease risk was defined by a 10-year predicted risk for atherosclerotic cardiovascular disease ≥ 10% or clinical cardiovascular disease. Data are from the National Health and Nutrition Examination Survey, `r min(exams)`-`r max(exams)+1`.
 `r fp_par(line_spacing = 1)`
 
-ASCVD = atherosclerotic cardiovascular disease; CKD = chronic kidney disease
+BP = blood presure; HTN = hypertension
 
 \newpage
 

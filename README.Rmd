@@ -44,6 +44,10 @@ fig_central_illustration
 High atherosclerotic cardiovascular disease risk was defined by a 10-year predicted risk for atherosclerotic cardiovascular disease ≥ 10% or clinical cardiovascular disease. Data are from the National Health and Nutrition Examination Survey, `r min(exams)`-`r max(exams)+1`.
 `r fp_par(line_spacing = 1)`
 
+ASCVD = atherosclerotic cardiovascular disease; CKD = chronic kidney disease
+
+_Note:_ This illustration is not the same as the central illustration in the paper. A different version is used in order to adhere to a publication agreement: "Excluding abstracts, none of the paper's contents have been previously published."
+
 # INSTRUCTIONS FOR REPRODUCTION
 
 To reproduce this manuscript, you should first obtain all of the code in this repository. To do this, fork or download its contents. Once the repository is locally available and its contents unzipped, find and open the `ACC AHA BP guideline groups.Rproj` file. This should trigger Rstudio to open the project for you in a local R session.

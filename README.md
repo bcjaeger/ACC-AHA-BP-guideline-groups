@@ -55,6 +55,14 @@ High atherosclerotic cardiovascular disease risk was defined by a
 or clinical cardiovascular disease. Data are from the National Health
 and Nutrition Examination Survey, 2013-2018.
 
+ASCVD = atherosclerotic cardiovascular disease; CKD = chronic kidney
+disease
+
+*Note:* This illustration is not the same as the central illustration in
+the paper. A different version is used in order to adhere to a
+publication agreement: “Excluding abstracts, none of the paper’s
+contents have been previously published.”
+
 # INSTRUCTIONS FOR REPRODUCTION
 
 To reproduce this manuscript, you should first obtain all of the code in
