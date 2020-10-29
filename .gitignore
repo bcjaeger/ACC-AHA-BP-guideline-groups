@@ -48,3 +48,6 @@ rsconnect/
 # renv via capsule
 renv/
 .Rproj.user
+
+# older versions of manuscript
+doc/2020*

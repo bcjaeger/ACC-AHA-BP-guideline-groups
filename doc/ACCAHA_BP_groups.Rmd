@@ -332,7 +332,7 @@ R_string_fancy <- glue::glue("{R_string} (released {date_string})")
 ```
 
 
-`r NHANES()` sampling weights, which were calculated as the inverse probability of being selected for the survey, were used in all calculations to obtain nationally representative estimates of the non-institutionalized US population. P-values were two-sided. Data analysis was conducted using `r R_string_fancy` along with a collection of open-source software packages [@cite_R; @cite_drake; @cite_tidyverse; @cite_table.glue]. The first author's GitHub repository (< _Link not yet active so we won't be scooped_ >) provides code to reproduce the current study.
+`r NHANES()` sampling weights, which were calculated as the inverse probability of being selected for the survey, were used in all calculations to obtain nationally representative estimates of the non-institutionalized US population. P-values were two-sided. Data analysis was conducted using `r R_string_fancy` along with a collection of open-source software packages [@cite_R; @cite_drake; @cite_tidyverse; @cite_table.glue]. The first author's GitHub repository (https://github.com/bcjaeger/ACC-AHA-BP-guideline-groups) provides code to reproduce the current study.
 
 <br>
 
