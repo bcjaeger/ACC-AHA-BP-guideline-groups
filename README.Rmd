@@ -58,11 +58,11 @@ To reproduce the manuscript as-is, follow the steps below:
     
     + It may take more than one try to successfully download and/or update the packages and their dependencies. If any installations fail, try restarting your R session and using `install.packages()` to install any packages that are causing issues for `pacman`.
   
-2. This project is built around `drake`, a workflow package. To produce every target in the drake workflow, run `r_make()` in your console.
+2. This project is built around `drake`, a workflow package. To produce every target in the drake workflow, run `drake::r_make()` in your console.
 
-3. Allow Rstudio to access the internet if prompted, as `r_make()` will be downloading NHANES data from the NHANES website while it produces the manuscript. 
+3. Allow Rstudio to access the internet if prompted, as `drake::r_make()` will be downloading NHANES data from the NHANES website while it produces the manuscript. 
 
-4. `r_make()` will build every target, ending with the manuscript and finally the `README.md` file. Simply open the file 'doc/ACCAHA_BP_groups.docx' to see the manuscript you built.
+4. `drake::r_make()` will build every target, ending with the manuscript and finally the `README.md` file. Simply open the file 'doc/ACCAHA_BP_groups.docx' to see the manuscript you built.
 
 _Note:_ If an error occurs while the project is being made and you have successfully downloaded all of the packages in `packages.R`, please file an issue in this repository. 
 
@@ -76,7 +76,7 @@ These instructions assume you have successfully completed the steps above. If yo
 
 2. Notice that `exams = c(2013, 2015, 2017)` is the first argument in `drake_plan()`. Change this to `exams = c(2011, 2013, 2015, 2017)` to include a fourth NHANES exam. 
 
-3. Save your changes to the `R/plan.R` file and then run `r_make()` in your console.
+3. Save your changes to the `R/plan.R` file and then run `drake::r_make()` in your console.
 
 4. Enjoy reading your fascinating new paper!
 

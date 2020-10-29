@@ -216,6 +216,8 @@ The 2017 American College of Cardiology/American Heart Association blood pressur
 
 # Central Illustration
 
+_Note:_ This illustration is not the same as the central illustration in the paper. A different version is used in order to adhere to a publication agreement: "Excluding abstracts, none of the paper's contents have been previously published."
+
 Distribution of US adults by blood pressure and antihypertensive medication use categories. In pie charts, the proportion of adults with stage 1 hypertension at high atherosclerotic cardiovascular disease risk in subgroups defined by diabetes, chronic kidney disease and age ≥ 65 years.
 `r fp_par(line_spacing = 1)`
 

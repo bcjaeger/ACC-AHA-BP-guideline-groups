@@ -84,14 +84,15 @@ To reproduce the manuscript as-is, follow the steps below:
         issues for `pacman`.
 
 2.  This project is built around `drake`, a workflow package. To produce
-    every target in the drake workflow, run `r_make()` in your console.
+    every target in the drake workflow, run `drake::r_make()` in your
+    console.
 
-3.  Allow Rstudio to access the internet if prompted, as `r_make()` will
-    be downloading NHANES data from the NHANES website while it produces
-    the manuscript.
+3.  Allow Rstudio to access the internet if prompted, as
+    `drake::r_make()` will be downloading NHANES data from the NHANES
+    website while it produces the manuscript.
 
-4.  `r_make()` will build every target, ending with the manuscript and
-    finally the `README.md` file. Simply open the file
+4.  `drake::r_make()` will build every target, ending with the
+    manuscript and finally the `README.md` file. Simply open the file
     ‘doc/ACCAHA\_BP\_groups.docx’ to see the manuscript you built.
 
 *Note:* If an error occurs while the project is being made and you have
@@ -116,8 +117,8 @@ manuscript, you can do so by following these instructions:
     `drake_plan()`. Change this to `exams = c(2011, 2013, 2015, 2017)`
     to include a fourth NHANES exam.
 
-3.  Save your changes to the `R/plan.R` file and then run `r_make()` in
-    your console.
+3.  Save your changes to the `R/plan.R` file and then run
+    `drake::r_make()` in your console.
 
 4.  Enjoy reading your fascinating new paper\!
 
