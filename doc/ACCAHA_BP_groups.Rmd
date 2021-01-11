@@ -1,5 +1,5 @@
 ---
-title: "Predicted cardiovascular risk for US adults with diabetes, chronic kidney disease, and \u2265 65 years of age"
+title: "Predicted cardiovascular risk for US adults with diabetes, chronic kidney disease, and \u2265 65 years of age overall and with stage 1 hypertension"
 bibliography: refs.bib
 csl: jacc.csl
 output: 
@@ -128,12 +128,8 @@ abbrev_funs <- map(
 ```
 
 <br>
-  
-<!-- The word count includes text from introduction through the conclusion, references, and figure legends.  -->
 
-<!-- 3,609 / 5000 max -->
-
-Total word count: ~3,700 / 5,000
+__Abbreviated title__: Predicted cardiovascular risk for US adults
 
 Byron C. Jaeger, PhD^1^, Swati Sakhuja, MPH^2^, Shakia T. Hardy, PhD, MPH^2^, Oluwasegun P. Akinyelure, MD, MPH^2^, Joshua D. Bundy, PhD, MPH^3^, Paul Muntner, PhD^2^, and Paul K. Whelton, MD, MSc^3^
   
@@ -172,15 +168,15 @@ Birmingham, Alabama 35294-0022
 
 __Acknowledgments:__ None.
 
+__Total word count including the title page, abstract, text, references, tables, and figures legends__: 
+
 \newpage
 
 # ABSTRACT
 
-__Background:__ The 2017 American College of Cardiology/American Heart Association blood pressure (BP) guideline recommends using 10-year predicted atherosclerotic cardiovascular disease (ASCVD) risk to guide decisions to initiate antihypertensive medication.
+__Background:__ The 2017 American College of Cardiology/American Heart Association blood pressure (BP) guideline recommends using 10-year predicted atherosclerotic cardiovascular disease (ASCVD) risk to guide decisions to initiate antihypertensive medication. Adults with stage 1 hypertension and diabetes mellitus, chronic kidney disease (CKD), or aged ≥65 years are considered to have high CVD risk by the guideline and initiation of antihypertensive medication is recommended. This recommendation is based on the assumption that the vast majority of adults with diabetes, CKD, or aged ≥65 years are likely to have a 10-year predicted ASCVD risk ≥10% and surveys that suggest most clinicians, including cardiologists, do not assess CVD risk using recommended risk prediction tools.
 
-__Objectives:__ Determine if the majority of US adults in subgroups defined by diabetes, chronic kidney disease (CKD), and age ≥65 years have high ASCVD risk (i.e., 10-year predicted ASCVD risk ≥10% or clinical CVD), and estimate the age-adjusted probability of having high ASCVD risk.
-
-__Methods:__ Adults aged 40-79 years from the National Health and Nutrition Examination Survey `r min(exams)`-`r max(exams)+1` were included (n=`r table_value(nrow(current_analysis$data))`). We predicted 10-year ASCVD risk using the Pooled Cohort risk equations and clinical CVD was self-reported. Analyses were conducted overall and among those with stage 1 hypertension, defined by systolic BP of 130-139 mm Hg or diastolic BP of 80-89 mm Hg.
+__Methods:__ We included adults aged 40-79 years from the National Health and Nutrition Examination Survey `r min(exams)`-`r max(exams)+1` (n=`r table_value(nrow(current_analysis$data))`). We computed 10-year predicted ASCVD risk using the Pooled Cohort risk equations and clinical CVD was self-reported. Analyses were conducted overall and among those with stage 1 hypertension, defined by systolic BP of 130-139 mm Hg or diastolic BP of 80-89 mm Hg. In subgroups defined by diabetes, chronic kidney disease (CKD), and age ≥65 years, we estimated the proportion of US adults with high ASCVD risk (i.e., 10-year predicted ASCVD risk ≥10% or clinical CVD) and estimated age-adjusted probability of having high ASCVD risk.
 
 __Results:__ Among US adults, an estimated `r no_ci(inline$prevHighRiskDiabetes)`, `r no_ci(inline$prevHighRiskCkd)`, and `r no_ci(inline$prevHighRiskAge65)` of those with diabetes, CKD, and age ≥65 years had high ASCVD risk, respectively. Among US adults with stage 1 hypertension, an estimated `r no_ci(inline$prevHighRiskS1hDiabetes)`, `r no_ci(inline$prevHighRiskS1hCkd)`, and `r no_ci(inline$prevHighRiskS1hAge65)` of those with diabetes, CKD, and age ≥65 years had high ASCVD risk, respectively. The probability of having high ASCVD risk increased with age and exceeded 50% for US adults with diabetes and CKD at ages `r inline$ageHighRiskOvrlDiabetes` and `r inline$ageHighRiskOvrlCkd` years, respectively. For those with stage 1 hypertension, these ages were `r inline$ageHighRiskS1hDiabetes` and `r inline$ageHighRiskS1hCkd`, respectively.
 
@@ -204,44 +200,6 @@ abbrev_key %>%
 
 
 ```
-
-\newpage
-
-# CONDENSED ABSTRACT
-
-
-The 2017 American College of Cardiology/American Heart Association blood pressure (BP) guideline recommends using atherosclerotic cardiovascular disease (ASCVD) risk to guide decisions to initiate antihypertensive medication. Using National Health and Nutrition Examination Survey `r min(exams)`-`r max(exams)+1` data, it was estimated that `r no_ci(inline$prevHighRiskS1hDiabetes)`, `r no_ci(inline$prevHighRiskS1hCkd)`, and `r no_ci(inline$prevHighRiskS1hAge65)` of US adults with stage 1 hypertension and diabetes, chronic kidney disease and age ≥65 years had high ASCVD risk defined by 10-year predicted ASCVD risk ≥10% or clinical CVD. Predicted 10-year ASCVD risk should be calculated for all adults with stage 1 hypertension and without clinical CVD as many are not at high risk for ASCVD.
-
-\newpage
-
-# Central Illustration
-
-Distribution of US adults by blood pressure and antihypertensive medication use categories. In pie charts, the proportion of adults with stage 1 hypertension at high atherosclerotic cardiovascular disease risk in subgroups defined by diabetes, chronic kidney disease and age ≥ 65 years.
-`r fp_par(line_spacing = 1)`
-
-<br>
-
-```{r out.width='100%'}
-
-knitr::include_graphics("../fig/central_illustration.png")
-
-```
-
-High atherosclerotic cardiovascular disease risk was defined by a 10-year predicted risk for atherosclerotic cardiovascular disease ≥ 10% or clinical cardiovascular disease. Data are from the National Health and Nutrition Examination Survey, `r min(exams)`-`r max(exams)+1`.
-`r fp_par(line_spacing = 1)`
-
-BP = blood presure; HTN = hypertension
-
-\newpage
-
-# Clinical Perspectives: 
-
-__Competency in Medical Knowledge:__ The 2017 American College of Cardiology/American Heart Association blood pressure guideline recommends using both blood pressure and atherosclerotic cardiovascular disease (ASCVD) risk to guide decisions to initiate antihypertensive medication. 
-
-__Competency in Patient Care:__ The guideline recommends computing 10-year predicted ASCVD risk for all adults with hypertension who do not have clinical CVD.
-
-__Translational Outlook:__ Predicted 10-year ASCVD risk should be computed for all adults with stage 1 hypertension and without clinical CVD, as many are not at high risk for ASCVD.
-
 
 \newpage
 
@@ -372,11 +330,11 @@ The current study estimates that about 15% of US adults aged 40 to 79 years have
 
 <br>
 
-Previous studies have shown that the use of predicted `r ASCVD()` risk in addition to `r BP()` can direct antihypertensive medication to adults likely to receive the largest risk reduction benefit [@colantonio20182017; @jaeger2019cardiovascular, @herrett2019eligibility]. For example, in an analysis of the Reasons for Geographic and Racial Differences in Stroke study, those with stage 1 hypertension for whom initiation of antihypertensive medication was recommended versus not recommended by the 2017 `r ACC_AHA()` `r BP()` guideline were roughly 6 times more likely to experience a `r CVD()` event over 8 years of follow-up [@colantonio20182017]. Although a substantial proportion of US adults with stage 1 hypertension and diabetes or `r CKD()` did not have a high `r ASCVD()` risk in the current study, these subgroups were more likely to have high `r ASCVD()` risk compared to the overall US population with stage 1 hypertension, and may therefore still benefit from initiating antihypertensive medication.
+Previous studies have shown that the use of predicted `r ASCVD()` risk in addition to `r BP()` can direct antihypertensive medication to adults likely to receive the largest risk reduction benefit [@colantonio20182017; @jaeger2019cardiovascular, @herrett2019eligibility]. For example, in an analysis of the Reasons for Geographic and Racial Differences in Stroke study, those with stage 1 hypertension for whom initiation of antihypertensive medication __would have been__ recommended versus not recommended by the 2017 `r ACC_AHA()` `r BP()` guideline were roughly 6 times more likely to experience a `r CVD()` event over 8 years of follow-up [@colantonio20182017]. Although a substantial proportion of US adults with stage 1 hypertension and diabetes or `r CKD()` did not have a high `r ASCVD()` risk in the current study, these subgroups were more likely to have high `r ASCVD()` risk compared to the overall US population with stage 1 hypertension, and may therefore still benefit from initiating antihypertensive medication.
 
 <br>
 
-Previous randomized trials and meta-analyses have investigated whether lower `r BP()` goals reduce incident `r CVD()` risk in patients with diabetes, `r CKD()`, or older age. A randomized trial of patients with diabetes and baseline `r SBP()` < 140 mm Hg and `r DBP()` < 90 mm Hg found lower risk of stroke among participants with more intense `r BP()` treatment goals [@schrier2002effects]. The Systolic Blood Pressure Intervention Trial compared an `r SBP()` treatment target of < 120 mm Hg to < 140 mm Hg among older adults (mean age of 68 years) without diabetes. Among participants with `r CKD()`, randomization to the lower `r SBP()` target reduced rates of major `r CVD()` events and all-cause death without evidence of effect modifications by `r CKD()` or deleterious effect on `r E_GFR()` or end stage renal disease [@cheung2017effects]. In the overall population, those randomized to the lower `r SBP()` target experienced lower rates of incident fatal and nonfatal major `r CVD()` events as well as all-cause mortality [@sprint2015randomized]. A systematic review and meta-analysis of 123 studies with 613,815 participants found strong support for lowering `r SBP()` to < 130 mm Hg and providing antihypertensive medication to adults with diabetes, CKD, and various other comorbidities [@ettehad2016blood]. Benefits associated with a `r SBP()` treatment goal of < 130 mm Hg have also been identified in several other meta-analyses [@bundy2017systolic; @reboussin2018systematic]. Collectively, evidence from previous studies suggests that adults with hypertension and diabetes, `r CKD()` or ≥ 65 years of age may experience lower rates of `r CVD()` events by initiating antihypertensive medication with an `r SBP()` treatment goal of < 130 mm Hg versus < 140 mm Hg. 
+Previous randomized trials and meta-analyses have investigated whether lower `r BP()` goals reduce incident `r CVD()` risk in patients with diabetes, `r CKD()`, or older age. A randomized trial of patients with diabetes and baseline `r SBP()` < 140 mm Hg and `r DBP()` < 90 mm Hg found lower risk of stroke among participants with more intense `r BP()` treatment goals [@schrier2002effects]. The Systolic Blood Pressure Intervention Trial compared an `r SBP()` treatment target of < 120 mm Hg to < 140 mm Hg among older adults (mean age of 68 years) without diabetes. Among participants with `r CKD()`, randomization to the lower `r SBP()` target reduced rates of major `r CVD()` events and all-cause death without evidence of effect modifications by `r CKD()` or deleterious effect on `r E_GFR()` or end stage renal disease [@cheung2017effects]. In the overall population, those randomized to the lower `r SBP()` target experienced lower rates of incident fatal and nonfatal major `r CVD()` events as well as all-cause mortality [@sprint2015randomized]. __The trial did not examine stage 1 hypertension specifically, but found no evidence of a difference in treatment effect across baseline `r SBP()` groups and estimated a hazard ratio (95% `r CI()`) of 0.77 (0.57 - 1.03) comparing intensive to standard treatment for major `r CVD()` events among participants with `r SBP()` > 132 and < 145 mm Hg__ [@sprint2015randomized]. A systematic review and meta-analysis of 123 studies with 613,815 participants found strong support for lowering `r SBP()` to < 130 mm Hg and providing antihypertensive medication to adults with diabetes, CKD, and various other comorbidities [@ettehad2016blood]. Benefits associated with a `r SBP()` treatment goal of < 130 mm Hg have also been identified in several other meta-analyses [@bundy2017systolic; @reboussin2018systematic]. Collectively, evidence from previous studies suggests that adults with hypertension and diabetes, `r CKD()` or ≥ 65 years of age may experience lower rates of `r CVD()` events by initiating antihypertensive medication with an `r SBP()` treatment goal of < 130 mm Hg versus < 140 mm Hg. 
 
 <br>
 
