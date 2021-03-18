@@ -363,11 +363,11 @@ compile_report <- function(exams,
     reference = 'tab_risk_overall'
   )
 
-  tbls_supp %<>% add_row(
-    object = list(.tbls_risk$supplement),
-    caption = "Median 10-year predicted risk for atherosclerotic cardiovascular disease using an updated Pooled Cohort risk prediction equation and proportion of US adults with high atherosclerotic cardiovascular disease risk overall and for subgroups defined by diabetes, chronic kidney disease, and \u2265 65 years of age, stratified by blood pressure categories based on the 2017 American College of Cardiology / American Heart Association blood pressure guideline.",
-    reference = 'tab_risk_supplement'
-  )
+  # tbls_supp %<>% add_row(
+  #   object = list(.tbls_risk$supplement),
+  #   caption = "Median 10-year predicted risk for atherosclerotic cardiovascular disease using an updated Pooled Cohort risk prediction equation and proportion of US adults with high atherosclerotic cardiovascular disease risk overall and for subgroups defined by diabetes, chronic kidney disease, and \u2265 65 years of age, stratified by blood pressure categories based on the 2017 American College of Cardiology / American Heart Association blood pressure guideline.",
+  #   reference = 'tab_risk_supplement'
+  # )
 
   # table s1: characteristics for SPs with stage 1 hypertension ----
 

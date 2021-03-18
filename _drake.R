@@ -14,7 +14,8 @@ drake_config(
   seed = 329730,
   prework = {
 
-    windowsFonts(Times = 'Times New Roman')
+    if(Sys.info()['sysname'] == 'Windows')
+      windowsFonts(Times = 'Times New Roman')
 
     rspec <- round_spec() %>%
       round_using_decimal(digits = 1)
