@@ -32,7 +32,10 @@ pacman::p_load(
   english,
   officer,
   officedown,
-  Hmisc
+  Hmisc,
+  xaringan,
+  xaringanthemer,
+  showtext
 )
 
 pacman::p_load_gh('bcjaeger/PooledCohort', update = FALSE)
