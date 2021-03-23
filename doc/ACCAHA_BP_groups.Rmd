@@ -2,14 +2,13 @@
 title: "Predicted cardiovascular risk for US adults with diabetes, chronic kidney disease, and \u2265 65 years of age overall and with stage 1 hypertension"
 bibliography: refs.bib
 csl: ccqo.csl
+always_allow_html: true
 output: 
   officedown::rdocx_document:
     reference_docx: style_manuscript_times_new_roman_lines.docx
 ---
 
 ```{r setup, include=FALSE}
-
-# misc functions for the paper
 
 # refers to tables and figures
 refer_to <- function(label){

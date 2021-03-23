@@ -148,7 +148,7 @@ the_plan <- drake_plan(
 
   qts = seq(0.001, 0.999, by = 0.0001),
 
-  fig_text = element_text(family = 'Times',
+  fig_text = element_text(#family = 'Times',
                           size = 12,
                           color = 'black'),
 
@@ -191,8 +191,8 @@ the_plan <- drake_plan(
     tbl_risk_overall,
     tbl_risk_overall_supp,
     current_analysis$tbl,
-    fig_hist$ovrl,
-    fig_hist$stg1,
+    fig_hist$fig_3row$ovrl,
+    fig_hist$fig_3row$stg1,
     fig_risk_ovrl_bnry,
     fig_risk_stg1_bnry,
     risk_10yr = risk_10yr,
@@ -205,6 +205,13 @@ the_plan <- drake_plan(
     command = {
       rmarkdown::render(knitr_in("doc/ACCAHA_BP_groups.Rmd"))
       file_out("doc/ACCAHA_BP_groups.docx")
+    }
+  ),
+
+  seminar = target(
+    command = {
+      rmarkdown::render(knitr_in("doc/seminar/ACCAHA_BP_groups.Rmd"))
+      file_out("doc/seminar/ACCAHA_BP_groups.html")
     }
   ),
 

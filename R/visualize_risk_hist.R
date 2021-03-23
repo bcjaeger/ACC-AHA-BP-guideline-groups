@@ -54,14 +54,15 @@ visualize_risk_hist <- function(design, qts, fig_text) {
 
   # to make separate figures
 
-  .hist %>%
+  .hist_3row <- .hist %>%
     split(f = .$subpop) %>%
     map(
       ~ ggplot(.x) +
         aes(x = x, y = perc_val, label = perc_lab) +
         geom_bar(stat = 'identity', fill = 'grey80',
                  color = 'grey80', alpha = 0.50) +
-        geom_text(vjust = -1, family = 'Times') +
+        geom_text(vjust = -1) +
+                  #family = 'Times'
         theme_bw() +
         theme(panel.grid = element_blank(),
               text = fig_text,
@@ -78,6 +79,34 @@ visualize_risk_hist <- function(design, qts, fig_text) {
     )
 
 
+  .hist_2row <- .hist %>%
+    filter(!str_detect(panel, ',')) %>%
+    droplevels() %>%
+    split(f = .$subpop) %>%
+    map(
+      ~ ggplot(.x) +
+        aes(x = x, y = perc_val, label = perc_lab) +
+        geom_bar(stat = 'identity', fill = 'grey80',
+                 color = 'grey80', alpha = 0.50) +
+        geom_text(vjust = -1) +
+        #family = 'Times'
+        theme_bw() +
+        theme(panel.grid = element_blank(),
+              text = fig_text,
+              axis.text = fig_text,
+              legend.text = fig_text) +
+        scale_x_continuous(labels = percent) +
+        scale_y_continuous(labels = percent,
+                           limits = c(0,1),
+                           breaks = c(0, 0.25, 0.50, 0.75, 1),
+                           expand = c(0,0)) +
+        labs(x = 'Predicted 10-year risk for atherosclerotic cardiovascular disease, %',
+             y = 'Estimated % of US adults*') +
+        facet_wrap(~panel, ncol = 2, scales = 'free')
+    )
+
+  list(fig_2row = .hist_2row,
+       fig_3row = .hist_3row)
 
   # to make it all go into one figure
   # ggplot(.hist) +

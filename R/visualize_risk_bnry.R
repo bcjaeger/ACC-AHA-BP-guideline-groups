@@ -119,7 +119,7 @@ visualize_risk_bnry <- function(risk_models,
       nudge_x = nudge_x,
       nudge_y = nudge_y,
       show.legend = FALSE,
-      family = 'Times',
+      #family = 'TT Times New Roman',
       mapping = aes(x = cpoint,
                     y = est,
                     label = paste0(round(cpoint, 0),'*'))
