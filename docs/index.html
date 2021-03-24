@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Predicted cardiovascular risk for adults in the US with diabetes, chronic kidney disease, and ≥ 65 years of age</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Byron C. Jaeger, PhD" />
+    <meta name="date" content="2021-03-25" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Predicted cardiovascular risk for adults in the US with diabetes, chronic kidney disease, and ≥ 65 years of age
+## A case study in reproducible and agile research
+### Byron C. Jaeger, PhD
+### March 25, 2021
+
+---
+
+
+
+
+## Overview
+
+__Research__
+
+- The 2017 ACC/AHA Blood Pressure Guideline 
+
+- The National Health and Nutrition Examination Survey
+
+- Predicted risk in blood pressure groups
+
+- Conclusions
+
+__Reproducibility__
+
+- What is reproducible research?
+
+- Demo
+
+---
+class: inverse, center, middle
+
+# The 2017 ACC/AHA Blood Pressure Guideline
+
+---
+layout: true
+
+## 2017 ACC/AHA Blood Pressure Guideline
+
+The 2017 ACC/AHA (American College of Cardiology/American Heart Association) blood pressure guideline&lt;sup&gt;1&lt;/sup&gt; recommends using blood pressure levels and 10-year predicted risk for ASCVD&lt;sup&gt;2&lt;/sup&gt; (atherosclerotic cardiovascular disease) to guide clinical decisions related to the management and treatment of blood pressure.
+
+&lt;br/&gt;
+
+
+.footnote[
+&lt;sup&gt;1&lt;/sup&gt;The 2017 ACC AHA guideline is available [here](https://www.ahajournals.org/doi/pdf/10.1161/HYP.0000000000000065) &lt;br/&gt;
+&lt;sup&gt;2&lt;/sup&gt; Using the ACC/AHA Pooled Cohort Equations, which are available [here](http://tools.acc.org/ASCVD-Risk-Estimator-Plus/#!/calculate/estimate/)
+]
+
+---
+
+__Normal blood pressure__: systolic &lt; 120 mm Hg and diastolic &lt; 80 mm Hg
+
+- Promote optimal lifestyle habits, 
+
+- reassess blood pressure in 1 year.
+
+---
+
+__Elevated blood pressure__: systolic 120-129 mm Hg and diastolic &lt; 80 mm Hg
+
+- Recommend nonpharmalogical therapy, 
+
+- reassess blood pressure in 3-6 months.
+
+---
+
+&lt;span style="color:orange"&gt;&lt;b&gt;Stage 1 hypertension&lt;/b&gt;&lt;/span&gt;: systolic 130-139 mm Hg or diastolic 80-89 mm Hg
+
+- If no clinical CVD and predicted 10-year ASCVD risk &lt; 10%, 
+
+    + Recommend nonpharmalogical therapy
+    
+    + Reassess blood pressure in 3-6 months
+
+---
+
+&lt;span style="color:orange"&gt;&lt;b&gt;Stage 1 hypertension&lt;/b&gt;&lt;/span&gt;: systolic 130-139 mm Hg or diastolic 80-89 mm Hg
+
+- If clinical CVD or predicted 10-year ASCVD risk ≥ 10%, 
+
+    + Recommend nonpharmalogical therapy and antihypertensive medication 
+    
+    + Reassess blood pressure in 1 month
+
+---
+
+&lt;span style="color:red"&gt;&lt;b&gt;Stage 2 hypertension&lt;/b&gt;&lt;/span&gt;: systolic ≥ 140 mm Hg or diastolic ≥ 90 mm Hg
+
+- Recommend nonpharmalogical therapy and antihypertensive medication (consider 2 classes)
+    
+- Reassess blood pressure in 1 month
+
+---
+layout: false
+
+## 2017 ACC/AHA Blood Pressure Guideline
+
+__High ASCVD risk defn__: clinical CVD or __predicted 10-year ASCVD risk ≥ 10%__
+
+As a matter of practical convenience, adults with stage 1 hypertension and 
+
+- diabetes mellitus, 
+
+- CKD (chronic kidney disease), or 
+
+- ≥ 65 years of age 
+
+are considered to have high ASCVD risk by the guideline. 
+
+This recommendation was based on the assumption that most adults with diabetes, CKD, or ≥ 65 years of age are likely to have a 10-year predicted ASCVD risk ≥ 10% and data from surveys suggesting most clinicians, including cardiologists, do not assess ASCVD risk using recommended risk prediction tools.
+
+.footnote[
+&lt;sup&gt;1&lt;/sup&gt;See Sections 9.3, 9.6, and 10.3 of  [the guideline](https://www.ahajournals.org/doi/pdf/10.1161/HYP.0000000000000065)
+]
+
+---
+
+## The current analysis
+
+__Aims__: 
+
+- Estimate the proportion of US adults with diabetes, CKD, or ≥ 65 years of age that have high ASCVD risk (defined by 10-year predicted risk for ASCVD ≥ 10% or clinical CVD). 
+
+- Examine these proportions for all US adults and among those with stage 1 hypertension. 
+
+To accomplish these aims, we analyzed data from 3 cycles of NHANES (the National Health and Nutrition Examination Survey).
+
+
+---
+class: inverse, center, middle
+
+# NHANES
+
+---
+
+## NHANES
+
+NHANES was designed to assess the health and nutritional status of the non-institutionalized US population and was conducted by the National Center for Health Statistics of the Centers for Disease Control and Prevention
+
+--
+
+Since 1999-2000, NHANES has been conducted in two-year cycles using a multistage probability sampling design to select participants.
+
+--
+
+Each cycle is independent with different participants recruited.
+
+---
+
+## NHANES; data collection
+
+Data were collected during an in-home interview and a study visit completed at a mobile examination center. 
+
+--
+
+Standardized questionnaires were used to assess participants' age, sex, race/ethnicity, smoking habits, medical history, and use of antihypertensive medication. 
+
+--
+
+Medical history included questions about whether the participant had been told by a doctor or other health professional that they had a heart attack, coronary heart disease, stroke, or heart failure. 
+
+--
+
+__For the current analysis__,
+
+- Clinical CVD was defined as answering yes to ≥1 CVD question. 
+
+- Ten-year predicted ASCVD risk was calculated using the Pooled Cohort risk equations for participants without clinical CVD. 
+
+- High ASCVD risk was defined as having a 10-year predicted ASCVD risk ≥ 10% or clinical CVD.
+
+---
+
+## NHANES; data collection
+
+Data were collected during an in-home interview and a study visit completed at a mobile examination center. 
+
+Blood and urine samples were collected during the medical examination. Serum creatinine, serum glucose and glycated hemoglobin were measured using standard methods.
+
+Estimated glomerular filtration rate was calculated using the CKD Epidemiology Collaboration equation. Urinary albumin and creatinine levels were measured and used to calculate the albumin-to-creatinine ratio.
+
+--
+
+__For the current analysis__,
+
+- Diabetes was defined by fasting plasma glucose ≥ &lt;span style="color:purple"&gt;&lt;b&gt;126&lt;/b&gt;&lt;/span&gt; mg/dL (≥ &lt;span style="color:purple"&gt;&lt;b&gt;200&lt;/b&gt;&lt;/span&gt; mg/dL for those who were not fasting), glycated hemoglobin ≥ &lt;span style="color:purple"&gt;&lt;b&gt;6.5&lt;/b&gt;&lt;/span&gt;%, or self-reported use of insulin or oral glucose lowering medication
+
+- CKD was defined by an estimated glomerular filtration rate &lt; &lt;span style="color:purple"&gt;&lt;b&gt;60&lt;/b&gt;&lt;/span&gt; ml/min/1.73m&lt;sup&gt;2&lt;/sup&gt; or an albumin-to-creatinine ratio ≥ &lt;span style="color:purple"&gt;&lt;b&gt;30&lt;/b&gt;&lt;/span&gt; mg/g.
+
+---
+
+## NHANES; blood pressure
+
+The same protocol was followed to measure blood pressure in each NHANES cycle. 
+
+--
+
+After survey participants had rested 5 minutes, their blood pressure was measured by a trained physician using a mercury sphygmomanometer and an appropriately sized cuff. 
+
+--
+
+Three blood pressure measurements were obtained at 30 second intervals. The mean of all three measurements was used to define systolic and diastolic blood pressure.
+
+--
+
+__For the current analysis__, Participants not taking antihypertensive medication were grouped into four non-overlapping categories based on the 2017 ACC/AHA BP guideline: normal blood pressure, elevated blood pressure, stage 1 hypertension, and stage 2 hypertension. Participants taking antihypertensive medication were placed in a fifth category. 
+
+---
+
+## NHANES; current analysis
+
+
+
+For the current analysis, the &lt;span style="color:purple"&gt;&lt;b&gt;3&lt;/b&gt;&lt;/span&gt; cycles conducted in &lt;span style="color:purple"&gt;&lt;b&gt;2013-2014, 2015-2016, and 2017-2018&lt;/b&gt;&lt;/span&gt; were combined.
+
+--
+
+Adults aged 40 to 79 years of age who completed the NHANES interview and examination were included (n = &lt;span style="color:purple"&gt;&lt;b&gt;9,937&lt;/b&gt;&lt;/span&gt;). Participants &lt; 40 or &gt; 79 years of age were not included because use of the Pooled Cohort risk equations is not recommended in these age ranges. 
+
+--
+
+Participants who did not have three systolic and diastolic blood pressure measurements (n = &lt;span style="color:purple"&gt;&lt;b&gt;565&lt;/b&gt;&lt;/span&gt;) and those who were missing information on age, race, sex, total and high-density lipoprotein cholesterol, smoking status, diabetes, or CKD status (n = &lt;span style="color:purple"&gt;&lt;b&gt;569&lt;/b&gt;&lt;/span&gt;) were also excluded. 
+
+--
+
+After these exclusions, a total of &lt;span style="color:purple"&gt;&lt;b&gt;8,803&lt;/b&gt;&lt;/span&gt; participants were included in the analysis.
+
+---
+
+## NHANES; statistical analysis (highlights)
+
+
+Step 1. The percentage of participants with high ASCVD risk was estimated overall and among sub-groups defined by diabetes, CKD, and age ≥ 65 years
+
+--
+
+Step 2. The percentage of US adults in each of the five categories based on blood pressure and antihypertensive medication use was computed. Step 1. was also repeated in each of these blood pressure / medication categories.
+
+--
+
+Step 3. To assess the extent to which participants with a 10-year predicted ASCVD risk &lt; 10% were close to the 10% threshold, the distribution of 10-year predicted ASCVD risk between 0 and 10% was visualized using bar plots.
+
+--
+
+Step 4. The probability of having high ASCVD risk was estimated for each year of age from 40 to 79 years using logistic regression
+
+---
+class: inverse, center, middle
+
+# Predicted risk in blood pressure groups
+
+---
+
+## Results
+
+Among US adults aged 40-79 years, the estimated percentage (95% CI [confidence interval]) with high ASCVD risk was &lt;span style="color:purple"&gt;&lt;b&gt;36.5% (34.7%, 38.5%)&lt;/b&gt;&lt;/span&gt;. 
+
+Among sub-groups, the estimated percentage (95% CI) with high ASCVD risk was:  
+
+- diabetes: &lt;span style="color:purple"&gt;&lt;b&gt;72.3% (69.3%, 75.4%)&lt;/b&gt;&lt;/span&gt;.
+- CKD: &lt;span style="color:purple"&gt;&lt;b&gt;64.5% (61.4%, 67.7%)&lt;/b&gt;&lt;/span&gt;.
+- age ≥ 65 years: &lt;span style="color:purple"&gt;&lt;b&gt;83.9% (81.7%, 86.1%)&lt;/b&gt;&lt;/span&gt;.
+- any of these conditions:  &lt;span style="color:purple"&gt;&lt;b&gt;69.0% (66.9%, 71.2%)&lt;/b&gt;&lt;/span&gt;.
+
+__Interpretation__ These data support the assumption that most adults with diabetes, CKD, or ≥ 65 years of age are likely to have high ASCVD risk. __However__, this assumption only has clinical relevance for adults with stage 1 hypertension. (Why?) 
+
+---
+
+Distribution of blood pressure categories among US adults. 
+
+![](index_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+
+__Interpretation__:  Among US adults with stage 1 hypertension, the proportion with high ASCVD risk and diabetes or CKD was lower than expected.
+
+---
+
+Distribution of 10-year predicted risk for ASCVD among US adults with predicted risk &lt; 10%
+
+![](index_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+
+__Interpretation__: Many adults with age 65+ years are close to the 10% threshold, but adults with diabetes or CKD do not show the same pattern.
+
+---
+
+Distribution of 10-year predicted risk for ASCVD among US adults with stage 1 hypertension and predicted risk &lt; 10%
+
+![](index_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
+__Interpretation__: A surprising amount of adults with stage 1 hypertension and CKD or diabetes have a 10-year predicted risk for ASCVD &lt; 5%.
+
+
+---
+
+Estimated probability of high ASCVD risk for US adults with diabetes, with CKD, and without diabetes or CKD.
+
+![](index_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+
+__Interpretation__: High ASCVD risk probability reaches 50% for adults with CKD or diabetes sooner than adults without these conditions.
+
+---
+
+Estimated probability of high ASCVD risk for US adults with __stage 1 hypertension and__ with diabetes, with CKD, and without diabetes or CKD.
+
+![](index_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+
+__Interpretation__: High ASCVD risk probability reaches 50% for adults __with diabetes__ sooner than adults without diabetes.
+
+---
+class:inverse, center, middle
+
+# Conclusions
+
+---
+
+## Conclusions
+
+While the majority of US adults with diabetes, CKD, or age ≥ 65 years had high ASCVD risk, many with stage 1 hypertension and diabetes or CKD did not.
+
+Results from the current study do not support assuming 10-year CVD risk is high for all adults with stage 1 hypertension and CKD or diabetes.
+
+Results from the current study do support computing 10-year predicted ASCVD risk for all adults with hypertension, as recommended by the 2017 ACC/AHA BP guideline.
+
+---
+class: inverse, center, middle
+
+# What is reproducible research?
+
+---
+
+## What is reproducible research?
+
+__Definition__: a software platform and set of procedures that permit the reader of a paper to see the entire processing trail from the raw data and code to figures and tables.&lt;sup&gt;1,2&lt;/sup&gt;
+
+--
+
+According to a U.S. National Science Foundation subcommittee on replicability in science, “reproducibility refers to the ability of a researcher to duplicate the results of a prior study using the same materials as were used by the original investigator. That is, a second researcher might use the same raw data to build the same analysis files and implement the same statistical analysis in an attempt to yield the same results... Reproducibility is a minimum necessary condition for a finding to be believable and informative.”
+
+
+.footnote[
+&lt;sup&gt;1&lt;/sup&gt;Claerbout, Jon F., and Martin Karrenbach. "Electronic documents give reproducible research a new meaning." SEG Technical Program Expanded Abstracts 1992. Society of Exploration Geophysicists, 1992. 601-604.&lt;br/&gt;&lt;br/&gt;
+&lt;sup&gt;2&lt;/sup&gt;Goodman, Steven N., Daniele Fanelli, and John PA Ioannidis. "What does research reproducibility mean?." Science translational medicine 8.341 (2016): 341ps12-341ps12.
+]
+
+---
+class: inverse, center, middle
+
+# Demo
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

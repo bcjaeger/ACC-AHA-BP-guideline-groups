@@ -24,6 +24,8 @@ options(htmltools.dir.version = FALSE)
 
 library(xaringanthemer)
 
+# comment for change
+
 style_duo_accent(
   primary_color = "#006341",
   secondary_color = "#CC8A00",

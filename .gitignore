@@ -42,9 +42,6 @@ rsconnect/
 .drake
 .drake_history
 
-# html
-*.html
-
 # renv via capsule
 renv/
 .Rproj.user
