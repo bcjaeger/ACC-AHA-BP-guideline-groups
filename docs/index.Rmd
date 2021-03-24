@@ -216,6 +216,24 @@ __For the current analysis__,
 
 ---
 
+## NHANES; data collection
+
+Data were collected during an in-home interview and a study visit completed at a mobile examination center. 
+
+Blood and urine samples were collected during the medical examination. Serum creatinine, serum glucose and glycated hemoglobin were measured using standard methods.
+
+Estimated glomerular filtration rate was calculated using the CKD Epidemiology Collaboration equation. Urinary albumin and creatinine levels were measured and used to calculate the albumin-to-creatinine ratio.
+
+--
+
+__For the current analysis__,
+
+- Diabetes was defined by fasting plasma glucose ≥ <span style="color:purple"><b>`r gluc_cutpoint_fasted`</b></span> mg/dL (≥ <span style="color:purple"><b>`r gluc_cutpoint_fed`</b></span> mg/dL for those who were not fasting), glycated hemoglobin ≥ <span style="color:purple"><b>`r hba1c_cutpoint`</b></span>%, or self-reported use of insulin or oral glucose lowering medication
+
+- CKD was defined by an estimated glomerular filtration rate < <span style="color:purple"><b>`r egfr_cutpoint`</b></span> ml/min/1.73m<sup>2</sup> or an albumin-to-creatinine ratio ≥ <span style="color:purple"><b>`r acr_cutpoint`</b></span> mg/g.
+
+---
+
 ## NHANES; blood pressure
 
 The same protocol was followed to measure blood pressure in each NHANES cycle. 
@@ -419,7 +437,9 @@ According to a U.S. National Science Foundation subcommittee on replicability in
 ]
 
 ---
+class: inverse, center, middle
 
+# Demo
 
 
 

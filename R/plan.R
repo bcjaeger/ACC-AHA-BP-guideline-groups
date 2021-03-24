@@ -210,7 +210,7 @@ the_plan <- drake_plan(
 
   seminar = target(
     command = {
-      rmarkdown::render(knitr_in("doc/seminar/ACCAHA_BP_groups.Rmd"))
+      rmarkdown::render(knitr_in("docs/index.Rmd"))
       file_out("doc/seminar/ACCAHA_BP_groups.html")
     }
   ),
