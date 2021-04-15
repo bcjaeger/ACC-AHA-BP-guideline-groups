@@ -24,12 +24,10 @@ options(htmltools.dir.version = FALSE)
 
 library(xaringanthemer)
 
-# comment for change
-
 style_duo_accent(
-  primary_color = "#006341",
-  secondary_color = "#CC8A00",
-  inverse_header_color = "#FFFFFF"
+  primary_color = "#1E6B52",
+  secondary_color = "#000000",
+  inverse_header_color = "#CFC580"
 )
 
 loadd(exams,
@@ -51,7 +49,6 @@ loadd(exams,
 nhanes_years <- exams %>%
   map_chr(~glue("{.x}-{.x+1}")) %>%
   glue_collapse(sep = ', ', last = ', and ')
-
 
 ```
 
@@ -95,7 +92,7 @@ The 2017 ACC/AHA (American College of Cardiology/American Heart Association) blo
 
 ---
 
-__Normal blood pressure__: systolic < 120 mm Hg and diastolic < 80 mm Hg
+<span style="color:green"><b> Normal blood pressure</b></span>: systolic < 120 mm Hg and diastolic < 80 mm Hg
 
 - Promote optimal lifestyle habits, 
 
@@ -103,7 +100,7 @@ __Normal blood pressure__: systolic < 120 mm Hg and diastolic < 80 mm Hg
 
 ---
 
-__Elevated blood pressure__: systolic 120-129 mm Hg and diastolic < 80 mm Hg
+<span style="color:blue"><b> Elevated blood pressure</b></span>: systolic 120-129 mm Hg and diastolic < 80 mm Hg
 
 - Recommend nonpharmalogical therapy, 
 
@@ -139,6 +136,66 @@ __Elevated blood pressure__: systolic 120-129 mm Hg and diastolic < 80 mm Hg
 
 ---
 layout: false
+
+```{r fig.width=8, fig.height=6, dpi=300}
+
+p1 <- current_analysis$data %>%
+  filter(bp_cat != 'Taking antihypertensive medication') %>%
+  ggplot() +
+  aes(x = bp_sys_mmhg, y = bp_dia_mmhg, col = bp_cat) +
+  geom_point() +
+  scale_color_manual(values = c("olivedrab3",
+                                "darkturquoise",
+                                "orange",
+                                "red")) +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank(),
+        legend.position = 'top') +
+  scale_x_continuous(breaks = c(120, 130, 140)) +
+  scale_y_continuous(breaks = c(80, 90)) +
+  labs(y = 'Diastolic blood pressure, mm Hg',
+       x = 'Systolic blood pressure, mm Hg',
+       color = '') +
+  guides(colour = guide_legend(override.aes = list(size = 8)))
+
+xlimits <- ggplot_build(p1)$layout$panel_scales_x[[1]]$range$range
+ylimits <- ggplot_build(p1)$layout$panel_scales_y[[1]]$range$range
+
+p1
+
+```
+
+---
+
+```{r fig.width=8, fig.height=6, dpi=300}
+
+current_analysis$data %>%
+  filter(bp_cat == 'Stage 1 hypertension') %>%
+  mutate(
+    high_ascvd_risk = if_else(
+      ever_had_ascvd == 'yes' | pcr_highrisk == 'yes',
+      'High ASCVD risk',
+      'Not high risk'
+    )
+  ) %>% 
+  ggplot() +
+  aes(x = bp_sys_mmhg, y = bp_dia_mmhg, col = high_ascvd_risk) +
+  geom_point() +
+  scale_color_manual(values = c("red", "orange")) +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank(),
+        legend.position = 'top') +
+  scale_x_continuous(breaks = c(120, 130, 140), limits = xlimits) +
+  scale_y_continuous(breaks = c(80, 90), limits = ylimits) +
+  labs(y = 'Diastolic blood pressure, mm Hg',
+       x = 'Systolic blood pressure, mm Hg',
+       color = '') +
+  guides(colour = guide_legend(override.aes = list(size = 8)))
+
+```
+
+
+---
 
 ## 2017 ACC/AHA Blood Pressure Guideline
 

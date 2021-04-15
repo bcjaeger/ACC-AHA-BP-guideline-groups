@@ -10,6 +10,8 @@ output:
 
 ```{r setup, include=FALSE}
 
+# source("_drake.R")
+
 # refers to tables and figures
 refer_to <- function(label){
   report$pre_cap[report$reference == label]
