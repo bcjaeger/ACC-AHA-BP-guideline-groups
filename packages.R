@@ -35,11 +35,10 @@ pacman::p_load(
   Hmisc,
   xaringan,
   xaringanthemer,
-  showtext
+  showtext,
+  PooledCohort,
+  table.glue
 )
-
-pacman::p_load_gh('bcjaeger/PooledCohort', update = FALSE)
-pacman::p_load_gh('bcjaeger/table.glue', update = FALSE)
 
 conflicted::conflict_prefer("roc",       "pROC")
 conflicted::conflict_prefer("filter",    "dplyr")

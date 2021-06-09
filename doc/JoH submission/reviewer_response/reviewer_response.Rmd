@@ -1,0 +1,87 @@
+---
+date: "`r Sys.Date()`"
+author: "Your Name"
+title: "officedown template"
+output: 
+  officedown::rdocx_document:
+    reference_docx: style_manuscript_times_new_roman.docx
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.cap = TRUE)
+library(officedown)
+library(officer)
+
+fp <- fp_par(
+  text.align = "center", 
+  padding.bottom = 20, padding.top = 120, 
+  border.bottom = fp_border())
+
+ft <- fp_text(shading.color='#EFEFEF', bold = TRUE)
+
+make_revision <- function(text, label){
+  
+  file <- glue::glue('doc/JoH submission/reviewer_response/{label}.rds')
+  saveRDS(object = text,  file = file)
+  
+  paste(text)
+  
+}
+
+```
+
+# Reviewer 1
+
+<br>
+
+__Summary__: Authors used the NHANES database to assess the prevalence of elevated 10-year predicted risk according to the ASCVD risk score in various groups of blood pressure. The paper is well-written and provides data supporting the recommendations made by the AHA/ACC Guidelines when to initiate antihypertensive medication.
+
+
+__Response__: Thank you for your review and helpful feedback. We have responded to each of your comments below and included a list of relevant changes in the revised manuscript. 
+
+<br>
+
+__Comment 1__: Introduction, The reference to specific section in the US GL appears superfluous.
+
+__Response__:
+
+<br>
+
+__Comment 2__ Methods, It should be clearly stated that the subgroups were non-exclusive.
+
+__Response__:
+
+<br>
+
+__Comment 3__ Results, It would be interesting to provide data on the number/characteristics of patients who would have received antihypertensive medication according to the ACC/AHA GL (stage 1 hypertension) but have an ASCVD risk score <10% (and would not be treated according to the ESC/ESH GL).
+
+__Response__: 
+
+Regarding the parenthetical mention of the ESC/ESH blood pressure guideline, we believe this guideline is highly relevant for clinical practice, but we are unable to determine precisely who would or would not be recommended to initiate treatment in the current study. The ESC/ESH guideline leverages the Systematic COronary Risk Evaluation (SCORE) algorithm to predict 10-year CVD risk. SCORE is derived from European cohort studies and includes risk charts for low and high risk countries. As the United States is not listed as a low or high risk country in the [online calculator for SCORE](https://www.escardio.org/Education/Practice-Tools/CVD-prevention-toolbox/SCORE-Risk-Charts), we do not feel that the SCORE algorithm could be properly applied to our cohort of US adults. Therefore, we have not classified who would or would not be recommended to initiate treatment based on the ESC/ESH guideline in the revised manuscript.
+
+<br>
+
+__Comment 4__ Discussion, Along the lines, please discuss the ESH/ESC GL in this context and what the data adds for the recommendation provided herein.
+
+
+\newpage
+
+# Reviewer 2
+
+__Summary__: Jaeger et al. estimated the proportion of US adults with diabetes, chronic kidney disease,or ≥ 65 years of age that have high cardiovascular risk. The analysis was conducted for all US adults and among those with stage 1 hypertension. It was based on data from 3 cycles of the US National Health and Nutrition Examination Survey (NHANES).
+
+__Response__: Thank you for your review and helpful feedback. We have responded to each of your comments below and included a list of relevant changes in the revised manuscript. 
+
+ 
+
+__Comment 1__: Clinical CVD was self-reported, and the analysis did not take into account target organ damage, which is a strong predictor of cardiovascular risk. It should be identified as a potential limitation of the study.
+
+__Comment 2__: Table 1 presents only total and HDL cholesterol values. However, cardiovascular risk is primarily driven by LDL cholesterol. How many patients were treated with statins ?
+
+__Comment 3__: The current US definition and staging of hypertension are different than in all other countries. This issue should be addressed in the discussion.
+
+__Comment 4__: Table 1: Presentation of heart rate might provide additional insights into differentiation between 4 subgroups.
+
+__Comment 5__: Can you provide the number of drugs in treated patients ?
+
+__Comment 6__: Table S1. Please provide data regarding antihypertensive medication use.
