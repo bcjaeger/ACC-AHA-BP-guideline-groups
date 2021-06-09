@@ -1,11 +1,11 @@
 ---
-title: "Predicted cardiovascular risk for US adults with diabetes, chronic kidney disease, and \u2265 65 years of age overall and with stage 1 hypertension"
+title: "Predicted cardiovascular risk for US adults with diabetes, chronic kidney disease, and \u226565 years of age"
 bibliography: refs.bib
-csl: ccqo.csl
+csl: joh.csl
 always_allow_html: true
 output: 
   officedown::rdocx_document:
-    reference_docx: style_manuscript_times_new_roman_lines.docx
+    reference_docx: style_manuscript_times_new_roman.docx
 ---
 
 ```{r setup, include=FALSE}
@@ -137,7 +137,7 @@ Byron C. Jaeger, PhD^1^, Swati Sakhuja, MPH^2^, Shakia T. Hardy, PhD, MPH^2^, Ol
 2. Department of Epidemiology, University of Alabama at Birmingham
 3. Department of Epidemiology, Tulane University
 
-__Short title__: Predicted cardiovascular risk for US adults
+__Short title__: Cardiovascular risk for US adults
 
 __Address for correspondence:__
 
@@ -147,21 +147,55 @@ University of Alabama at Birmingham
 1665 University Blvd
 Birmingham, Alabama 35294-0022
 
-__Total word count including the title page, abstract, text, references, tables, and figures legends__: 
+__Word count (including references, but not tables and legends)__: 3837
+
+__number of tables__: 4 (3 main tables; 1 supplemental table)
+
+__number of figures__: 5 (2 main figures, 3, supplemental figues)
+
+__number of supplementary digital content files__: 0
+
+\newpage
+
+__Sources of Funding:__ 
+
+Drs Muntner and Jaeger receive support through grant R01HL144773 from the National Heart, Lung, and Blood Institute and grant 15SFRN2390002 from the American Heart Association. 
+
+Dr. Hardy receives support through R01HL139716 from the National Heart, Lung, and Blood Institute.
+
+Dr. Bundy receives support through K12HD043451 from the Eunice Kennedy Shriver National Institute of Child Health and Human Development.
+
+Dr. Whelton receives support through a Centers of Research Excellence grant from the National Institute of General Medical Sciences, P20GM109036.
+
+
+__Disclosures:__ 
+
+BCJ has nothing to disclose. 
+SS has nothing to disclose.
+STH has nothing to disclose.
+OPA has nothing to disclose. 
+JDB has nothing to disclose.
+PM received grant funding and consulting fees from Amgen Inc., unrelated to the current manuscript.
+PKW has nothing to disclose.
 
 \newpage
 
 # ABSTRACT
 
-__Background:__ The 2017 American College of Cardiology/American Heart Association blood pressure (BP) guideline recommends using 10-year predicted atherosclerotic cardiovascular disease (ASCVD) risk to guide decisions to initiate antihypertensive medication. Adults with stage 1 hypertension and diabetes mellitus, chronic kidney disease (CKD), or aged ≥65 years are considered to have high CVD risk by the guideline and initiation of antihypertensive medication is recommended. This recommendation assumes that most adults with diabetes, CKD, or aged ≥65 years have 10-year predicted ASCVD risk ≥10%.
+__Background:__ The 2017 American College of Cardiology/American Heart Association blood pressure (BP) guideline recommends using 10-year predicted atherosclerotic cardiovascular disease (ASCVD) risk to guide decisions to initiate antihypertensive medication. 
 
-__Methods:__ We included adults aged 40-79 years from the National Health and Nutrition Examination Survey `r min(exams)`-`r max(exams)+1` (n=`r table_value(nrow(current_analysis$data))`). We computed 10-year predicted ASCVD risk using the Pooled Cohort risk equations and clinical CVD was self-reported. Analyses were conducted overall and among those with stage 1 hypertension, defined by a mean systolic BP of 130-139 mm Hg or diastolic BP of 80-89 mm Hg. In subgroups defined by diabetes, chronic kidney disease (CKD), and age ≥65 years, we estimated the proportion of US adults with high ASCVD risk (i.e., 10-year predicted ASCVD risk ≥10% or clinical CVD) and estimated age-adjusted probability of having high ASCVD risk.
+__Methods:__ We included adults aged 40-79 years from the National Health and Nutrition Examination Survey `r min(exams)`-`r max(exams)+1` (n=`r table_value(nrow(current_analysis$data))`). We computed 10-year predicted ASCVD risk using the Pooled Cohort risk equations. Clinical CVD was self-reported. Analyses were conducted overall and among those with stage 1 hypertension, defined by a mean systolic BP of 130-139 mm Hg or diastolic BP of 80-89 mm Hg. In subgroups defined by diabetes, chronic kidney disease (CKD), and age ≥65 years, we estimated the proportion of US adults with high ASCVD risk (i.e., 10-year predicted ASCVD risk ≥10% or clinical CVD) and estimated age-adjusted probability of having high ASCVD risk.
 
 __Results:__ Among US adults, an estimated `r no_ci(inline$prevHighRiskDiabetes)`, `r no_ci(inline$prevHighRiskCkd)`, and `r no_ci(inline$prevHighRiskAge65)` of those with diabetes, CKD, and age ≥65 years had high ASCVD risk, respectively. Among US adults with stage 1 hypertension, an estimated `r no_ci(inline$prevHighRiskS1hDiabetes)`, `r no_ci(inline$prevHighRiskS1hCkd)`, and `r no_ci(inline$prevHighRiskS1hAge65)` of those with diabetes, CKD, and age ≥65 years had high ASCVD risk, respectively. The probability of having high ASCVD risk increased with age and exceeded 50% for US adults with diabetes and CKD at ages `r inline$ageHighRiskOvrlDiabetes` and `r inline$ageHighRiskOvrlCkd` years, respectively. For those with stage 1 hypertension, these ages were `r inline$ageHighRiskS1hDiabetes` and `r inline$ageHighRiskS1hCkd`, respectively.
 
 __Conclusions:__ Most US adults with diabetes, CKD, or age ≥65 years had high ASCVD risk. However, many with stage 1 hypertension did not. 
 
 __Key words__: Atherosclerotic cardiovascular disease, blood pressure, diabetes, chronic kidney disease, risk prediction
+\newpage
+
+# CONDENSED ABSTRACT 
+
+The 2017 American College of Cardiology/American Heart Association blood pressure (BP) guideline recommends using atherosclerotic cardiovascular disease (ASCVD) risk to guide decisions to initiate antihypertensive medication. Using National Health and Nutrition Examination Survey `r min(exams)`-`r max(exams)+1` data, it was estimated that `r no_ci(inline$prevHighRiskS1hDiabetes)`, `r no_ci(inline$prevHighRiskS1hCkd)`, and `r no_ci(inline$prevHighRiskS1hAge65)` of US adults with stage 1 hypertension and diabetes, chronic kidney disease and age ≥65 years had high ASCVD risk defined by 10-year predicted ASCVD risk ≥10% or clinical CVD. Predicted 10-year ASCVD risk should be calculated for all adults with stage 1 hypertension and without clinical CVD as many are not at high risk for ASCVD.
 
 \newpage
 
@@ -184,7 +218,7 @@ abbrev_key %>%
 
 # INTRODUCTION
 
-In November 2017, the American College of Cardiology and the American Heart Association (ACC/AHA) published a guideline for the prevention, detection, evaluation, and management of high blood pressure (BP) in adults  [@whelton20182017]. This guideline recommends using both BP levels and predicted risk for cardiovascular disease (CVD) to guide the initiation of antihypertensive medication in addition to nonpharmacological therapy. Initiation of antihypertensive medication is recommended for all adults with a confirmed average systolic BP (SBP) ≥ 140 mm Hg or diastolic BP (DBP) ≥ 90 mm Hg, stage 2 hypertension in the guideline. Initiation of antihypertensive medication is also recommended for adults with clinical CVD or a 10-year risk of atherosclerotic CVD (ASCVD) events ≥ 10% who have a confirmed average SBP between 130 and 139 mm Hg and/or DBP between 80 and 89 mm Hg, stage 1 hypertension in the guideline [@goff20142013]. Additionally, as a matter of practical convenience, adults with stage 1 hypertension and diabetes mellitus, chronic kidney disease (CKD), or ≥ 65 years of age are considered to have high CVD risk by the guideline and initiation of antihypertensive medication is recommended. This recommendation, written in Sections 9.3, 9.6, and 10.3 of the guideline, was based on the assumption that the vast majority of adults with diabetes, CKD, or ≥ 65 years of age are likely to have a 10-year predicted ASCVD risk ≥ 10% and the knowledge that surveys suggest most clinicians, including cardiologists, do not assess CVD risk using recommended risk prediction tools [@whelton20182017; @shillinglaw2012use].
+In November 2017, the American College of Cardiology and the American Heart Association (ACC/AHA) published a guideline for the prevention, detection, evaluation, and management of high blood pressure (BP) in adults  [@whelton20182017]. This guideline recommends using both BP levels and predicted risk for cardiovascular disease (CVD) to guide the initiation of antihypertensive medication in addition to nonpharmacological therapy. Initiation of antihypertensive medication is recommended for all adults with a confirmed average systolic BP (SBP) ≥ 140 mm Hg or diastolic BP (DBP) ≥ 90 mm Hg, stage 2 hypertension in the guideline. Initiation of antihypertensive medication is also recommended for adults with clinical CVD or a 10-year risk of atherosclerotic CVD (ASCVD) events ≥ 10% who have a confirmed average SBP between 130 and 139 mm Hg and/or DBP between 80 and 89 mm Hg, stage 1 hypertension in the guideline [@goff20142013]. Additionally, as a matter of practical convenience, adults with stage 1 hypertension and diabetes mellitus, chronic kidney disease (CKD), or ≥ 65 years of age are considered to have high CVD risk by the guideline and initiation of antihypertensive medication is recommended. This recommendation was based on the assumption that the vast majority of adults with diabetes, CKD, or ≥ 65 years of age are likely to have a 10-year predicted ASCVD risk ≥ 10% and the knowledge that surveys suggest most clinicians, including cardiologists, do not assess CVD risk using recommended risk prediction tools [@whelton20182017; @shillinglaw2012use].
 
 <br>
 
@@ -439,27 +473,6 @@ rp$supplement.figure$object[[3]]
 \newpage
 
 __Acknowledgments:__ None.
-
-__Sources of Funding:__ 
-
-Drs Muntner and Jaeger receive support through grant R01HL144773 from the National Heart, Lung, and Blood Institute and grant 15SFRN2390002 from the American Heart Association. 
-
-Dr. Hardy receives support through R01HL139716 from the National Heart, Lung, and Blood Institute.
-
-Dr. Bundy receives support through K12HD043451 from the Eunice Kennedy Shriver National Institute of Child Health and Human Development.
-
-Dr. Whelton receives support through a Centers of Research Excellence grant from the National Institute of General Medical Sciences, P20GM109036.
-
-
-__Disclosures:__ 
-
-BCJ has nothing to disclose. 
-SS has nothing to disclose.
-STH has nothing to disclose.
-OPA has nothing to disclose. 
-JDB has nothing to disclose.
-PM received grant funding and consulting fees from Amgen Inc., unrelated to the current manuscript.
-PKW has nothing to disclose.
 
 \newpage
 
