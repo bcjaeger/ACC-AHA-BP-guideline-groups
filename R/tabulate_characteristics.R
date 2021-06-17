@@ -95,7 +95,9 @@ tb1_fun <- function(.x, by = NULL, design){
 
     } else {
 
-      svymean(x = formula, design = design) %>%
+      svymean(x = formula,
+              design = design,
+              na.rm = TRUE) %>%
         as_tibble() %>%
         rename_at(.vars = .x, .funs = ~ 'se') %>%
         mutate(level = .x) %>%

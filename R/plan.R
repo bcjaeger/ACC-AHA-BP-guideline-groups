@@ -41,6 +41,9 @@ the_plan <- drake_plan(
   qx_high_blood_pressure    = clean_qx_high_bp(exams),
   qx_healthcare_utilization = clean_qx_healthcare_utilization(exams),
 
+
+  statins = clean_rx_statin(exams),
+
   data_pooled = reduce(
     .x = list(
       demo,
@@ -56,11 +59,13 @@ the_plan <- drake_plan(
       qx_health_insurance,
       qx_diabetes,
       qx_high_blood_pressure,
-      qx_healthcare_utilization
+      qx_healthcare_utilization,
+      statins
     ),
     .f = left_join,
     by = c('exam', 'seqn')
   ),
+
 
   fasted_hrs_lower = 8,
   fasted_hrs_upper = 24,
@@ -107,6 +112,11 @@ the_plan <- drake_plan(
 
   design_s1hyp = subset(design_overall, bp_cat == 'Stage 1 hypertension'),
 
+  design_s1hyp_lowrisk = design_overall %>%
+    subset(bp_cat == 'Stage 1 hypertension' &
+             pcr_gteq_10 == 'no' &
+             ever_had_ascvd == 'no'),
+
   tbl1_variables = c(
     "Age, years" = "age",
     "Gender" = "sex",
@@ -114,6 +124,7 @@ the_plan <- drake_plan(
     "Current smoker" = "smk_current",
     "Total cholesterol, mg/dl" = "chol_total_mgdl",
     "HDL-cholesterol, mg/dl" = "chol_hdl_mgdl",
+    "Heart rate, beats per minute" = "pulse_60s",
     "Systolic blood pressure, mm Hg" = "bp_sys_mmhg",
     "Diastolic blood pressure, mm Hg" = "bp_dia_mmhg",
     "Antihypertensive medication use" = "meds_bp",
@@ -132,7 +143,12 @@ the_plan <- drake_plan(
   tbl1_s1hyp = tabulate_characteristics(design_s1hyp,
                                         tbl1_variables),
 
+  tbl1_s1hyp_lowrisk = tabulate_characteristics(design_s1hyp_lowrisk,
+                                                tbl1_variables),
+
   tbl_bpdist = tabulate_bpdist(design_overall),
+
+  perc_assumed_highrisk = compute_perc_assumed_highrisk(design_s1hyp_lowrisk),
 
   tbl_risk_overall = tabulate_risk_summary(design_overall),
   tbl_risk_overall_supp = tabulate_risk_summary(design_overall_supp),

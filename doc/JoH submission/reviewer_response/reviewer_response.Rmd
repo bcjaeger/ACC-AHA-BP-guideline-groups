@@ -1,38 +1,60 @@
 ---
 date: "`r Sys.Date()`"
-author: "Your Name"
-title: "officedown template"
+title: "Predicted cardiovascular risk for US adults with diabetes, chronic kidney disease, and \u226565 years of age"
+subtitle: "Response to reviewers"
 output: 
   officedown::rdocx_document:
     reference_docx: style_manuscript_times_new_roman.docx
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, fig.cap = TRUE)
+
+knitr::opts_chunk$set(echo = FALSE)
+
 library(officedown)
 library(officer)
+library(drake)
+library(tidyverse)
+library(flextable)
+library(table.glue)
+library(glue)
+library(janitor)
+library(survey)
 
-fp <- fp_par(
-  text.align = "center", 
-  padding.bottom = 20, padding.top = 120, 
-  border.bottom = fp_border())
+rspec <- round_spec() %>%
+  round_using_decimal(digits = 1)
 
-ft <- fp_text(shading.color='#EFEFEF', bold = TRUE)
+names(rspec) <- paste('table.glue', names(rspec), sep = '.')
 
-make_revision <- function(text, label){
-  
-  file <- glue::glue('doc/JoH submission/reviewer_response/{label}.rds')
-  saveRDS(object = text,  file = file)
-  
-  paste(text)
-  
-}
+options(rspec)
+
+R.utils::sourceDirectory('../../R')
+
+loadd(tbl1_s1hyp_lowrisk,
+      current_analysis,
+      egfr_cutpoint,
+      acr_cutpoint,
+      gluc_cutpoint_fasted,
+      gluc_cutpoint_fed,
+      hba1c_cutpoint,
+      perc_assumed_highrisk)
+
+s1hyp_lowrisk <- subset(current_analysis$data,
+                        bp_cat == 'Stage 1 hypertension' & 
+                          pcr_gteq_10 == 'no')
+
+N_s1h_lowrisk_unwtd <- list(
+  ovrl         = nrow(s1hyp_lowrisk),
+  diab         = sum(s1hyp_lowrisk$diabetes == "yes"),
+  ckd          = sum(s1hyp_lowrisk$ckd == "yes"),
+  age_gt65     = sum(s1hyp_lowrisk$age_gt65 == "yes"),
+  any          = sum(s1hyp_lowrisk$any_ckd_diab_age65 == "yes")
+) %>%
+  map_chr(table_value)
 
 ```
 
 # Reviewer 1
-
-<br>
 
 __Summary__: Authors used the NHANES database to assess the prevalence of elevated 10-year predicted risk according to the ASCVD risk score in various groups of blood pressure. The paper is well-written and provides data supporting the recommendations made by the AHA/ACC Guidelines when to initiate antihypertensive medication.
 
@@ -43,25 +65,117 @@ __Response__: Thank you for your review and helpful feedback. We have responded 
 
 __Comment 1__: Introduction, The reference to specific section in the US GL appears superfluous.
 
-__Response__:
+__Response__: We agree that this reference is not needed. In the updated manuscript, the text "written in Sections 9.3, 9.6, and 10.3 of the guideline" has been removed from the first paragraph of the Introduction.
 
 <br>
 
 __Comment 2__ Methods, It should be clearly stated that the subgroups were non-exclusive.
 
-__Response__:
+__Response__: We think this is a helpful clarification to include and have modified the first sentence of the Statistical Analysis section (see page 9) to read as follows: "Analyses were conducted for the overall population and among non-exclusive subgroups of participants with diabetes, CKD, ≥ 65 years of age, and with any of these three characteristics."
 
 <br>
 
 __Comment 3__ Results, It would be interesting to provide data on the number/characteristics of patients who would have received antihypertensive medication according to the ACC/AHA GL (stage 1 hypertension) but have an ASCVD risk score <10% (and would not be treated according to the ESC/ESH GL).
 
-__Response__: 
+__Response__: We agree and have taken three steps in response: 
 
-Regarding the parenthetical mention of the ESC/ESH blood pressure guideline, we believe this guideline is highly relevant for clinical practice, but we are unable to determine precisely who would or would not be recommended to initiate treatment in the current study. The ESC/ESH guideline leverages the Systematic COronary Risk Evaluation (SCORE) algorithm to predict 10-year CVD risk. SCORE is derived from European cohort studies and includes risk charts for low and high risk countries. As the United States is not listed as a low or high risk country in the [online calculator for SCORE](https://www.escardio.org/Education/Practice-Tools/CVD-prevention-toolbox/SCORE-Risk-Charts), we do not feel that the SCORE algorithm could be properly applied to our cohort of US adults. Therefore, we have not classified who would or would not be recommended to initiate treatment based on the ESC/ESH guideline in the revised manuscript.
+_Step 1_: We computed the percentage of US adults without high ASCVD risk and with stage 1 hypertension who would be assumed to have high ASCVD risk by the ACC/AHA guideline. In the revised manuscript, we have included this information. Specifically, on page 9-10, we write "The percentage of US adults with stage 1 hypertension incorrectly assumed to have high ASCVD risk by the ACC/AHA guideline due to diabetes, CKD, or age was also computed." On page 11, we write "Among those without high ASCVD risk and with stage 1 hypertension, `r table_value(perc_assumed_highrisk)`% were assumed to have high ASCVD risk by the ACC/AHA BP guideline."
+
+_Step 2_: We have computed the characteristics of US adults with stage 1 hypertension and 10-year predicted ASCVD risk < 10% (__Table__). Adults who would have been assumed to have high ASCVD risk by the ACC/AHA BP guideline are those with diabetes, CKD, or age ≥ 65 years in the far right column. While we believe these results are interesting, we have chosen not to include them in the revised manuscript as they are similar to results in supplemental table 1, which describes the characteristics of US adults with stage 1 hypertension. 
+
+_Step 3_: We believe the 2018 ESC/ESH BP guideline is relevant to the current study, but we are unable to determine precisely who would or would not be recommended to initiate treatment by the ESC/ESH guideline in the current study. The ESC/ESH guideline leverages the Systematic COronary Risk Evaluation (SCORE) algorithm to predict 10-year CVD mortality risk. SCORE is derived from European cohort studies and includes risk charts for low and high risk countries. Because the SCORE algorithm has not been validated in the United States and the United States is not listed as a low or high risk country in the [online calculator for SCORE](https://www.escardio.org/Education/Practice-Tools/CVD-prevention-toolbox/SCORE-Risk-Charts), the SCORE algorithm could not be properly applied to the current study's cohort of US adults. Therefore, we have not classified who would or would not be recommended to initiate treatment based on the ESC/ESH guideline in the revised manuscript.
 
 <br>
 
 __Comment 4__ Discussion, Along the lines, please discuss the ESH/ESC GL in this context and what the data adds for the recommendation provided herein.
+
+__Response__: We have added text that discusses components of the ESC/ESH guideline in the context of the current study. Specifically, on page 16, we write 
+
+"For example, the 2018 European Society of Cardiology (ESC) and European Society of Hypertension (ESH) BP guideline recommends considering initiation of antihypertensive medication for adults at very high risk of CVD with untreated SBP between 130 and 139 mm Hg or untreated DBP between 85 and 89 mm Hg. Adults with predicted 10-year CVD mortality risk ≥ 10% according to the Systematic Coronary Risk Evaluation equations, severe CKD (eGFR < 30 mL/min/1.73 m^2^), or diabetes with target organ damage are included in the very high CVD risk group."
+
+We have also included text in the discussion describing how data from the current study inform future studies on the recommendations provided in the ESC/ESH guideline (see pages 16-17):
+
+"The current study found that many US adults with CKD (eGFR <60 mL/min/1.73 m^2^ or albuminuria) or diabetes did not have high ASCVD risk, defined as clinical CVD or 10-year ASCVD risk ≥ 10% according to the Pooled Cohort Risk equations. Future studies may assess generalization of the current study's findings to the ESC/ESH guideline by estimating the proportion of European adults with diabetes and target organ damage or severe CKD that have clinical CVD or 10-year CVD mortality risk ≥ 10% according to the Systematic Coronary Risk Evaluation equations."
+
+\newpage
+__Table__: Characteristics of US adults without high atherosclerotic cardiovascular disease risk and with stage 1 hypertension, overall and for subgroups defined by diabetes, chronic kidney disease, and ≥ 65 years of age.
+`r fp_par(line_spacing = 1)`
+
+```{r}
+
+col_labels <- function(N_vals){
+    tbl1_s1hyp_lowrisk$table %>%
+      select(-label, -level) %>%
+      names() %>%
+      paste('\nN =', N_vals) %>%
+      set_names(names(N_vals)) %>%
+      as.list()
+  }
+
+col_labels_s1h_lowrisk <- col_labels(N_s1h_lowrisk_unwtd)
+
+fts <- c(
+  '\u2A',
+  '\u2020',
+  '\u2021',
+  '\uA7',
+  '\u2016',
+  '\uB6',
+  '#',
+  '\u2a\u2a',
+  '\u2020\u2020',
+  '\u2021\u2021'
+)
+
+value_note <- as_paragraph("Table values are mean (standard error) or proportion.")
+
+ftr_ckd <- as_paragraph(glue('Chronic kidney disease is defined by an albumin-to-creatinine ratio \u2265 {acr_cutpoint} mg/g or an estimated glomerular filtration rate < {egfr_cutpoint} ml/min/1.73m\u00b2'))
+
+ftr_diab <- as_paragraph(glue('Diabetes was defined by fasting serum glucose \u2265 {gluc_cutpoint_fasted} mg/dL, non-fasting glucose \u2265 {gluc_cutpoint_fed} mg/dL, glycated hemoglobin (HbA1c) \u2265 {hba1c_cutpoint}%, or self-reported use of insulin or oral glucose lowering medication.'))
+
+ftr_cvdHx_defn <- as_paragraph('Clinical cardiovascular disease was defined by self-report of previous heart failure, coronary heart disease, stroke, or myocardial infarction')
+
+
+tbl1_s1hyp_lowrisk$table %>% 
+  as_grouped_data(groups = 'label') %>%
+  remove_empty('rows') %>%
+  as_flextable(hide_grouplabel = TRUE) %>%
+  add_header_row(values = c("", "Sub-groups"), colwidths = c(2, 4)) %>%
+  theme_box() %>%
+  set_header_labels(
+    'level' = 'Characteristic',
+    'Overall' = col_labels_s1h_lowrisk$ovrl,
+    'Diabetes' = col_labels_s1h_lowrisk$diab,
+    'CKD' = col_labels_s1h_lowrisk$ckd,
+    'Age 65+ years' = col_labels_s1h_lowrisk$age_gt65,
+    'Diabetes, CKD, or age 65+ years' = col_labels_s1h_lowrisk$any
+  ) %>%
+  padding(i = 4:8, j = 1, padding.left = 10, part = 'body') %>%
+  height(height = 1.5, part = 'header') %>%
+  width(width = 1.15) %>%
+  width(j = ~level, width = 1.75) %>%
+  align(align = 'center', part = 'all') %>%
+  align(j = 1, align = 'left', part = 'all') %>%
+  footnote(i=2, j=1, part='header', value=value_note, ref_symbols=fts[1]) %>%
+  footnote(i=2, j=3, part='header', value=ftr_diab, ref_symbols=fts[2]) %>%
+  footnote(i=2, j=4, part='header', value=ftr_ckd, ref_symbols=fts[3]) %>%
+  footnote(
+    i = ~ level == 'Clinical CVD',
+    j = 1,
+    part = 'body',
+    value = ftr_cvdHx_defn,
+    ref_symbols = fts[4]
+  ) %>%
+  footnote(
+    i = 1,
+    j = 1,
+    part = 'body',
+    value = as_paragraph("CKD = chronic kidney disease; CVD = cardiovascular disease; HDL = high density lipoprotein"),
+    ref_symbols = ''
+  )
+
+```
+
 
 
 \newpage
@@ -72,16 +186,100 @@ __Summary__: Jaeger et al. estimated the proportion of US adults with diabetes, 
 
 __Response__: Thank you for your review and helpful feedback. We have responded to each of your comments below and included a list of relevant changes in the revised manuscript. 
 
- 
+<br>
 
 __Comment 1__: Clinical CVD was self-reported, and the analysis did not take into account target organ damage, which is a strong predictor of cardiovascular risk. It should be identified as a potential limitation of the study.
 
-__Comment 2__: Table 1 presents only total and HDL cholesterol values. However, cardiovascular risk is primarily driven by LDL cholesterol. How many patients were treated with statins ?
+__Response__: We agree and have added text in the Discussion section to clarify this limitation. Specifically, on page 17, we write 
+
+"Clinical CVD status may also have been mis-classified as it was determined by self-report rather than diagnostic imaging. The current analysis also did not account for target organ damage, which is a strong predictor of CVD risk."
+
+<br>
+
+__Comment 2A__: Table 1 presents only total and HDL cholesterol values. However, cardiovascular risk is primarily driven by LDL cholesterol. 
+
+__Response__: Thank you for this comment. In the current analysis, we studied predicted ASCVD risk according to the Pooled Cohort Risk prediction equations rather than observed CVD events. The Pooled Cohort Risk equations predict 10-year risk for ASCVD using multiple variables, including HDL and total cholesterol but not LDL cholesterol. Since LDL cholesterol does not influence 10-year risk for ASCVD according to the Pooled Cohort Risk equations, we did not include LDL as a study variable.
+
+<br>
+
+__Comment 2B__: How many patients were treated with statins?
+
+```{r}
+
+loadd(design_overall)
+
+statins <- svytable(~meds_statin, design_overall) %>% 
+  as.data.frame() %>% 
+  mutate(p = Freq/sum(Freq)) %>% 
+  select(-Freq) %>% 
+  filter(meds_statin == 'yes') %>% 
+  select(-meds_statin) %>% 
+  as.list() %>% 
+  map(~table_glue("{100*.x}%")) %>% 
+  unlist()
+
+statins_unweighted <- 
+  table(design_overall$variables$meds_statin) %>% 
+  as.data.frame() %>% 
+  rename(meds_statin = Var1) %>% 
+  mutate(Freq = as.integer(Freq)) %>% 
+  summarize(value = table_glue("{Freq[2]} of {sum(Freq)}")) %>% 
+  deframe() %>% 
+  glue_collapse(sep = ', ', last = ', and ')
+
+```
+
+__Response__: We are happy to answer this question. All NHANES participants were eligible to complete an interview with a trained survey interviewer involving dietary Supplements and prescription medications. The questions related to prescription medications cover the use of prescription medications during a one-month period prior to the survey date. During the interview, generic names and codes of prescriptions taken by the participant during the previous month were recorded. We linked these codes to statin medications (Atorvastatin, Atorvast, Fluvastatin, Lovastatin, Pitavastatin, Pravastatin, Rosuvastatin, and Simvastatin) to determine whether participants were taking a statin. Data from participants included in the current study indicate that `r statins` of US adults ages 40-79 years used a statin from 2013 to 2018. In case the reviewer would also like to assess the unweighted count, a total of `r statins_unweighted` participants had at least one prescription that was a statin in the current study. Statin usage clearly impacts CVD risk, but only plays a role in the Pooled Cohort risk equations for 10-year ASCVD risk if a statin user responds 'yes' to the question 'Are you receiving treatment for high blood pressure?' due to their statin use. Since we have already partitioned the sample based on self-reported usage of medication to lower blood pressure, we have not included additional data on statin use in the revised manuscript. 
+
+<br>
 
 __Comment 3__: The current US definition and staging of hypertension are different than in all other countries. This issue should be addressed in the discussion.
 
+__Response__: We think this is a good topic to include in the Discussion and have included an additional paragraph to address it: "The 2017 ACC/AHA BP guideline's definition of hypertension and recommendations for initiating antihypertensive medication differ from other guidelines published from 2015-2020. For example, the 2018 European Society of Cardiology (ESC) and European Society of Hypertension (ESH) BP guideline recommends considering initiation of antihypertensive medication for adults at very high risk of CVD with untreated SBP between 130 and 139 mm Hg or untreated DBP between 85 and 89 mm Hg. Adults with predicted 10-year CVD mortality risk ≥ 10% according to the Systematic Coronary Risk Evaluation equations, severe CKD (eGFR < 30 mL/min/1.73 m^2^), or diabetes with target organ damage are included in the very high CVD risk group. The current study found that many US adults with CKD (eGFR <60 mL/min/1.73 m^2^ or albuminuria) or diabetes did not have high ASCVD risk, defined as clinical CVD or 10-year ASCVD risk ≥ 10% according to the Pooled Cohort Risk equations. Future studies may assess generalization of the current study's findings to the ESC/ESH guideline by estimating the proportion of European adults with diabetes and target organ damage or severe CKD that have clinical CVD or 10-year CVD mortality risk ≥ 10% according to the Systematic Coronary Risk Evaluation equations."
+
+<br>
+
 __Comment 4__: Table 1: Presentation of heart rate might provide additional insights into differentiation between 4 subgroups.
 
-__Comment 5__: Can you provide the number of drugs in treated patients ?
+__Response__: We agree and have added heart rate in beats per minute to Table 1 and Table S1 of the revised manuscript. 
+
+
+```{r}
+
+rx_stats_mean_se <- 
+  svymean(
+    ~meds_n_taken, 
+    subset(design_overall, meds_bp == 'yes'), 
+    na.rm = TRUE
+  ) %>% 
+  as.data.frame() %>% 
+  set_names(c("mean", "se")) 
+
+rx_stats_quants <- 
+  svyquantile(
+    ~meds_n_taken, 
+    quantiles = c(0.25, 0.5, 0.75),
+    subset(design_overall, meds_bp == 'yes'), 
+    na.rm = TRUE
+  ) %>% 
+  as.data.frame() %>% 
+  set_names(c('q25', 'q50', 'q75')) %>% 
+  map(as.integer)
+
+rx_stats <- cbind(rx_stats_mean_se, rx_stats_quants) %>% 
+  as.list() %>% 
+  map(table_value)
+
+```
+
+<br>
+
+__Comment 5__: Can you provide the number of drugs in treated patients?
+
+__Response__: We are happy to provide these data for the reviewer. All NHANES participants were eligible to complete an interview with a trained survey interviewer involving dietary Supplements and prescription medications. The questions related to prescription medications cover the use of prescription medications during a one-month period prior to the survey date. During the interview, the number of prescription medications taken during the previous month was assessed. Data from participants taking antihypertensive medication in the current analysis indicate that the mean (standard error) number of prescription medications taken for US adults from 2013 through 2018 was `r rx_stats$mean` (`r rx_stats$se`), and the median (25^th^, 75^th^ percentile) was `r rx_stats$q50` (`r rx_stats$q25`, `r rx_stats$q75`). Since these medication data are not limited to prescriptions written for lowering blood pressure, we have not included these results in the updated manuscript.
+
+<br>
 
 __Comment 6__: Table S1. Please provide data regarding antihypertensive medication use.
+
+__Response__: Thank you for this comment. We grouped study participants into 4 non-overlapping groups based on blood pressure. A fifth group contained participants who were taking antihypertensive medications. Therefore, none of the participants with stage 1 hypertension were taking antihypertensive medications. We apologize for the lack of clarity and have added the following footnote to Table S1 to indicate that participants with stage 1 hypertension were not taking antihypertensive medication: "Stage 1 hypertension was defined as having untreated systolic blood pressure between 130 and 139 mm Hg with diastolic blood pressure < 90 mm Hg or diastolic blood pressure between 80 and 89 mm Hg with systolic blood pressure < 90 mm Hg" 

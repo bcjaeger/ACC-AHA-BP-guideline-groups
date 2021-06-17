@@ -46,7 +46,7 @@ High atherosclerotic cardiovascular disease risk was defined by a 10-year predic
 
 ASCVD = atherosclerotic cardiovascular disease; CKD = chronic kidney disease
 
-_Note:_ This illustration is not the same as the central illustration in the paper. A different version is used in order to adhere to a publication agreement: "Excluding abstracts, none of the paper's contents have been previously published."
+_Note:_ Currently under review at _Journal of Hypertension_.
 
 # INSTRUCTIONS FOR REPRODUCTION
 

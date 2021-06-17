@@ -407,6 +407,13 @@ compile_report <- function(exams,
       part = 'body',
       value = as_paragraph(write_abbrevs(abbrevs[c("CVD", "HDL", "CKD")])),
       ref_symbols = ''
+    ) %>%
+    footnote(
+      i = 1,
+      j = 1,
+      part = 'body',
+      value = as_paragraph("Stage 1 hypertension was defined as having untreated systolic blood pressure between 130 and 139 mm Hg with diastolic blood pressure < 90 mm Hg or diastolic blood pressure between 80 and 89 mm Hg with systolic blood pressure < 90 mm Hg"),
+      ref_symbols = ''
     )
 
   tbls_supp %<>% add_row(

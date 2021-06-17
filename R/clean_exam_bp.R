@@ -19,6 +19,10 @@ clean_exam_bp <- function(
     .id = 'exam'
   )
 
+  # BP is measured on participants 8+ years; radial (brachial if necessary)
+  # pulse is measured on participants 8+ years;
+  # and heart rate is measured on children 0-7 years of age.
+
   # Variable description ----
 
   var_guide <- tibble(
@@ -26,19 +30,22 @@ clean_exam_bp <- function(
       'bp_sys_mmhg',
       'bp_dia_mmhg',
       'n_msr_sbp',
-      'n_msr_dbp'
+      'n_msr_dbp',
+      'pulse_60s'
     ),
     nhanes = c(
       'BPXSY1 - BPXSY4',
       'BPXDI1 - BPXDI4',
       'BPXSY1 - BPXSY4',
-      'BPXDI1 - BPXDI4'
+      'BPXDI1 - BPXDI4',
+      'BPXPLS'
     ),
     descr = c(
       'Systolic blood pressure, mm Hg',
       'Diastolic blood pressure, mm Hg',
       'Number of systolic blood pressure readings',
-      'Number of diastolic blood pressure readings'
+      'Number of diastolic blood pressure readings',
+      'Pulse; 60 seconds'
     )
   )
 
@@ -57,10 +64,12 @@ clean_exam_bp <- function(
   # Some participants have zero BP values. taking their mean results in
   # NaN (not a number). I set these NaN values to missing.
 
+
   data_cleaned_bp <- select(
     data_all,
     exam,
     seqn = SEQN,
+    pulse_60s = BPXPLS,
     sbp_1 = BPXSY1,
     sbp_2 = BPXSY2,
     sbp_3 = BPXSY3,
@@ -71,12 +80,14 @@ clean_exam_bp <- function(
     dbp_4 = BPXDI4
   ) %>%
     # reshape so I can do operations on all BP values by participant
-    pivot_longer(cols = -c(exam, seqn)) %>%
+    pivot_longer(cols = matches("^sbp|^dbp")) %>%
     separate(name, into = c('type', 'measure')) %>%
     pivot_wider(names_from = type, values_from = value) %>%
     mutate(dbp = replace(dbp, dbp == 0, NA_real_)) %>% # see note 1
     group_by(exam, seqn) %>%
     summarise(
+      # no need to summarize pulse, but do need to keep it
+      pulse_60s = pulse_60s[1],
       bp_sys_mmhg = mean(sbp, na.rm = TRUE),
       bp_dia_mmhg = mean(dbp, na.rm = TRUE),
       n_msr_sbp = sum(!is.na(sbp)),
@@ -89,6 +100,8 @@ clean_exam_bp <- function(
         .fns = ~ replace(.x, is.nan(.x), NA_real_)
       )
     ) # see note 3
+
+
 
   if(include_variable_labels){
     add_labels(data_cleaned_bp, var_guide)

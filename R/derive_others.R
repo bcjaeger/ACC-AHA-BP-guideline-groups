@@ -87,7 +87,8 @@ derive_others <- function(data, exams,
       race_ethnicity = fct_recode(
         race_ethnicity,
         "Other Race/ethnicity - Including Multi-Racial" = "Other Race - Including Multi-Racial"
-      )
+      ),
+      statin = recode(statin, '0' = 'no', '1' = 'yes')
     ) %>%
     select(
       exam,
@@ -105,7 +106,10 @@ derive_others <- function(data, exams,
       n_msr_dbp,
       bp_sys_mmhg,
       bp_dia_mmhg,
+      pulse_60s,
       meds_bp,
+      meds_statin = statin,
+      meds_n_taken = rx_number_taken,
       smk_current,
       age_group,
       age_40to79,
