@@ -32,6 +32,7 @@ the_plan <- drake_plan(
   labs_ghb     = clean_labs_ghb(exams),
   labs_hdl     = clean_labs_hdl(exams),
   labs_tchol   = clean_labs_tchol(exams),
+  labs_trig    = clean_labs_trig(exams),
 
   # Questionnaires ----
   qx_medical_status         = clean_qx_medical_status(exams),
@@ -54,6 +55,7 @@ the_plan <- drake_plan(
       labs_ghb,
       labs_hdl,
       labs_tchol,
+      labs_trig,
       qx_medical_status,
       qx_smoking_status,
       qx_health_insurance,
@@ -124,6 +126,7 @@ the_plan <- drake_plan(
     "Current smoker" = "smk_current",
     "Total cholesterol, mg/dl" = "chol_total_mgdl",
     "HDL-cholesterol, mg/dl" = "chol_hdl_mgdl",
+    "LDL-cholesterol, mg/dl" = "chol_ldl_mgdl",
     "Heart rate, beats per minute" = "pulse_60s",
     "Systolic blood pressure, mm Hg" = "bp_sys_mmhg",
     "Diastolic blood pressure, mm Hg" = "bp_dia_mmhg",
@@ -203,6 +206,7 @@ the_plan <- drake_plan(
     design_overall,
     tbl1_overall$table,
     tbl1_s1hyp$table,
+    tbl1_s1hyp_lowrisk$table,
     tbl_bpdist$table,
     tbl_risk_overall,
     tbl_risk_overall_supp,

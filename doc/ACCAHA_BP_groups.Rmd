@@ -166,11 +166,11 @@ University of Alabama at Birmingham
 1665 University Blvd
 Birmingham, Alabama 35294-0022
 
-__Word count (including references, but not tables and legends)__: 3837
+__Word count (including references, but not tables and legends)__: 4117
 
 __number of tables__: 4 (3 main tables; 1 supplemental table)
 
-__number of figures__: 5 (2 main figures, 3, supplemental figues)
+__number of figures__: 5 (2 main figures, 3, supplemental figures)
 
 __number of supplementary digital content files__: 0
 
@@ -304,7 +304,7 @@ Participants not taking antihypertensive medication were grouped into four non-o
 
 ## Statistical analysis
 
-Analyses were conducted for the overall population and among `r make_revision("non-exclusive subgroups of")` participants with diabetes, CKD, ≥ 65 years of age, and with any of these three characteristics. Participant characteristics were summarized as mean with its standard error for continuous variables and percentage for categorical variables. The percentage of US adults in each of the five categories based on BP and antihypertensive medication use was computed. `r make_revision("The percentage of US adults with stage 1 hypertension incorrectly assumed to have high ASCVD risk by the ACC/AHA guideline due to diabetes, CKD, or age was also computed.")` The 25^th^, 50^th^, and 75^th^ percentile of 10-year predicted ASCVD risk and the percentage of participants with high ASCVD risk were estimated for the overall population and within each of the five categories based on BP and antihypertensive medication use. To assess the extent to which participants with a 10-year predicted ASCVD risk < 10% were close to the 10% threshold, we estimated the distribution of 10-year predicted ASCVD risk. The probability of having high ASCVD risk was estimated for each year of age from 40 to 79 years using logistic regression. Analyses of participant characteristics, the distribution of 10-year predicted ASCVD risk, and the probability of having high ASCVD risk were repeated among participants with stage 1 hypertension.
+Analyses were conducted for the overall population and among `r make_revision("non-exclusive subgroups of")` participants with diabetes, CKD, ≥ 65 years of age, and with any of these three characteristics. Participant characteristics were summarized as mean with its standard error for continuous variables and percentage for categorical variables. The percentage of US adults in each of the five categories based on BP and antihypertensive medication use was computed. `r make_revision("The percentage of US adults with stage 1 hypertension and 10-year predicted ASCVD risk < 10% assumed to have high ASCVD risk by the ACC/AHA guideline due to diabetes, CKD, or age was also computed.")` The 25^th^, 50^th^, and 75^th^ percentile of 10-year predicted ASCVD risk and the percentage of participants with high ASCVD risk were estimated for the overall population and within each of the five categories based on BP and antihypertensive medication use. To assess the extent to which participants with a 10-year predicted ASCVD risk < 10% were close to the 10% threshold, we estimated the distribution of 10-year predicted ASCVD risk. The probability of having high ASCVD risk was estimated for each year of age from 40 to 79 years using logistic regression. Analyses of participant characteristics, the distribution of 10-year predicted ASCVD risk, and the probability of having high ASCVD risk were repeated among participants with stage 1 hypertension.
 
 <br>
 
@@ -328,7 +328,11 @@ NHANES sampling weights, which were calculated as the inverse probability of bei
 
 # RESULTS
 
-Among US adults aged 40 to 79 years in `r min(exams)`-`r max(exams)+1`, the estimated prevalence (95% confidence interval [CI]) of diabetes and CKD was `r inline$prevDiabetesOverall` and `r inline$prevCkdOverall`, respectively, `r inline$prevAge65Overall` were estimated to be ≥ 65 years of age, and `r inline$prevAnyOverall` had diabetes, CKD, or ≥ 65 years of age (`r refer_to('tab_characteristics')`). The estimated prevalence (95% CI) of stage 1 hypertension was `r inline$prevS1hOverall` overall and `r inline$prevS1hDiabetes`, `r inline$prevS1hCkd`, `r inline$prevS1hAge65`, and `r inline$prevS1hAny` among those with diabetes, CKD, age ≥ 65 years, and at least one of these conditions, respectively (`r refer_to('tab_bpdist')`). `r make_revision(paste0("Among those without high ASCVD risk and with stage 1 hypertension, ", table_value(perc_assumed_highrisk), "% were assumed to have high ASCVD risk by the ACC/AHA BP guideline."))` Characteristics of US adults 40 to 79 years of age with stage 1 hypertension, overall and for subgroups defined by diabetes, CKD and age ≥ 65 years, are presented in Table S1.
+Among US adults aged 40 to 79 years in `r min(exams)`-`r max(exams)+1`, the estimated prevalence (95% confidence interval [CI]) of diabetes and CKD was `r inline$prevDiabetesOverall` and `r inline$prevCkdOverall`, respectively, `r inline$prevAge65Overall` were estimated to be ≥ 65 years of age, and `r inline$prevAnyOverall` had diabetes, CKD, or ≥ 65 years of age (`r refer_to('tab_characteristics')`). The estimated prevalence (95% CI) of stage 1 hypertension was `r inline$prevS1hOverall` overall and `r inline$prevS1hDiabetes`, `r inline$prevS1hCkd`, `r inline$prevS1hAge65`, and `r inline$prevS1hAny` among those with diabetes, CKD, age ≥ 65 years, and at least one of these conditions, respectively (`r refer_to('tab_bpdist')`). `r make_revision(paste0("Overall, ", table_value(perc_assumed_highrisk), "% of those with stage 1 hypertension and without high ASCVD risk were assumed to have high ASCVD risk by the ACC/AHA BP guideline."))` Characteristics of US adults 40 to 79 years of age with stage 1 hypertension, overall and for subgroups defined by diabetes, CKD and age ≥ 65 years, are presented in Table S1.
+
+
+
+
 
 <br>
 
@@ -449,6 +453,12 @@ __SUPPLEMENT__
 `r rp$supplement.table$caption[1]` 
 `r fp_par(line_spacing = 1)`
 `r rp$supplement.table$object[[1]]`
+
+\newpage 
+
+`r rp$supplement.table$caption[2]` 
+`r fp_par(line_spacing = 1)`
+`r rp$supplement.table$object[[2]]`
 
 <!-- SUPPLEMENTAL FIGURES -->
 

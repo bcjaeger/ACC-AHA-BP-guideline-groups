@@ -30,6 +30,7 @@ compile_report <- function(exams,
                            design,
                            tbl1_overall,
                            tbl1_s1hyp,
+                           tbl1_s1hyp_lowrisk,
                            tbl_bpdist,
                            tbl_risk_overall,
                            tbl_risk_overall_supp,
@@ -140,6 +141,19 @@ compile_report <- function(exams,
   ) %>%
     map_chr(table_value)
 
+  s1hyp_lowrisk <- subset(current_analysis$data,
+                          bp_cat == 'Stage 1 hypertension' &
+                            pcr_gteq_10 == 'no')
+
+  N_s1h_lowrisk_unwtd <- list(
+    ovrl         = nrow(s1hyp_lowrisk),
+    diab         = sum(s1hyp_lowrisk$diabetes == "yes"),
+    ckd          = sum(s1hyp_lowrisk$ckd == "yes"),
+    age_gt65     = sum(s1hyp_lowrisk$age_gt65 == "yes"),
+    any          = sum(s1hyp_lowrisk$any_ckd_diab_age65 == "yes")
+  ) %>%
+    map_chr(table_value)
+
   get_wtd_N <- function(svyobj, label){
     as.matrix(svyobj)[label, , drop = TRUE] %>%
       set_names(NULL)
@@ -176,6 +190,7 @@ compile_report <- function(exams,
   col_labels_ovrl <- col_labels(N_vals = N_ovrl_unwtd)
   col_labels_s1h <- col_labels(N_vals = N_s1h_unwtd)
   col_labels_age40to79 <- col_labels(N_vals = N_age40to79_unwtd)
+  col_labels_s1h_lowrisk <- col_labels(N_s1h_lowrisk_unwtd)
 
   # table 1: characteristics ------------------------------------------------
 
@@ -420,6 +435,50 @@ compile_report <- function(exams,
     object = list(.tbl1_s1hyp),
     caption = "Characteristics of US adults with stage 1 hypertension, overall and for subgroups defined by diabetes, chronic kidney disease, and \u2265 65 years of age.",
     reference = 'tab_risk_stg1'
+  )
+
+  .tbl1_s1hyp_lowrisk <- tbl1_s1hyp_lowrisk %>%
+    as_grouped_data(groups = 'label') %>%
+    remove_empty('rows') %>%
+    as_flextable(hide_grouplabel = TRUE) %>%
+    add_header_row(values = c("", "Sub-groups"), colwidths = c(2, 4)) %>%
+    theme_box() %>%
+    set_header_labels(
+      'level' = 'Characteristic',
+      'Overall' = col_labels_s1h_lowrisk$ovrl,
+      'Diabetes' = col_labels_s1h_lowrisk$diab,
+      'CKD' = col_labels_s1h_lowrisk$ckd,
+      'Age 65+ years' = col_labels_s1h_lowrisk$age_gt65,
+      'Diabetes, CKD, or age 65+ years' = col_labels_s1h_lowrisk$any
+    ) %>%
+    padding(i = 4:8, j = 1, padding.left = 10, part = 'body') %>%
+    height(height = 1.5, part = 'header') %>%
+    width(width = 1.15) %>%
+    width(j = ~level, width = 1.75) %>%
+    align(align = 'center', part = 'all') %>%
+    align(j = 1, align = 'left', part = 'all') %>%
+    footnote(i=2, j=1, part='header', value=value_note, ref_symbols=fts[1]) %>%
+    footnote(i=2, j=3, part='header', value=ftr_diab, ref_symbols=fts[2]) %>%
+    footnote(i=2, j=4, part='header', value=ftr_ckd, ref_symbols=fts[3]) %>%
+    footnote(
+      i = ~ level == 'Clinical CVD',
+      j = 1,
+      part = 'body',
+      value = ftr_cvdHx_defn,
+      ref_symbols = fts[4]
+    ) %>%
+    footnote(
+      i = 1,
+      j = 1,
+      part = 'body',
+      value = as_paragraph("CKD = chronic kidney disease; CVD = cardiovascular disease; HDL = high density lipoprotein"),
+      ref_symbols = ''
+    )
+
+  tbls_supp %<>% add_row(
+    object = list(.tbl1_s1hyp_lowrisk),
+    caption = "Characteristics of US adults without high atherosclerotic cardiovascular disease risk and with stage 1 hypertension, overall and for subgroups defined by diabetes, chronic kidney disease, and \u2265 65 years of age.",
+    reference = 'tab_lowrisk_stg1'
   )
 
   # figure: inclusion / exclusion ----
