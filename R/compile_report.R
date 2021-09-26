@@ -32,6 +32,7 @@ compile_report <- function(exams,
                            tbl1_s1hyp,
                            tbl1_s1hyp_lowrisk,
                            tbl_bpdist,
+                           tbl_bpmeds,
                            tbl_risk_overall,
                            tbl_risk_overall_supp,
                            tbl_exclusions,
@@ -119,6 +120,17 @@ compile_report <- function(exams,
   ) %>%
     map_chr(table_value)
 
+  analysis_bpmeds <- filter(analysis, meds_bp == 'yes' & meds_n_bp_classes > 0)
+
+  N_bpmeds_unwtd <- list(
+    ovrl         = nrow(analysis_bpmeds),
+    diab         = sum(analysis_bpmeds$diabetes == "yes"),
+    ckd          = sum(analysis_bpmeds$ckd == "yes"),
+    age_gt65     = sum(analysis_bpmeds$age_gt65 == "yes"),
+    any          = sum(analysis_bpmeds$any_ckd_diab_age65 == "yes")
+  ) %>%
+    map_chr(table_value)
+
   .s1h <- filter(analysis, bp_cat == 'Stage 1 hypertension')
 
   N_s1h_unwtd <- list(
@@ -188,6 +200,7 @@ compile_report <- function(exams,
   }
 
   col_labels_ovrl <- col_labels(N_vals = N_ovrl_unwtd)
+  col_labels_bpmeds <- col_labels(N_vals = N_bpmeds_unwtd)
   col_labels_s1h <- col_labels(N_vals = N_s1h_unwtd)
   col_labels_age40to79 <- col_labels(N_vals = N_age40to79_unwtd)
   col_labels_s1h_lowrisk <- col_labels(N_s1h_lowrisk_unwtd)
@@ -255,8 +268,8 @@ compile_report <- function(exams,
     add_header_row(values = c("", "Sub-groups"), colwidths = c(2, 4)) %>%
     theme_box() %>%
     height(height = 1.5, part = 'header') %>%
-    width(width = 1.15) %>%
-    width(j = ~bp_cat, width = 1.75) %>%
+    width(width = 1.1) %>%
+    width(j = ~bp_cat, width = 1.65) %>%
     align(align = 'center', part = 'all') %>%
     align(j = 1, align = 'left', part = 'all') %>%
     footnote(i=2, j=1, part='header', value=bp_cat_guide, ref_symbols=fts[1]) %>%
@@ -274,6 +287,74 @@ compile_report <- function(exams,
     object = list(.tbl_bpdist),
     caption = "Distribution of blood pressure categories among US adults, overall and for subgroups defined by diabetes, chronic kidney disease, and aged \u2265 65 years.",
     reference = 'tab_bpdist'
+  )
+
+  # table s1: bp meds --------------------------------------------------------
+
+  .tbl_bpmeds <- tbl_bpmeds %>%
+    pivot_wider(names_from = variable, values_from = tbl_val) %>%
+    mutate(
+      tabsec = recode(
+        tabsec,
+        'counts' = "Distribution",
+        'smry' = 'drop me'
+      ),
+      tabsec = factor(tabsec, levels = c('drop me', 'Distribution'))
+    ) %>%
+    arrange(tabsec) %>%
+    as_grouped_data(groups = 'tabsec') %>%
+    .[-1, ] %>%
+    as_flextable(hide_grouplabel = TRUE) %>%
+    set_header_labels(
+      meds_n_bp_classes   = 'Number of antihypertensive\nmedication classes',
+      overall          = col_labels_bpmeds$ovrl,
+      diabetes         = col_labels_bpmeds$diab,
+      ckd              = col_labels_bpmeds$ckd,
+      age_group        = col_labels_bpmeds$age_gt65,
+      any              = col_labels_bpmeds$any
+    ) %>%
+    add_header_row(values = c("Number of antihypertensive\nmedication classes",
+                              col_labels_bpmeds$ovrl,
+                              "Sub-groups"),
+                   colwidths = c(1,1,4)) %>%
+    merge_v(part = 'header') %>%
+    theme_box() %>%
+    height(height = 1.5, part = 'header') %>%
+    bg(i = ~ !is.na(tabsec), bg = 'grey80') %>%
+    italic(i = ~ !is.na(tabsec), italic = TRUE) %>%
+    width(width = 1.15) %>%
+    width(j = ~meds_n_bp_classes, width = 1.75) %>%
+    align(align = 'center', part = 'all') %>%
+    align(j = 1, align = 'left', part = 'all') %>%
+    padding(i = ~meds_n_bp_classes %in% as.character(0:6),
+            j = 1,
+            padding.left = 15) %>%
+    footnote(
+      i = 1,
+      j = 2,
+      part = 'header',
+      value = as_paragraph(
+        "Data are presented for participants",
+        " who reported taking antihypertensive medication",
+        " and had at least one class of antihypertensive",
+        " medication in their medication inventory"
+      ),
+      ref_symbols = fts[1]
+    ) %>%
+    footnote(i=2, j=3, part='header', value=ftr_diab, ref_symbols=fts[2]) %>%
+    footnote(i=2, j=4, part='header', value=ftr_ckd, ref_symbols=fts[3]) %>%
+    footnote(
+      i = 1,
+      j = 1,
+      part = 'body',
+      value = as_paragraph(write_abbrevs(abbrevs[c("CKD")])),
+      ref_symbols = ''
+    )
+
+  tbls_supp %<>% add_row(
+    object = list(.tbl_bpmeds),
+    caption = "Estimated mean, median, and distribution of the number of antihypertensive medication classes used by US adults 40-79 years of age who reported using medication to lower blood pressure, overall and for subgroups defined by diabetes, chronic kidney disease, and \u2265 65 years of age.",
+    reference = 'tab_bpmeds'
   )
 
 
@@ -477,7 +558,7 @@ compile_report <- function(exams,
 
   tbls_supp %<>% add_row(
     object = list(.tbl1_s1hyp_lowrisk),
-    caption = "Characteristics of US adults without high atherosclerotic cardiovascular disease risk and with stage 1 hypertension, overall and for subgroups defined by diabetes, chronic kidney disease, and \u2265 65 years of age.",
+    caption = "Characteristics of US adults with stage 1 hypertension and 10-year predicted atherosclerotic cardiovascular disease risk < 10%, overall and for subgroups defined by diabetes, chronic kidney disease, and \u2265 65 years of age.",
     reference = 'tab_lowrisk_stg1'
   )
 

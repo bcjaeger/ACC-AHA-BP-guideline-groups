@@ -57,7 +57,9 @@ loadd(exams,
       egfr_cutpoint,
       acr_cutpoint,
       fig_central_illustration,
-      perc_assumed_highrisk)
+      perc_assumed_highrisk,
+      tbl1_s1hyp,
+      tbl1_s1hyp_lowrisk)
 
 nhanes_years <- exams %>%
   map_chr(~glue("{.x}-{.x+1}")) %>%
@@ -284,7 +286,7 @@ Data were collected during an in-home interview and a study visit completed at a
 
 <br> 
 
-Blood and urine samples were collected during the medical examination. Serum creatinine, serum glucose and glycated hemoglobin were measured using standard methods. Diabetes was defined by fasting plasma glucose ≥ `r gluc_cutpoint_fasted` mg/dL (≥ `r gluc_cutpoint_fed` mg/dL for those who were not fasting), glycated hemoglobin ≥ `r hba1c_cutpoint`%, or self-reported use of insulin or oral glucose lowering medication. Estimated glomerular filtration rate was calculated using the CKD Epidemiology Collaboration equation [@levey2009new; @cite_nephro]. Urinary albumin and creatinine levels were measured and used to calculate the albumin-to-creatinine ratio. CKD was defined by an estimated glomerular filtration rate < `r egfr_cutpoint` ml/min/1.73m^2^ or an albumin-to-creatinine ratio ≥ `r acr_cutpoint` mg/g. Ten-year predicted ASCVD risk was calculated using the Pooled Cohort risk equations for participants without clinical CVD [@goff20142013; @lloyd2019use]. High ASCVD risk was defined as having a 10-year predicted ASCVD risk ≥ 10% or clinical CVD.
+Blood and urine samples were collected `r make_revision("and a medication inventory was conducted")` during the medical examination. `r make_revision(" Antihypertensive medication classes were defined according to the 2017 ACC/AHA BP guideline")` [@whelton20182017]. Serum creatinine, serum glucose and glycated hemoglobin were measured using standard methods. Diabetes was defined by fasting plasma glucose ≥ `r gluc_cutpoint_fasted` mg/dL (≥ `r gluc_cutpoint_fed` mg/dL for those who were not fasting), glycated hemoglobin ≥ `r hba1c_cutpoint`%, or self-reported use of insulin or oral glucose lowering medication. Estimated glomerular filtration rate was calculated using the CKD Epidemiology Collaboration equation [@levey2009new; @cite_nephro]. Urinary albumin and creatinine levels were measured and used to calculate the albumin-to-creatinine ratio. CKD was defined by an estimated glomerular filtration rate < `r egfr_cutpoint` ml/min/1.73m^2^ or an albumin-to-creatinine ratio ≥ `r acr_cutpoint` mg/g. Ten-year predicted ASCVD risk was calculated using the Pooled Cohort risk equations for participants without clinical CVD [@goff20142013; @lloyd2019use]. High ASCVD risk was defined as having a 10-year predicted ASCVD risk ≥ 10% or clinical CVD.
 
 <br>
 
@@ -304,7 +306,7 @@ Participants not taking antihypertensive medication were grouped into four non-o
 
 ## Statistical analysis
 
-Analyses were conducted for the overall population and among `r make_revision("non-exclusive subgroups of")` participants with diabetes, CKD, ≥ 65 years of age, and with any of these three characteristics. Participant characteristics were summarized as mean with its standard error for continuous variables and percentage for categorical variables. The percentage of US adults in each of the five categories based on BP and antihypertensive medication use was computed. `r make_revision("The percentage of US adults with stage 1 hypertension and 10-year predicted ASCVD risk < 10% assumed to have high ASCVD risk by the ACC/AHA guideline due to diabetes, CKD, or age was also computed.")` The 25^th^, 50^th^, and 75^th^ percentile of 10-year predicted ASCVD risk and the percentage of participants with high ASCVD risk were estimated for the overall population and within each of the five categories based on BP and antihypertensive medication use. To assess the extent to which participants with a 10-year predicted ASCVD risk < 10% were close to the 10% threshold, we estimated the distribution of 10-year predicted ASCVD risk. The probability of having high ASCVD risk was estimated for each year of age from 40 to 79 years using logistic regression. Analyses of participant characteristics, the distribution of 10-year predicted ASCVD risk, and the probability of having high ASCVD risk were repeated among participants with stage 1 hypertension.
+Analyses were conducted for the overall population and among `r make_revision("non-exclusive subgroups of")` participants with diabetes, CKD, ≥ 65 years of age, and with any of these three characteristics. Participant characteristics were summarized as mean with its standard error for continuous variables and percentage for categorical variables. The percentage of US adults in each of the five categories based on BP and antihypertensive medication use was computed. `r make_revision("Among participants who reported taking antihypertensive medication and had at least 1 antihypertensive medication class in their medication inventory, the mean, median, and distribution of the number of classes of antihypertensive medication being used was estimated.")` `r make_revision("The percentage of US adults with stage 1 hypertension and 10-year predicted ASCVD risk < 10% assumed to have high ASCVD risk by the ACC/AHA guideline due to diabetes, CKD, or age was also estimated.")` The 25^th^, 50^th^, and 75^th^ percentile of 10-year predicted ASCVD risk and the percentage of participants with high ASCVD risk were estimated for the overall population and within each of the five categories based on BP and antihypertensive medication use. To assess the extent to which participants with a 10-year predicted ASCVD risk < 10% were close to the 10% threshold, we estimated the distribution of 10-year predicted ASCVD risk. The probability of having high ASCVD risk was estimated for each year of age from 40 to 79 years using logistic regression. Analyses of participant characteristics, the distribution of 10-year predicted ASCVD risk, and the probability of having high ASCVD risk were repeated among participants with stage 1 hypertension.
 
 <br>
 
@@ -322,17 +324,26 @@ R_string_fancy <- glue::glue("{R_string} (released {date_string})")
 ```
 
 
-NHANES sampling weights, which were calculated as the inverse probability of being selected for the survey, were used in all calculations to obtain nationally representative estimates of the non-institutionalized US population. P-values were two-sided. Data analysis was conducted using `r R_string_fancy` along with a collection of open-source software packages [@cite_R; @cite_drake; @cite_tidyverse; @cite_table.glue]. The first author's GitHub repository (https://github.com/bcjaeger/ACC-AHA-BP-guideline-groups) provides code to reproduce the current study.
+NHANES sampling weights, which were calculated as the inverse probability of being selected for the survey, were used in all calculations to obtain nationally representative estimates of the non-institutionalized US population. P-values were two-sided. Data analysis was conducted using `r R_string_fancy` along with a collection of open-source software packages [@cite_R; @cite_drake; @cite_tidyverse; @cite_table.glue]. The datasets generated during and/or analyzed during the current study are publicly available. The first author's GitHub repository (https://github.com/bcjaeger/ACC-AHA-BP-guideline-groups) provides code to reproduce the current study.
 
 <br>
 
 # RESULTS
 
-Among US adults aged 40 to 79 years in `r min(exams)`-`r max(exams)+1`, the estimated prevalence (95% confidence interval [CI]) of diabetes and CKD was `r inline$prevDiabetesOverall` and `r inline$prevCkdOverall`, respectively, `r inline$prevAge65Overall` were estimated to be ≥ 65 years of age, and `r inline$prevAnyOverall` had diabetes, CKD, or ≥ 65 years of age (`r refer_to('tab_characteristics')`). The estimated prevalence (95% CI) of stage 1 hypertension was `r inline$prevS1hOverall` overall and `r inline$prevS1hDiabetes`, `r inline$prevS1hCkd`, `r inline$prevS1hAge65`, and `r inline$prevS1hAny` among those with diabetes, CKD, age ≥ 65 years, and at least one of these conditions, respectively (`r refer_to('tab_bpdist')`). `r make_revision(paste0("Overall, ", table_value(perc_assumed_highrisk), "% of those with stage 1 hypertension and without high ASCVD risk were assumed to have high ASCVD risk by the ACC/AHA BP guideline."))` Characteristics of US adults 40 to 79 years of age with stage 1 hypertension, overall and for subgroups defined by diabetes, CKD and age ≥ 65 years, are presented in Table S1.
+```{r}
+loadd(tbl_bpmeds)
 
+overall_3meds_or_more <- 
+  tbl_bpmeds$inline$overall[c('n_3', 'n_4', 'n_5', 'n_6')] %>% 
+  map_chr(str_remove, '%') %>% 
+  map_dbl(as.numeric) %>% 
+  sum()
 
+overall_meds_median <- tbl_bpmeds$inline$overall$median_iqr %>% 
+  bracket_drop()
+```
 
-
+Among US adults aged 40 to 79 years in `r min(exams)`-`r max(exams)+1`, the estimated prevalence (95% confidence interval [CI]) of diabetes and CKD was `r inline$prevDiabetesOverall` and `r inline$prevCkdOverall`, respectively, `r inline$prevAge65Overall` were estimated to be ≥ 65 years of age, and `r inline$prevAnyOverall` had diabetes, CKD, or ≥ 65 years of age (`r refer_to('tab_characteristics')`). The estimated prevalence (95% CI) of stage 1 hypertension was `r inline$prevS1hOverall` overall and `r inline$prevS1hDiabetes`, `r inline$prevS1hCkd`, `r inline$prevS1hAge65`, and `r inline$prevS1hAny` among those with diabetes, CKD, age ≥ 65 years, and at least one of these conditions, respectively (`r refer_to('tab_bpdist')`). `r make_revision(text = paste0("Among US adults who reported using antihypertensive medication and had at least 1 antihypertensive medication class in their medication inventory, the median number of classes was ", overall_meds_median, " and ", overall_3meds_or_more,"% were taking 3 or more classes (", refer_to("tab_bpmeds"), ")") )`. Characteristics of US adults 40 to 79 years of age with stage 1 hypertension are presented in `r refer_to("tab_risk_stg1")`.  `r make_revision(paste0("Among US adults with stage 1 hypertension and 10-year predicted ASCVD risk < 10%, ", table_value(perc_assumed_highrisk), "% were assumed to have high ASCVD risk by the ACC/AHA BP guideline due to diabetes, CKD, or \u2265 65 years of age. Among those with predicted ASCVD risk < 10% and assumed to have high ASCVD risk by the guideline, ", tbl1_s1hyp_lowrisk$inline$any$sex$Female,  "% were women (", refer_to("tab_lowrisk_stg1"), ")."))` 
 
 <br>
 
@@ -378,12 +389,12 @@ It has been suggested that most adults with diabetes, CKD, or ≥ 65 years of ag
 
 <br>
 
-`r make_revision("The 2017 ACC/AHA BP guideline's definition of hypertension and recommendations for initiating antihypertensive medication differ from other guidelines published from 2015-2020. For example, the 2018 European Society of Cardiology (ESC) and European Society of Hypertension (ESH) BP guideline recommends considering initiation of antihypertensive medication for adults at very high risk of CVD with untreated SBP between 130 and 139 mm Hg or untreated DBP between 85 and 89 mm Hg. Adults with predicted 10-year CVD mortality risk ≥ 10% according to the Systematic Coronary Risk Evaluation equations, severe CKD (eGFR < 30 mL/min/1.73 m^2^), or diabetes with target organ damage are included in the very high CVD risk group. The current study found that many US adults with CKD (eGFR <60 mL/min/1.73 m^2^ or albuminuria) or diabetes did not have high ASCVD risk, defined as clinical CVD or 10-year ASCVD risk ≥ 10% according to the Pooled Cohort Risk equations. Future studies may assess generalization of the current study's findings to the ESC/ESH guideline by estimating the proportion of European adults with diabetes and target organ damage or severe CKD that have clinical CVD or 10-year CVD mortality risk")` ≥ `r make_revision("10% according to the Systematic Coronary Risk Evaluation equations.")`
+The 2017 ACC/AHA BP guideline's definition of hypertension and recommendations for initiating antihypertensive medication differ from other guidelines published between 2015 and 2020. For example, the 2018 European Society of Cardiology (ESC) and European Society of Hypertension (ESH) BP guideline recommends considering initiation of antihypertensive medication for adults at very high risk of CVD with untreated SBP between 130 and 139 mm Hg or untreated DBP between 85 and 89 mm Hg. Adults with predicted 10-year CVD mortality risk ≥ 10% according to the Systematic Coronary Risk Evaluation equations, severe CKD (eGFR < 30 mL/min/1.73 m^2^), or diabetes with target organ damage are included in the very high CVD risk group. The current study found that many US adults with CKD (eGFR <60 mL/min/1.73 m^2^ or albuminuria) or diabetes did not have high ASCVD risk, defined as clinical CVD or 10-year ASCVD risk ≥ 10% according to the Pooled Cohort Risk equations. Future studies may assess generalization of the current study's findings to the ESC/ESH guideline by estimating the proportion of European adults with diabetes and target organ damage or severe CKD that have clinical CVD or 10-year CVD mortality risk ≥ 10% according to the Systematic Coronary Risk Evaluation equations.
 
 
 <br>
 
-The current study has a number of strengths. The design of NHANES allows its results to be weighted to provide results that are representative of the US population. Additionally, NHANES data are collected following a rigorous protocol by trained study staff.  BP was measured three times following a standardized protocol. However, the results of this study should be considered in the context of known and potential limitations. NHANES participants completed only one visit and guidelines recommend using the mean BP averaged over 2 or more visits. In addition, the ACC/AHA BP guideline recommends confirmation of office hypertension by measurement of out-of-office BPs. Additionally, since only one measurement of serum creatinine and urine albuminuria were available, CKD status may have been mis-classified in some adults. `r make_revision("Clinical CVD status may also have been mis-classified as it was determined by self-report rather than diagnostic imaging. The current analysis also did not account for target organ damage, which is a strong predictor of CVD risk.")` A total of `r table_value(sum(current_analysis$data$bp_cat == 'Stage 1 hypertension'))` participants had stage 1 hypertension, and some subgroups of this population based on diabetes, CKD, and ≥ 65 years of age were small.
+The current study has a number of strengths. The design of NHANES allows its results to be weighted to provide results that are representative of the US population. Additionally, NHANES data are collected following a rigorous protocol by trained study staff.  BP was measured three times following a standardized protocol. However, the results of this study should be considered in the context of known and potential limitations. NHANES participants completed only one visit and guidelines recommend using the mean BP averaged over 2 or more visits. In addition, the ACC/AHA BP guideline recommends confirmation of office hypertension by measurement of out-of-office BPs. Additionally, since only one measurement of serum creatinine and urine albuminuria were available, CKD status may have been mis-classified in some adults. `r make_revision("Clinical CVD status may also have been mis-classified as it was determined by self-report rather than diagnostic imaging. The current analysis also did not account for target organ damage, e.g. left-ventricular hypertrophy, that predict CVD risk.")` A total of `r table_value(sum(current_analysis$data$bp_cat == 'Stage 1 hypertension'))` participants had stage 1 hypertension, and some subgroups of this population based on diabetes, CKD, and ≥ 65 years of age were small.
 
 <br>
 
@@ -459,6 +470,12 @@ __SUPPLEMENT__
 `r rp$supplement.table$caption[2]` 
 `r fp_par(line_spacing = 1)`
 `r rp$supplement.table$object[[2]]`
+
+\newpage 
+
+`r rp$supplement.table$caption[3]` 
+`r fp_par(line_spacing = 1)`
+`r rp$supplement.table$object[[3]]`
 
 <!-- SUPPLEMENTAL FIGURES -->
 

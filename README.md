@@ -71,18 +71,18 @@ Rstudio to open the project for you in a local R session.
 To reproduce the manuscript as-is, follow the steps below:
 
 1.  Open `packages.R` and run all of the code in the file.
-    
-      - The `pacman` package must be installed on your machine to run
+
+    -   The `pacman` package must be installed on your machine to run
         this code
-    
-      - Two packages need to be installed from GitHub: `table.glue` and
+
+    -   Two packages need to be installed from GitHub: `table.glue` and
         `PooledCohort`. If you asked whether you want to update
         dependencies - say ‘no’. If `pacman` is not able to do this for
         you, you can use `remotes::install_github('bcjaeger/table.glue)`
         and `remotes::install_github('bcjaeger/PooledCohort)` to get
         these packages manually.
-    
-      - It may take more than one try to successfully download and/or
+
+    -   It may take more than one try to successfully download and/or
         update the packages and their dependencies. If any installations
         fail, try restarting your R session and using
         `install.packages()` to install any packages that are causing
@@ -125,17 +125,17 @@ manuscript, you can do so by following these instructions:
 3.  Save your changes to the `R/plan.R` file and then run
     `drake::r_make()` in your console.
 
-4.  Enjoy reading your fascinating new paper\!
+4.  Enjoy reading your fascinating new paper!
 
 There are a few other parameters that can be changed in `R/plan.R`:
 
-  - `fasted_hrs_lower = 8`,
-  - `fasted_hrs_upper = 24`,
-  - `gluc_cutpoint_fasted = 126`,
-  - `gluc_cutpoint_fed = 200`,
-  - `hba1c_cutpoint = 6.5`,
-  - `egfr_cutpoint = 60`,
-  - `acr_cutpoint = 30`
+-   `fasted_hrs_lower = 8`,
+-   `fasted_hrs_upper = 24`,
+-   `gluc_cutpoint_fasted = 126`,
+-   `gluc_cutpoint_fed = 200`,
+-   `hba1c_cutpoint = 6.5`,
+-   `egfr_cutpoint = 60`,
+-   `acr_cutpoint = 30`
 
 These values define variables, manuscript variable definitions, and
 table footnotes.

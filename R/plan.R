@@ -42,6 +42,11 @@ the_plan <- drake_plan(
   qx_high_blood_pressure    = clean_qx_high_bp(exams),
   qx_healthcare_utilization = clean_qx_healthcare_utilization(exams),
 
+  # Anti-hypertensive medication classes
+  # These only work for 2013-2014, 2015-2016, and 2017-2018
+  # they were just added at the last minute before re-submission
+  # in response to a reviewer's request.
+  bp_meds = clean_bp_meds(),
 
   statins = clean_rx_statin(exams),
 
@@ -62,7 +67,8 @@ the_plan <- drake_plan(
       qx_diabetes,
       qx_high_blood_pressure,
       qx_healthcare_utilization,
-      statins
+      statins,
+      bp_meds
     ),
     .f = left_join,
     by = c('exam', 'seqn')
@@ -131,6 +137,7 @@ the_plan <- drake_plan(
     "Systolic blood pressure, mm Hg" = "bp_sys_mmhg",
     "Diastolic blood pressure, mm Hg" = "bp_dia_mmhg",
     "Antihypertensive medication use" = "meds_bp",
+    "Statin use" = "meds_statin",
     "Diabetes" = "diabetes",
     "CKD" = "ckd",
     "Aged 65+ years" = "age_gt65",
@@ -150,6 +157,7 @@ the_plan <- drake_plan(
                                                 tbl1_variables),
 
   tbl_bpdist = tabulate_bpdist(design_overall),
+  tbl_bpmeds = tabulate_bpmeds(design_overall),
 
   perc_assumed_highrisk = compute_perc_assumed_highrisk(design_s1hyp_lowrisk),
 
@@ -188,7 +196,9 @@ the_plan <- drake_plan(
                                            fig_text = fig_text),
 
 
-  inline = make_inline_results(design_overall, design_s1hyp, risk_models),
+  inline = make_inline_results(design_overall,
+                               design_s1hyp,
+                               risk_models),
 
   fig_central_illustration = visualize_central_illustration(tbl_bpdist$table,
                                                             inline),
@@ -208,6 +218,7 @@ the_plan <- drake_plan(
     tbl1_s1hyp$table,
     tbl1_s1hyp_lowrisk$table,
     tbl_bpdist$table,
+    tbl_bpmeds$table,
     tbl_risk_overall,
     tbl_risk_overall_supp,
     current_analysis$tbl,
