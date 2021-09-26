@@ -31,8 +31,16 @@ visualize_risk_bnry <- function(risk_models,
     .f = ~ svyquantile(
       x = ~ age,
       design = .x,
-      quantiles = c(0.25, 0.50, 0.75)) %>%
-      as_tibble() %>%
+      quantiles = c(0.25, 0.50, 0.75)
+    ) %>%
+      getElement('age') %>%
+      as_tibble(rownames = 'prob') %>%
+      mutate(prob = recode(prob,
+                           '0.25' = 'lwr',
+                           '0.5' = 'est',
+                           '0.75' = 'upr')) %>%
+      select(-ci.2.5, -ci.97.5, -se) %>%
+      pivot_wider(names_from = prob, values_from = quantile) %>%
       pivot_longer(cols = everything())
   ) %>%
     bind_rows(.id = '.variable') %>%

@@ -105,8 +105,14 @@ make_inline_results <- function(design_overall,
     design = subset(design_overall, ever_had_ascvd == 'no'),
     quantiles = c(0.25, 0.50, 0.75)
   ) %>%
-    as_tibble() %>%
-    set_names(c('lwr', 'est', 'upr')) %>%
+    getElement('ascvd_risk_pcr') %>%
+    as_tibble(rownames = 'prob') %>%
+    mutate(prob = recode(prob,
+                         '0.25' = 'lwr',
+                         '0.5' = 'est',
+                         '0.75' = 'upr')) %>%
+    select(-ci.2.5, -ci.97.5, -se) %>%
+    pivot_wider(names_from = prob, values_from = quantile) %>%
     mutate_all(~.x * 100) %>%
     transmute(string = table_glue("{est}% ({lwr}%, {upr}%)")) %>%
     pull(string)
@@ -117,8 +123,14 @@ make_inline_results <- function(design_overall,
                     ever_had_ascvd == 'no'),
     quantiles = c(0.25, 0.50, 0.75)
   ) %>%
-    as_tibble() %>%
-    set_names(c('lwr', 'est', 'upr')) %>%
+    getElement('ascvd_risk_pcr') %>%
+    as_tibble(rownames = 'prob') %>%
+    mutate(prob = recode(prob,
+                         '0.25' = 'lwr',
+                         '0.5' = 'est',
+                         '0.75' = 'upr')) %>%
+    select(-ci.2.5, -ci.97.5, -se) %>%
+    pivot_wider(names_from = prob, values_from = quantile) %>%
     mutate_all(~.x * 100) %>%
     transmute(string = table_glue("{est}% ({lwr}%, {upr}%)")) %>%
     pull(string)
@@ -129,8 +141,14 @@ make_inline_results <- function(design_overall,
                     diabetes == 'yes' & ever_had_ascvd == 'no'),
     quantiles = c(0.25, 0.50, 0.75)
   ) %>%
-    as_tibble() %>%
-    set_names(c('lwr', 'est', 'upr')) %>%
+    getElement('ascvd_risk_pcr') %>%
+    as_tibble(rownames = 'prob') %>%
+    mutate(prob = recode(prob,
+                         '0.25' = 'lwr',
+                         '0.5' = 'est',
+                         '0.75' = 'upr')) %>%
+    select(-ci.2.5, -ci.97.5, -se) %>%
+    pivot_wider(names_from = prob, values_from = quantile) %>%
     mutate_all(~.x * 100) %>%
     transmute(string = table_glue("{est}% ({lwr}%, {upr}%)")) %>%
     pull(string)
@@ -141,8 +159,14 @@ make_inline_results <- function(design_overall,
                     diabetes == 'yes' & ever_had_ascvd == 'no'),
     quantiles = c(0.25, 0.50, 0.75)
   ) %>%
-    as_tibble() %>%
-    set_names(c('lwr', 'est', 'upr')) %>%
+    getElement('ascvd_risk_pcr') %>%
+    as_tibble(rownames = 'prob') %>%
+    mutate(prob = recode(prob,
+                         '0.25' = 'lwr',
+                         '0.5' = 'est',
+                         '0.75' = 'upr')) %>%
+    select(-ci.2.5, -ci.97.5, -se) %>%
+    pivot_wider(names_from = prob, values_from = quantile) %>%
     mutate_all(~.x * 100) %>%
     transmute(string = table_glue("{est}% ({lwr}%, {upr}%)")) %>%
     pull(string)
@@ -153,8 +177,14 @@ make_inline_results <- function(design_overall,
                     ckd == 'yes' & ever_had_ascvd == 'no'),
     quantiles = c(0.25, 0.50, 0.75)
   ) %>%
-    as_tibble() %>%
-    set_names(c('lwr', 'est', 'upr')) %>%
+    getElement('ascvd_risk_pcr') %>%
+    as_tibble(rownames = 'prob') %>%
+    mutate(prob = recode(prob,
+                         '0.25' = 'lwr',
+                         '0.5' = 'est',
+                         '0.75' = 'upr')) %>%
+    select(-ci.2.5, -ci.97.5, -se) %>%
+    pivot_wider(names_from = prob, values_from = quantile) %>%
     mutate_all(~.x * 100) %>%
     transmute(string = table_glue("{est}% ({lwr}%, {upr}%)")) %>%
     pull(string)
@@ -165,8 +195,14 @@ make_inline_results <- function(design_overall,
                     ckd == 'yes' & ever_had_ascvd == 'no'),
     quantiles = c(0.25, 0.50, 0.75)
   ) %>%
-    as_tibble() %>%
-    set_names(c('lwr', 'est', 'upr')) %>%
+    getElement('ascvd_risk_pcr') %>%
+    as_tibble(rownames = 'prob') %>%
+    mutate(prob = recode(prob,
+                         '0.25' = 'lwr',
+                         '0.5' = 'est',
+                         '0.75' = 'upr')) %>%
+    select(-ci.2.5, -ci.97.5, -se) %>%
+    pivot_wider(names_from = prob, values_from = quantile) %>%
     mutate_all(~.x * 100) %>%
     transmute(string = table_glue("{est}% ({lwr}%, {upr}%)")) %>%
     pull(string)
@@ -177,8 +213,14 @@ make_inline_results <- function(design_overall,
                     age_gt65 == 'yes' & ever_had_ascvd == 'no'),
     quantiles = c(0.25, 0.50, 0.75)
   ) %>%
-    as_tibble() %>%
-    set_names(c('lwr', 'est', 'upr')) %>%
+    getElement('ascvd_risk_pcr') %>%
+    as_tibble(rownames = 'prob') %>%
+    mutate(prob = recode(prob,
+                         '0.25' = 'lwr',
+                         '0.5' = 'est',
+                         '0.75' = 'upr')) %>%
+    select(-ci.2.5, -ci.97.5, -se) %>%
+    pivot_wider(names_from = prob, values_from = quantile) %>%
     mutate_all(~.x * 100) %>%
     transmute(string = table_glue("{est}% ({lwr}%, {upr}%)")) %>%
     pull(string)
@@ -189,8 +231,14 @@ make_inline_results <- function(design_overall,
                     age_gt65 == 'yes' & ever_had_ascvd == 'no'),
     quantiles = c(0.25, 0.50, 0.75)
   ) %>%
-    as_tibble() %>%
-    set_names(c('lwr', 'est', 'upr')) %>%
+    getElement('ascvd_risk_pcr') %>%
+    as_tibble(rownames = 'prob') %>%
+    mutate(prob = recode(prob,
+                         '0.25' = 'lwr',
+                         '0.5' = 'est',
+                         '0.75' = 'upr')) %>%
+    select(-ci.2.5, -ci.97.5, -se) %>%
+    pivot_wider(names_from = prob, values_from = quantile) %>%
     mutate_all(~.x * 100) %>%
     transmute(string = table_glue("{est}% ({lwr}%, {upr}%)")) %>%
     pull(string)
@@ -201,8 +249,14 @@ make_inline_results <- function(design_overall,
                     any_ckd_diab_age65 == 'yes' & ever_had_ascvd == 'no'),
     quantiles = c(0.25, 0.50, 0.75)
   ) %>%
-    as_tibble() %>%
-    set_names(c('lwr', 'est', 'upr')) %>%
+    getElement('ascvd_risk_pcr') %>%
+    as_tibble(rownames = 'prob') %>%
+    mutate(prob = recode(prob,
+                         '0.25' = 'lwr',
+                         '0.5' = 'est',
+                         '0.75' = 'upr')) %>%
+    select(-ci.2.5, -ci.97.5, -se) %>%
+    pivot_wider(names_from = prob, values_from = quantile) %>%
     mutate_all(~.x * 100) %>%
     transmute(string = table_glue("{est}% ({lwr}%, {upr}%)")) %>%
     pull(string)
@@ -213,8 +267,14 @@ make_inline_results <- function(design_overall,
                     any_ckd_diab_age65 == 'yes' & ever_had_ascvd == 'no'),
     quantiles = c(0.25, 0.50, 0.75)
   ) %>%
-    as_tibble() %>%
-    set_names(c('lwr', 'est', 'upr')) %>%
+    getElement('ascvd_risk_pcr') %>%
+    as_tibble(rownames = 'prob') %>%
+    mutate(prob = recode(prob,
+                         '0.25' = 'lwr',
+                         '0.5' = 'est',
+                         '0.75' = 'upr')) %>%
+    select(-ci.2.5, -ci.97.5, -se) %>%
+    pivot_wider(names_from = prob, values_from = quantile) %>%
     mutate_all(~.x * 100) %>%
     transmute(string = table_glue("{est}% ({lwr}%, {upr}%)")) %>%
     pull(string)

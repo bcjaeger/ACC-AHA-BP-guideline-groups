@@ -76,10 +76,14 @@ tabulate_bpmeds <- function(design) {
                           quantiles = c(0.25, 0.50, 0.75),
                           na.rm = TRUE)
     ) %>%
-    map_dfr(as_tibble, .id = 'variable') %>%
-    rename(lwr = `0.25`,
-           est = `0.5`,
-           upr = `0.75`) %>%
+    map(getElement, 'meds_n_bp_classes') %>%
+    map_dfr(as_tibble, .id = 'variable', rownames = 'prob') %>%
+    mutate(prob = recode(prob,
+                         '0.25' = 'lwr',
+                         '0.5' = 'est',
+                         '0.75' = 'upr')) %>%
+    select(-ci.2.5, -ci.97.5, -se) %>%
+    pivot_wider(names_from = prob, values_from = quantile) %>%
     mutate(across(.cols = c(lwr, est, upr),
                   .fns = as.integer),
            tbl_val = table_glue("{est} ({lwr}, {upr})"),

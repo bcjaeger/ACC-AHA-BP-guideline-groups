@@ -86,9 +86,9 @@ tabulate_risk_summary <- function(design) {
 
   md_risk_ovrl_ovrl <-
     tibble(
-      est = as.numeric(md_risk_init)[2],
-      lwr = as.numeric(md_risk_init)[1],
-      upr = as.numeric(md_risk_init)[3],
+      est = as.numeric(md_risk_init$ascvd_risk_pcr[,'quantile'])[2],
+      lwr = as.numeric(md_risk_init$ascvd_risk_pcr[,'quantile'])[1],
+      upr = as.numeric(md_risk_init$ascvd_risk_pcr[,'quantile'])[3],
       variable = 'Overall',
       level = NA_character_
     )
@@ -111,8 +111,11 @@ tabulate_risk_summary <- function(design) {
       )
     ) %>%
     map(as_tibble) %>%
-    map(rename, lwr = `0.25`, est = `0.5`, upr = `0.75`) %>%
-    map(select, -starts_with('se.0')) %>%
+    map(rename,
+        lwr = `ascvd_risk_pcr.0.25`,
+        est = `ascvd_risk_pcr.0.5`,
+        upr = `ascvd_risk_pcr.0.75`) %>%
+    map(select, -starts_with('se.')) %>%
     map(mutate_if, is.factor, as.character) %>%
     map(standardize_names) %>%
     bind_rows(.id = 'variable') %>%
@@ -137,9 +140,11 @@ tabulate_risk_summary <- function(design) {
         ci = TRUE
       )
     ) %>%
-    map(as_tibble) %>%
-    map(rename, lwr = `0.25`, est = `0.5`, upr = `0.75`) %>%
-    map(select, -starts_with('se.0')) %>%
+    map(rename,
+        lwr = `ascvd_risk_pcr.0.25`,
+        est = `ascvd_risk_pcr.0.5`,
+        upr = `ascvd_risk_pcr.0.75`) %>%
+    map(select, -starts_with('se.')) %>%
     map(mutate_if, is.factor, as.character) %>%
     map(standardize_names) %>%
     bind_rows(.id = 'variable') %>%
