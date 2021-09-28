@@ -74,26 +74,16 @@ visualize_central_illustration <- function(tbl_bpdist, inline) {
     geom_text(aes(y=-6), size = 7.25, family = 'serif') +
     scale_y_continuous(limits = c(-8, 60)) +
     labs(x = '', y = '') +
-    scale_fill_manual(
-      values = c(
-        'purple',
-        brocolors('crayons')['Orange Red'],
-        brocolors('crayons')['Orange'],
-        brocolors('crayons')['Green Yellow'],
-        brocolors('crayons')['Green']
-      )
-    ) +
+    scale_fill_discrete()+
     geom_text(data = text,
               size = 5.5,
               family = 'serif',
               nudge_x = -.18,
-              color = brocolors('crayons')['Orange'],
               show.legend = FALSE) +
     geom_text(data = text_spanner,
               size = 5.5,
               family = 'serif',
-              nudge_x = .55,
-              color = brocolors('crayons')['Orange']) +
+              nudge_x = .55) +
     coord_flip() +
     ggtitle(label = 'US adults aged 40-79 years')
 

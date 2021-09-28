@@ -22,20 +22,20 @@ clinical CVD), and estimate the age-adjusted probability of having high
 ASCVD risk.
 
 **Methods:** Adults aged 40-79 years from the National Health and
-Nutrition Examination Survey 2011-2018 were included (n=11,478). We
+Nutrition Examination Survey 2013-2018 were included (n=8,803). We
 predicted 10-year ASCVD risk using the Pooled Cohort risk equations and
 clinical CVD was self-reported. Analyses were conducted overall and
 among those with stage 1 hypertension, defined by systolic BP of 130-139
 mm Hg or diastolic BP of 80-89 mm Hg.
 
-**Results:** Among US adults, an estimated 72.2%, 64.7%, and 83.8% of
+**Results:** Among US adults, an estimated 72.3%, 64.5%, and 83.9% of
 those with diabetes, CKD, and age ≥65 years had high ASCVD risk,
 respectively. Among US adults with stage 1 hypertension, an estimated
-59.5%, 40.6%, and 73.1% of those with diabetes, CKD, and age ≥65 years
+55.0%, 36.7%, and 72.6% of those with diabetes, CKD, and age ≥65 years
 had high ASCVD risk, respectively. The probability of having high ASCVD
 risk increased with age and exceeded 50% for US adults with diabetes and
 CKD at ages 52 and 57 years, respectively. For those with stage 1
-hypertension, these ages were 53 and 62, respectively.
+hypertension, these ages were 55 and 64, respectively.
 
 **Conclusions:** Most US adults with diabetes, CKD, or age ≥65 years had
 high ASCVD risk. However, many with stage 1 hypertension did not.
@@ -53,7 +53,7 @@ years.
 High atherosclerotic cardiovascular disease risk was defined by a
 10-year predicted risk for atherosclerotic cardiovascular disease ≥ 10%
 or clinical cardiovascular disease. Data are from the National Health
-and Nutrition Examination Survey, 2011-2018.
+and Nutrition Examination Survey, 2013-2018.
 
 ASCVD = atherosclerotic cardiovascular disease; CKD = chronic kidney
 disease

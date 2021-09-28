@@ -13,7 +13,7 @@
 
 the_plan <- drake_plan(
 
-  exams = c(2011, 2013, 2015, 2017),
+  exams = c(2013, 2015, 2017),
 
   # phrases to be used consistently throughout project
   risk_10yr = '10-year predicted risk for ASCVD',
